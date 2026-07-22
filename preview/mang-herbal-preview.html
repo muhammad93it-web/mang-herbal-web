@@ -155,38 +155,87 @@
   .cat-card:hover .cat-name { color:var(--gold); }
   .cat-count { font-size:0.75rem; color:var(--gray); }
 
-  /* ── PRODUCTS ── */
-  .products { background:var(--black); }
-  .products-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:44px; flex-wrap:wrap; gap:20px; }
+  /* ── PRODUCTS — CATALOG LAYOUT ── */
+  .products { background:var(--black); padding:90px 5%; }
+  .catalog-layout { display:grid; grid-template-columns:260px 1fr; gap:32px; align-items:start; }
+  body[lang="en"] .catalog-layout { direction:ltr; }
+
+  /* Sidebar */
+  .catalog-sidebar { position:sticky; top:96px; background:var(--dark2); border:1px solid rgba(201,168,76,0.1); border-radius:var(--radius); padding:24px; }
+  .sidebar-title { font-size:0.95rem; font-weight:800; margin-bottom:20px; color:var(--white); display:flex; align-items:center; justify-content:space-between; }
+  .sidebar-title svg { opacity:.4; }
+  .sidebar-section { margin-bottom:28px; padding-bottom:28px; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .sidebar-section:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .sidebar-section-label { font-size:0.78rem; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:14px; }
+  .sidebar-active-filters { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px; }
+  .active-filter-tag { display:inline-flex; align-items:center; gap:6px; padding:5px 11px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.3); border-radius:50px; font-size:0.73rem; color:var(--gold-light); font-weight:600; cursor:pointer; transition:var(--transition); }
+  .active-filter-tag:hover { background:rgba(201,168,76,0.2); }
+  .active-filter-tag .tag-x { font-size:0.65rem; opacity:.7; }
+  .reset-btn { font-size:0.75rem; color:var(--gray); background:none; border:none; cursor:pointer; padding:0; font-family:var(--font-ar); transition:var(--transition); text-decoration:underline; }
+  .reset-btn:hover { color:var(--gold); }
+  /* Category checkboxes */
+  .sidebar-check-list { display:flex; flex-direction:column; gap:11px; }
+  .sidebar-check-item { display:flex; align-items:center; gap:10px; cursor:pointer; }
+  .sidebar-check-item input[type=checkbox] { display:none; }
+  .custom-check { width:18px; height:18px; border-radius:5px; border:1.5px solid rgba(201,168,76,0.3); background:transparent; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:var(--transition); }
+  .sidebar-check-item input:checked ~ .custom-check { background:var(--gold); border-color:var(--gold); }
+  .sidebar-check-item input:checked ~ .custom-check::after { content:''; display:block; width:5px; height:9px; border:2px solid var(--black); border-top:none; border-right:none; transform:rotate(-45deg) translate(1px,-1px); }
+  .sidebar-check-label { font-size:0.83rem; color:var(--gray2); transition:var(--transition); }
+  .sidebar-check-item:hover .sidebar-check-label { color:var(--gold-light); }
+  .sidebar-check-item input:checked ~ .custom-check + .sidebar-check-label,
+  .sidebar-check-item input:checked ~ * .sidebar-check-label { color:var(--white); }
+  /* Price range */
+  .price-range-wrap { display:flex; flex-direction:column; gap:12px; }
+  .price-slider { -webkit-appearance:none; appearance:none; width:100%; height:3px; background:linear-gradient(90deg,var(--gold) 60%,rgba(255,255,255,0.1) 60%); border-radius:2px; outline:none; }
+  .price-slider::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--gold); border:2px solid var(--black); cursor:pointer; box-shadow:0 0 8px rgba(201,168,76,0.5); }
+  .price-labels { display:flex; justify-content:space-between; font-size:0.75rem; color:var(--gray); }
+  .price-val { color:var(--gold-light); font-weight:700; }
+
+  /* Catalog right side */
+  .catalog-main { display:flex; flex-direction:column; gap:24px; }
+  .catalog-topbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .catalog-heading { font-size:clamp(1.5rem,3vw,2.2rem); font-weight:800; }
+  .catalog-heading .accent { background:linear-gradient(135deg,var(--gold-light),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
   .filter-tabs { display:flex; gap:8px; flex-wrap:wrap; }
-  .filter-tab { padding:8px 18px; border-radius:50px; border:1px solid rgba(201,168,76,0.2); background:transparent; color:var(--gray); font-size:0.8rem; font-weight:600; cursor:pointer; transition:var(--transition); font-family:var(--font-ar); }
-  .filter-tab.active,.filter-tab:hover { background:rgba(201,168,76,0.1); border-color:var(--gold); color:var(--gold); }
-  .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:24px; }
-  .product-card { background:var(--dark2); border:1px solid rgba(201,168,76,0.08); border-radius:var(--radius); overflow:hidden; transition:var(--transition); cursor:pointer; position:relative; }
-  .product-card:hover { border-color:rgba(201,168,76,0.3); transform:translateY(-7px); box-shadow:0 30px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.1); }
-  .product-img-wrap { position:relative; overflow:hidden; aspect-ratio:4/3; background:var(--dark3); }
-  .product-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; background:linear-gradient(135deg,rgba(201,168,76,0.05),rgba(201,168,76,0.02)); transition:var(--transition); }
-  .product-card:hover .product-img-placeholder { transform:scale(1.05); }
-  .product-badge { position:absolute; top:12px; right:12px; padding:4px 10px; border-radius:50px; font-size:0.7rem; font-weight:700; }
-  body[lang="en"] .product-badge { right:auto; left:12px; }
-  .badge-new { background:rgba(201,168,76,0.9); color:var(--black); }
-  .badge-hot { background:rgba(220,60,60,0.85); color:#fff; }
-  .badge-sale { background:rgba(60,180,100,0.85); color:#fff; }
-  .product-actions { position:absolute; top:12px; left:12px; display:flex; flex-direction:column; gap:7px; opacity:0; transform:translateX(-10px); transition:var(--transition); }
-  body[lang="en"] .product-actions { left:auto; right:12px; transform:translateX(10px); }
-  .product-card:hover .product-actions { opacity:1; transform:translateX(0); }
-  .action-btn { width:34px; height:34px; border-radius:50%; background:rgba(10,10,10,0.85); border:1px solid rgba(201,168,76,0.25); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:0.85rem; cursor:pointer; transition:var(--transition); }
-  .action-btn:hover { background:var(--gold); color:var(--black); }
-  .product-info { padding:18px; }
-  .product-cat-tag { font-size:0.7rem; color:var(--gold-dark); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:7px; }
-  .product-name { font-size:1rem; font-weight:700; margin-bottom:7px; line-height:1.4; }
-  .product-desc { font-size:0.8rem; color:var(--gray); margin-bottom:14px; line-height:1.7; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .product-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; }
-  .product-price { display:flex; flex-direction:column; gap:2px; }
-  .price-current { font-size:1.15rem; font-weight:800; background:linear-gradient(135deg,var(--gold-light),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-  .price-old { font-size:0.75rem; color:var(--gray); text-decoration:line-through; }
-  .add-cart-btn { padding:10px 18px; background:linear-gradient(135deg,var(--gold-dark),var(--gold)); color:var(--black); border:none; border-radius:50px; font-size:0.8rem; font-weight:700; cursor:pointer; transition:var(--transition); font-family:var(--font-ar); white-space:nowrap; }
-  .add-cart-btn:hover { transform:scale(1.05); box-shadow:0 8px 24px rgba(201,168,76,0.3); }
+  .filter-tab { padding:7px 16px; border-radius:50px; border:1px solid rgba(201,168,76,0.18); background:transparent; color:var(--gray); font-size:0.8rem; font-weight:600; cursor:pointer; transition:var(--transition); font-family:var(--font-ar); }
+  .filter-tab.active { background:rgba(201,168,76,0.12); border-color:var(--gold); color:var(--gold); }
+  .filter-tab:hover { border-color:rgba(201,168,76,0.4); color:var(--gold-light); }
+  .sort-btn { display:flex; align-items:center; gap:7px; padding:8px 16px; background:var(--dark2); border:1px solid rgba(201,168,76,0.15); border-radius:50px; color:var(--gray2); font-size:0.8rem; font-weight:600; cursor:pointer; transition:var(--transition); font-family:var(--font-ar); }
+  .sort-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+  /* Product grid */
+  .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; }
+  .product-card { background:var(--dark2); border:1px solid rgba(201,168,76,0.08); border-radius:14px; overflow:hidden; transition:var(--transition); cursor:pointer; position:relative; }
+  .product-card:hover { border-color:rgba(201,168,76,0.3); transform:translateY(-5px); box-shadow:0 20px 50px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.1); }
+  .product-img-wrap { position:relative; overflow:hidden; aspect-ratio:1/1; background:var(--dark3); }
+  .product-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(201,168,76,0.02)); transition:var(--transition); padding:20px; }
+  .product-img-placeholder svg { width:80px; height:80px; }
+  .product-card:hover .product-img-placeholder { transform:scale(1.04); }
+  .product-badge { position:absolute; top:10px; right:10px; padding:4px 10px; border-radius:6px; font-size:0.69rem; font-weight:700; letter-spacing:.3px; }
+  body[lang="en"] .product-badge { right:auto; left:10px; }
+  .badge-new { background:var(--gold); color:var(--black); }
+  .badge-hot { background:#E53E3E; color:#fff; }
+  .badge-sale { background:var(--gold-dark); color:var(--black); }
+  /* Favourite button — always visible top-left */
+  .fav-btn { position:absolute; top:10px; left:10px; width:32px; height:32px; border-radius:50%; background:rgba(10,10,10,0.7); border:1px solid rgba(201,168,76,0.2); color:var(--gray); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:var(--transition); backdrop-filter:blur(6px); }
+  body[lang="en"] .fav-btn { left:auto; right:10px; }
+  .fav-btn:hover, .fav-btn.active { background:rgba(201,168,76,0.15); border-color:var(--gold); color:var(--gold); }
+  /* Rating stars row */
+  .product-stars { display:flex; align-items:center; gap:4px; margin-bottom:4px; }
+  .stars-row { color:var(--gold); font-size:0.7rem; letter-spacing:1px; }
+  .stars-num { font-size:0.72rem; color:var(--gray); }
+  .product-info { padding:14px 16px 16px; }
+  .product-cat-tag { font-size:0.67rem; color:var(--gold-dark); font-weight:700; text-transform:uppercase; letter-spacing:1.2px; margin-bottom:5px; }
+  .product-name { font-size:0.93rem; font-weight:700; margin-bottom:6px; line-height:1.4; }
+  .product-desc { font-size:0.78rem; color:var(--gray); margin-bottom:12px; line-height:1.65; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .product-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .product-price { display:flex; flex-direction:column; gap:1px; }
+  .price-current { font-size:1.05rem; font-weight:800; background:linear-gradient(135deg,var(--gold-light),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.2; }
+  .price-old { font-size:0.72rem; color:var(--gray); text-decoration:line-through; }
+  .add-cart-btn { padding:9px 15px; background:linear-gradient(135deg,var(--gold-dark),var(--gold)); color:var(--black); border:none; border-radius:8px; font-size:0.78rem; font-weight:700; cursor:pointer; transition:var(--transition); font-family:var(--font-ar); white-space:nowrap; }
+  .add-cart-btn:hover { transform:scale(1.05); box-shadow:0 6px 20px rgba(201,168,76,0.3); }
+  @media(max-width:960px){ .catalog-layout{grid-template-columns:1fr} .catalog-sidebar{position:static} }
+  @media(max-width:600px){ .products-grid{grid-template-columns:repeat(2,1fr)} .catalog-topbar{flex-direction:column;align-items:flex-start} }
 
   /* ── WHY US ── */
   .why-us { background:var(--dark); }
@@ -642,83 +691,212 @@
 
 <!-- ══ PRODUCTS ══ -->
 <section class="products" id="products">
-  <div class="products-header">
-    <div class="section-header fade-in" style="text-align:right;margin-bottom:0">
-      <div class="section-tag" style="justify-content:flex-start"><span class="section-tag-line"></span><span data-ckb="بەرهەمەکان" data-ar="المنتجات" data-en="Products">بەرهەمەکان</span></div>
-      <h2 class="section-title" style="margin-bottom:0"><span data-ckb="بەرهەمە " data-ar="المنتجات " data-en="Featured ">بەرهەمە </span><span class="accent" data-ckb="هەڵبژێردراوەکان" data-ar="المميزة" data-en="Products">هەڵبژێردراوەکان</span></h2>
-    </div>
-    <div class="filter-tabs">
-      <button class="filter-tab active" data-ckb="هەمووی" data-ar="الكل" data-en="All">هەمووی</button>
-      <button class="filter-tab" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</button>
-      <button class="filter-tab" data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</button>
-      <button class="filter-tab" data-ckb="زەیت" data-ar="زيوت" data-en="Oils">زەیت</button>
-    </div>
-  </div>
-  <div class="products-grid">
-    <div class="product-card fade-in">
-      <div class="product-img-wrap">
-        <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="18" width="32" height="22" rx="4" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><rect x="10" y="12" width="28" height="8" rx="3" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1.5"/><path d="M16 24 Q24 20 32 24" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="30" r="4" fill="rgba(201,168,76,0.2)" stroke="#C9A84C" stroke-width="1.2"/></svg></div>
-        <span class="product-badge badge-new" data-ckb="نوێ" data-ar="جديد" data-en="New">نوێ</span>
-        <div class="product-actions"><button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+  <div class="catalog-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="catalog-sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-label" data-ckb="فیلتەرە چالاکەکان" data-ar="الفلاتر النشطة" data-en="Active Filters">فیلتەرە چالاکەکان</div>
+        <div class="sidebar-active-filters">
+          <span class="active-filter-tag"><span data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</span> <span class="tag-x"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></span>
+          <span class="active-filter-tag"><span data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</span> <span class="tag-x"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></span>
+        </div>
+        <button class="reset-btn" data-ckb="سڕینەوەی فیلتەرەکان" data-ar="إعادة تعيين الفلاتر" data-en="Reset filters">سڕینەوەی فیلتەرەکان</button>
       </div>
-      <div class="product-info">
-        <div class="product-cat-tag" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</div>
-        <div class="product-name" data-ckb="کرێمی ڕووی گیایی" data-ar="كريم الوجه العشبي" data-en="Herbal Face Cream">کرێمی ڕووی گیایی</div>
-        <div class="product-desc" data-ckb="کرێمێکی سروشتی بۆ ڕووی پێستی خشک و ئاسایی، دروستکراو بە مادەی گیایی" data-ar="كريم طبيعي للبشرة الجافة والعادية مصنوع من مكونات عشبية" data-en="Natural cream for dry and normal skin, made from herbal ingredients">کرێمێکی سروشتی بۆ ڕووی پێستی خشک و ئاسایی، دروستکراو بە مادەی گیایی</div>
-        <div class="product-footer">
-          <div class="product-price"><span class="price-current">15,000 د.ع</span><span class="price-old">20,000 د.ع</span></div>
-          <button class="add-cart-btn" onclick="buyProduct('کرێمی ڕووی گیایی','15,000 د.ع','cream')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">
+          <span data-ckb="پۆل" data-ar="الفئة" data-en="Category">پۆل</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="sidebar-check-list">
+          <label class="sidebar-check-item">
+            <input type="checkbox" checked>
+            <div class="custom-check"></div>
+            <span class="sidebar-check-label" data-ckb="کرێم (١٢)" data-ar="كريمات (١٢)" data-en="Creams (12)">کرێم (١٢)</span>
+          </label>
+          <label class="sidebar-check-item">
+            <input type="checkbox" checked>
+            <div class="custom-check"></div>
+            <span class="sidebar-check-label" data-ckb="شامپۆ (٨)" data-ar="شامبو (٨)" data-en="Shampoo (8)">شامپۆ (٨)</span>
+          </label>
+          <label class="sidebar-check-item">
+            <input type="checkbox">
+            <div class="custom-check"></div>
+            <span class="sidebar-check-label" data-ckb="زەیت (٦)" data-ar="زيوت (٦)" data-en="Oils (6)">زەیت (٦)</span>
+          </label>
+          <label class="sidebar-check-item">
+            <input type="checkbox">
+            <div class="custom-check"></div>
+            <span class="sidebar-check-label" data-ckb="خەنە (٥)" data-ar="سيروم (٥)" data-en="Serums (5)">خەنە (٥)</span>
+          </label>
+          <label class="sidebar-check-item">
+            <input type="checkbox">
+            <div class="custom-check"></div>
+            <span class="sidebar-check-label" data-ckb="لاوازبوون (٤)" data-ar="تخسيس (٤)" data-en="Slimming (4)">لاوازبوون (٤)</span>
+          </label>
+          <label class="sidebar-check-item">
+            <input type="checkbox">
+            <div class="custom-check"></div>
+            <span class="sidebar-check-label" data-ckb="تر (٣)" data-ar="أخرى (٣)" data-en="Others (3)">تر (٣)</span>
+          </label>
         </div>
       </div>
-    </div>
-    <div class="product-card fade-in fade-in-delay-1">
-      <div class="product-img-wrap">
-        <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="14" width="20" height="28" rx="5" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><rect x="18" y="8" width="8" height="8" rx="2" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1.5"/><path d="M18 25 Q24 22 30 25" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/><path d="M18 30 Q24 27 30 30" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-        <span class="product-badge badge-hot" data-ckb="داواکراو" data-ar="الأكثر طلبًا" data-en="Hot">داواکراو</span>
-        <div class="product-actions"><button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
-      </div>
-      <div class="product-info">
-        <div class="product-cat-tag" data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</div>
-        <div class="product-name" data-ckb="شامپۆی گیایی بۆ قوژمە" data-ar="شامبو عشبي للشعر" data-en="Herbal Hair Shampoo">شامپۆی گیایی بۆ قوژمە</div>
-        <div class="product-desc" data-ckb="شامپۆی سروشتی کە قوژمەت چاک دەکات، وریشیان دەسترهێنێت و چاکی پێ دەگەیەنێت" data-ar="شامبو طبيعي يُصلح الشعر ويقلل التساقط ويمنح القوة" data-en="Natural shampoo that repairs hair, reduces breakage and adds strength">شامپۆی سروشتی کە قوژمەت چاک دەکات، وریشیان دەسترهێنێت و چاکی پێ دەگەیەنێت</div>
-        <div class="product-footer">
-          <div class="product-price"><span class="price-current">18,000 د.ع</span></div>
-          <button class="add-cart-btn" onclick="buyProduct('شامپۆی گیایی','18,000 د.ع','shampoo')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">
+          <span data-ckb="نرخ" data-ar="السعر" data-en="Price">نرخ</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="price-range-wrap">
+          <input type="range" class="price-slider" min="0" max="100000" value="60000">
+          <div class="price-labels">
+            <span>0 <span class="price-val" data-ckb="د.ع" data-ar="د.ع" data-en="IQD">د.ع</span></span>
+            <span>60,000 <span class="price-val" data-ckb="د.ع" data-ar="د.ع" data-en="IQD">د.ع</span></span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="product-card fade-in fade-in-delay-2">
-      <div class="product-img-wrap">
-        <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 8 C24 8 14 22 14 30 a10 10 0 0 0 20 0 C34 22 24 8 24 8z" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><path d="M18 32 Q24 29 30 32" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/><circle cx="24" cy="14" r="2" fill="#C9A84C" opacity="0.5"/></svg></div>
-        <span class="product-badge badge-sale" data-ckb="داشکاندن" data-ar="خصم" data-en="Sale">داشکاندن</span>
-        <div class="product-actions"><button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
-      </div>
-      <div class="product-info">
-        <div class="product-cat-tag" data-ckb="زەیت" data-ar="زيوت" data-en="Oils">زەیت</div>
-        <div class="product-name" data-ckb="زەیتی قوژمەی گیایی" data-ar="زيت الشعر العشبي" data-en="Herbal Hair Oil">زەیتی قوژمەی گیایی</div>
-        <div class="product-desc" data-ckb="زەیتێکی سروشتی کە قوژمەت بەرز دەکات، ووریش دەکات و ڕووناکی پێ دەبەخشێت" data-ar="زيت طبيعي يُغذي الشعر ويُقوّيه ويمنحه البريق الطبيعي" data-en="Natural oil that nourishes hair, strengthens and adds natural shine">زەیتێکی سروشتی کە قوژمەت بەرز دەکات، ووریش دەکات و ڕووناکی پێ دەبەخشێت</div>
-        <div class="product-footer">
-          <div class="product-price"><span class="price-current">12,000 د.ع</span><span class="price-old">16,000 د.ع</span></div>
-          <button class="add-cart-btn" onclick="buyProduct('زەیتی قوژمەی گیایی','12,000 د.ع','oil')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <div class="catalog-main">
+
+      <!-- Topbar -->
+      <div class="catalog-topbar">
+        <h2 class="catalog-heading">
+          <span data-ckb="بەرهەمە " data-ar="المنتجات " data-en="Featured ">بەرهەمە </span>
+          <span class="accent" data-ckb="هەڵبژێردراوەکان" data-ar="المميزة" data-en="Products">هەڵبژێردراوەکان</span>
+        </h2>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-ckb="هەمووی" data-ar="الكل" data-en="All">هەمووی</button>
+            <button class="filter-tab" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</button>
+            <button class="filter-tab" data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</button>
+            <button class="filter-tab" data-ckb="زەیت" data-ar="زيوت" data-en="Oils">زەیت</button>
+          </div>
+          <button class="sort-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> <span data-ckb="باشترین" data-ar="الأعلى تقييمًا" data-en="Top Rated">باشترین</span></button>
         </div>
       </div>
-    </div>
-    <div class="product-card fade-in fade-in-delay-3">
-      <div class="product-img-wrap">
-        <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="16" width="16" height="24" rx="4" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><rect x="19" y="9" width="10" height="9" rx="2" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1.5"/><path d="M24 9 L24 6" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><path d="M19 26 Q24 23 29 26" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/><circle cx="24" cy="33" r="3" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1"/></svg></div>
-        <div class="product-actions"><button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><button class="action-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
-      </div>
-      <div class="product-info">
-        <div class="product-cat-tag" data-ckb="خەنە" data-ar="سيروم" data-en="Serum">خەنە</div>
-        <div class="product-name" data-ckb="خەنەی ڕووی سروشتی" data-ar="سيروم الوجه الطبيعي" data-en="Natural Face Serum">خەنەی ڕووی سروشتی</div>
-        <div class="product-desc" data-ckb="خەنەێک بۆ گشتی جۆرەکانی پێست، چاکسازی رووناکی و کەمکردنی شیکی" data-ar="سيروم لجميع أنواع البشرة، يحسن الإشراق ويقلل التجاعيد" data-en="Serum for all skin types, improves radiance and reduces wrinkles">خەنەێک بۆ گشتی جۆرەکانی پێست، چاکسازی رووناکی و کەمکردنی شیکی</div>
-        <div class="product-footer">
-          <div class="product-price"><span class="price-current">22,000 د.ع</span></div>
-          <button class="add-cart-btn" onclick="buyProduct('خەنەی ڕووی سروشتی','22,000 د.ع','serum')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+
+      <!-- Grid -->
+      <div class="products-grid">
+
+        <!-- Card 1 -->
+        <div class="product-card fade-in">
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="18" width="32" height="22" rx="4" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><rect x="10" y="12" width="28" height="8" rx="3" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1.5"/><path d="M16 24 Q24 20 32 24" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="30" r="4" fill="rgba(201,168,76,0.2)" stroke="#C9A84C" stroke-width="1.2"/></svg></div>
+            <span class="product-badge badge-new" data-ckb="نوێ" data-ar="جديد" data-en="New">نوێ</span>
+            <button class="fav-btn" onclick="this.classList.toggle('active')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="product-info">
+            <div class="product-cat-tag" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</div>
+            <div class="product-stars"><span class="stars-row">★★★★★</span><span class="stars-num">4.9</span></div>
+            <div class="product-name" data-ckb="کرێمی ڕووی گیایی" data-ar="كريم الوجه العشبي" data-en="Herbal Face Cream">کرێمی ڕووی گیایی</div>
+            <div class="product-desc" data-ckb="کرێمێکی سروشتی بۆ پێستی خشک و ئاسایی، بە مادەی گیایی" data-ar="كريم طبيعي للبشرة الجافة والعادية" data-en="Natural cream for dry and normal skin">کرێمێکی سروشتی بۆ پێستی خشک و ئاسایی</div>
+            <div class="product-footer">
+              <div class="product-price"><span class="price-current">15,000 د.ع</span><span class="price-old">20,000 د.ع</span></div>
+              <button class="add-cart-btn" onclick="buyProduct('کرێمی ڕووی گیایی','15,000 د.ع','cream')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
+
+        <!-- Card 2 -->
+        <div class="product-card fade-in fade-in-delay-1">
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="14" width="20" height="28" rx="5" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><rect x="18" y="8" width="8" height="8" rx="2" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1.5"/><path d="M18 25 Q24 22 30 25" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/><path d="M18 30 Q24 27 30 30" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+            <span class="product-badge badge-hot" data-ckb="داواکراو" data-ar="الأكثر طلبًا" data-en="Hot">داواکراو</span>
+            <button class="fav-btn" onclick="this.classList.toggle('active')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="product-info">
+            <div class="product-cat-tag" data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</div>
+            <div class="product-stars"><span class="stars-row">★★★★★</span><span class="stars-num">4.8</span></div>
+            <div class="product-name" data-ckb="شامپۆی گیایی بۆ قوژمە" data-ar="شامبو عشبي للشعر" data-en="Herbal Hair Shampoo">شامپۆی گیایی بۆ قوژمە</div>
+            <div class="product-desc" data-ckb="قوژمەت چاک دەکات، وریشیان دەسترهێنێت" data-ar="يُصلح الشعر ويقلل التساقط" data-en="Repairs hair and reduces breakage">قوژمەت چاک دەکات، وریشیان دەسترهێنێت</div>
+            <div class="product-footer">
+              <div class="product-price"><span class="price-current">18,000 د.ع</span></div>
+              <button class="add-cart-btn" onclick="buyProduct('شامپۆی گیایی','18,000 د.ع','shampoo')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card fade-in fade-in-delay-2">
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 8 C24 8 14 22 14 30 a10 10 0 0 0 20 0 C34 22 24 8 24 8z" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><path d="M18 32 Q24 29 30 32" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/><circle cx="24" cy="14" r="2" fill="#C9A84C" opacity="0.5"/></svg></div>
+            <span class="product-badge badge-sale" data-ckb="داشکاندن" data-ar="خصم" data-en="Sale">داشکاندن</span>
+            <button class="fav-btn" onclick="this.classList.toggle('active')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="product-info">
+            <div class="product-cat-tag" data-ckb="زەیت" data-ar="زيوت" data-en="Oils">زەیت</div>
+            <div class="product-stars"><span class="stars-row">★★★★☆</span><span class="stars-num">4.6</span></div>
+            <div class="product-name" data-ckb="زەیتی قوژمەی گیایی" data-ar="زيت الشعر العشبي" data-en="Herbal Hair Oil">زەیتی قوژمەی گیایی</div>
+            <div class="product-desc" data-ckb="قوژمەت بەرز دەکات و ڕووناکی پێ دەبەخشێت" data-ar="يُقوّي الشعر ويمنحه البريق" data-en="Strengthens hair and adds shine">قوژمەت بەرز دەکات و ڕووناکی پێ دەبەخشێت</div>
+            <div class="product-footer">
+              <div class="product-price"><span class="price-current">12,000 د.ع</span><span class="price-old">16,000 د.ع</span></div>
+              <button class="add-cart-btn" onclick="buyProduct('زەیتی قوژمەی گیایی','12,000 د.ع','oil')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="product-card fade-in fade-in-delay-3">
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="16" width="16" height="24" rx="4" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><rect x="19" y="9" width="10" height="9" rx="2" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1.5"/><path d="M24 9 L24 6" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><path d="M19 26 Q24 23 29 26" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/><circle cx="24" cy="33" r="3" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1"/></svg></div>
+            <button class="fav-btn" onclick="this.classList.toggle('active')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="product-info">
+            <div class="product-cat-tag" data-ckb="خەنە" data-ar="سيروم" data-en="Serum">خەنە</div>
+            <div class="product-stars"><span class="stars-row">★★★★★</span><span class="stars-num">5.0</span></div>
+            <div class="product-name" data-ckb="خەنەی ڕووی سروشتی" data-ar="سيروم الوجه الطبيعي" data-en="Natural Face Serum">خەنەی ڕووی سروشتی</div>
+            <div class="product-desc" data-ckb="بۆ گشتی جۆرەکانی پێست، ڕووناکی زیاد دەکات" data-ar="لجميع البشرة، يحسّن الإشراق" data-en="For all skin types, improves radiance">بۆ گشتی جۆرەکانی پێست، ڕووناکی زیاد دەکات</div>
+            <div class="product-footer">
+              <div class="product-price"><span class="price-current">22,000 د.ع</span></div>
+              <button class="add-cart-btn" onclick="buyProduct('خەنەی ڕووی سروشتی','22,000 د.ع','serum')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="product-card fade-in">
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 38 C24 38 10 30 10 18 C10 10 18 8 24 8 C30 8 38 10 38 18 C38 30 24 38 24 38z" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><path d="M24 8 L24 38" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/><path d="M24 24 L32 16" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/><path d="M24 20 L16 16" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+            <span class="product-badge badge-new" data-ckb="نوێ" data-ar="جديد" data-en="New">نوێ</span>
+            <button class="fav-btn" onclick="this.classList.toggle('active')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="product-info">
+            <div class="product-cat-tag" data-ckb="تر" data-ar="أخرى" data-en="Others">تر</div>
+            <div class="product-stars"><span class="stars-row">★★★★☆</span><span class="stars-num">4.5</span></div>
+            <div class="product-name" data-ckb="ماسکی ڕووی گیایی" data-ar="قناع الوجه العشبي" data-en="Herbal Face Mask">ماسکی ڕووی گیایی</div>
+            <div class="product-desc" data-ckb="پێستت ساف دەکات و نووی پێ دەبەخشێت" data-ar="ينظف البشرة ويمنحها النضارة" data-en="Cleanses skin and gives freshness">پێستت ساف دەکات و نووی پێ دەبەخشێت</div>
+            <div class="product-footer">
+              <div class="product-price"><span class="price-current">10,000 د.ع</span></div>
+              <button class="add-cart-btn" onclick="buyProduct('ماسکی ڕووی گیایی','10,000 د.ع','cream')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="product-card fade-in fade-in-delay-1">
+          <div class="product-img-wrap">
+            <div class="product-img-placeholder"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="18" width="32" height="22" rx="4" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/><rect x="10" y="12" width="28" height="8" rx="3" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1.5"/><path d="M16 24 Q24 20 32 24" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="30" r="4" fill="rgba(201,168,76,0.2)" stroke="#C9A84C" stroke-width="1.2"/></svg></div>
+            <span class="product-badge badge-sale" data-ckb="داشکاندن" data-ar="خصم" data-en="Sale">داشکاندن</span>
+            <button class="fav-btn" onclick="this.classList.toggle('active')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="product-info">
+            <div class="product-cat-tag" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</div>
+            <div class="product-stars"><span class="stars-row">★★★★★</span><span class="stars-num">4.7</span></div>
+            <div class="product-name" data-ckb="کرێمی شەو" data-ar="كريم الليل" data-en="Night Cream">کرێمی شەو</div>
+            <div class="product-desc" data-ckb="لە کاتی خەوتندا چاکسازی پێست دەکات" data-ar="يجدّد البشرة أثناء النوم" data-en="Repairs skin while sleeping">لە کاتی خەوتندا چاکسازی پێست دەکات</div>
+            <div class="product-footer">
+              <div class="product-price"><span class="price-current">13,000 د.ع</span><span class="price-old">17,000 د.ع</span></div>
+              <button class="add-cart-btn" onclick="buyProduct('کرێمی شەو','13,000 د.ع','cream')"><span data-ckb="+ کڕین" data-ar="+ شراء" data-en="+ Buy">+ کڕین</span></button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /products-grid -->
+    </div><!-- /catalog-main -->
+  </div><!-- /catalog-layout -->
 </section>
 
 <!-- ══ WHY US ══ -->
