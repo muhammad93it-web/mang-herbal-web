@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mang Herbal | مانگ هێربال</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E2C97A;
+    --gold-dark: #9A7A2A;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --dark3: #222222;
+    --white: #FFFFFF;
+    --gray: #888888;
+    --gray2: #CCCCCC;
+    --font-ar: 'Noto Kufi Arabic', sans-serif;
+    --font-en: 'Playfair Display', serif;
+    --font-ui: 'Inter', sans-serif;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-ar);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  body[lang="en"] {
+    font-family: var(--font-ui);
+    direction: ltr;
+  }
+
+  body[lang="en"] .navbar,
+  body[lang="en"] .hero-content,
+  body[lang="en"] .section-header,
+  body[lang="en"] .footer-grid {
+    direction: ltr;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+
+  /* ─── NAVBAR ─── */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 5%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    transition: var(--transition);
+  }
+
+  .navbar.scrolled {
+    height: 68px;
+    background: rgba(10,10,10,0.97);
+    border-bottom-color: rgba(201,168,76,0.25);
+  }
+
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .logo-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.4);
+    object-fit: contain;
+    background: #0D0D0D;
+    transition: var(--transition);
+  }
+
+  .logo-wrap:hover .logo-img {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+
+  .logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray2);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: var(--transition);
+    border-radius: 1px;
+  }
+
+  body[lang="en"] .nav-links a::after { right: auto; left: 0; }
+
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 50px;
+    padding: 4px;
+  }
+
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: none;
+    background: transparent;
+    color: var(--gray);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-ar);
+  }
+
+  .lang-btn.active {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--black);
+  }
+
+  .cart-btn {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.25);
+    background: var(--dark3);
+    color: var(--gold);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    font-size: 1.1rem;
+  }
+
+  .cart-btn:hover {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 20px;
+    height: 20px;
+    background: var(--gold);
+    color: var(--black);
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: var(--transition);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 5% 80px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 50%),
+      linear-gradient(180deg, #0A0A0A 0%, #111111 50%, #0A0A0A 100%);
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .hero-orb-1 {
+    width: 500px;
+    height: 500px;
+    background: rgba(201,168,76,0.06);
+    top: -100px;
+    right: 10%;
+    animation-delay: 0s;
+  }
+
+  .hero-orb-2 {
+    width: 300px;
+    height: 300px;
+    background: rgba(201,168,76,0.04);
+    bottom: 10%;
+    left: 5%;
+    animation-delay: -3s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 50px;
+    font-size: 0.82rem;
+    color: var(--gold-light);
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero-title .brand-name {
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--gray);
+    margin-bottom: 40px;
+    max-width: 480px;
+    line-height: 1.9;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 16px 36px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color: var(--black);
+    border: none;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-ar);
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    opacity: 0;
+    transition: var(--transition);
+  }
+
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 20px 60px rgba(201,168,76,0.35); }
+
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .btn-outline {
+    padding: 16px 36px;
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-ar);
+  }
+
+  .btn-outline:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .hero-visual {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  body[lang="en"] .hero-visual {
+    left: auto;
+    right: 5%;
+  }
+
+  .hero-logo-ring {
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin-slow 20s linear infinite;
+    position: relative;
+  }
+
+  .hero-logo-ring::before {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+
+  .hero-logo-inner {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    animation: spin-slow 20s linear infinite reverse;
+    position: relative;
+  }
+
+  .hero-logo-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 30px rgba(201,168,76,0.3));
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    padding: 0 5%;
+    display: flex;
+    gap: 40px;
+    justify-content: flex-start;
+    z-index: 2;
+  }
+
+  body[lang="en"] .hero-stats { justify-content: flex-start; }
+
+  .stat-item { display: flex; flex-direction: column; gap: 4px; }
+
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .stat-label { font-size: 0.78rem; color: var(--gray); letter-spacing: 0.5px; }
+
+  /* ─── MARQUEE ─── */
+  .marquee-wrap {
+    overflow: hidden;
+    background: rgba(201,168,76,0.06);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 16px 0;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gold);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .marquee-dot { width: 4px; height: 4px; background: var(--gold-dark); border-radius: 50%; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 100px 5%; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .section-tag-line {
+    display: inline-block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+
+  .section-title .accent {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-desc {
+    color: var(--gray);
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.9;
+  }
+
+  /* ─── CATEGORIES ─── */
+  .categories { background: var(--dark); }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  .cat-card {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: var(--radius);
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    group: true;
+  }
+
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.06), transparent);
+    opacity: 0;
+    transition: var(--transition);
+  }
+
+  .cat-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-6px); }
+  .cat-card:hover::before { opacity: 1; }
+
+  .cat-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.8rem;
+    transition: var(--transition);
+  }
+
+  .cat-card:hover .cat-icon {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--gold);
+    box-shadow: 0 0 24px rgba(201,168,76,0.2);
+  }
+
+  .cat-name {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    transition: var(--transition);
+  }
+
+  .cat-card:hover .cat-name { color: var(--gold); }
+
+  .cat-count { font-size: 0.78rem; color: var(--gray); }
+
+  /* ─── PRODUCTS ─── */
+  .products { background: var(--black); }
+
+  .products-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-tab {
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: transparent;
+    color: var(--gray);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-ar);
+  }
+
+  .filter-tab.active, .filter-tab:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+  }
+
+  .product-card {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.08);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .product-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-8px);
+    box-shadow: 0 32px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.1);
+  }
+
+  .product-img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: var(--dark3);
+  }
+
+  .product-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    background: linear-gradient(135deg, rgba(201,168,76,0.05), rgba(201,168,76,0.02));
+    transition: var(--transition);
+  }
+
+  .product-card:hover .product-img-placeholder { transform: scale(1.05); }
+
+  .product-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  body[lang="en"] .product-badge { right: auto; left: 14px; }
+
+  .badge-new { background: rgba(201,168,76,0.9); color: var(--black); }
+  .badge-hot { background: rgba(220,60,60,0.85); color: white; }
+  .badge-sale { background: rgba(60,180,100,0.85); color: white; }
+
+  .product-actions {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: var(--transition);
+  }
+
+  body[lang="en"] .product-actions { left: auto; right: 14px; transform: translateX(10px); }
+
+  .product-card:hover .product-actions {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(10,10,10,0.85);
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .action-btn:hover { background: var(--gold); color: var(--black); }
+
+  .product-info { padding: 20px; }
+
+  .product-cat-tag {
+    font-size: 0.72rem;
+    color: var(--gold-dark);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .product-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .product-desc {
+    font-size: 0.82rem;
+    color: var(--gray);
+    margin-bottom: 16px;
+    line-height: 1.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .product-price {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .price-current {
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .price-old {
+    font-size: 0.78rem;
+    color: var(--gray);
+    text-decoration: line-through;
+  }
+
+  .add-cart-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--black);
+    border: none;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-ar);
+    white-space: nowrap;
+  }
+
+  .add-cart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+  }
+
+  /* ─── WHY US ─── */
+  .why-us { background: var(--dark); }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+  }
+
+  .why-card {
+    padding: 36px 28px;
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.08);
+    border-radius: var(--radius);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .why-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: var(--transition);
+  }
+
+  body[lang="en"] .why-card::after { transform-origin: left; }
+
+  .why-card:hover { border-color: rgba(201,168,76,0.25); }
+  .why-card:hover::after { transform: scaleX(1); }
+
+  .why-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+    transition: var(--transition);
+  }
+
+  .why-card:hover .why-icon {
+    background: rgba(201,168,76,0.15);
+    box-shadow: 0 0 20px rgba(201,168,76,0.15);
+  }
+
+  .why-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .why-desc { font-size: 0.87rem; color: var(--gray); line-height: 1.8; }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials { background: var(--black); overflow: hidden; }
+
+  .testi-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .testi-card {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.08);
+    border-radius: var(--radius);
+    padding: 32px;
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .testi-card:hover { border-color: rgba(201,168,76,0.25); }
+
+  .testi-quote {
+    position: absolute;
+    top: 20px;
+    left: 28px;
+    font-size: 4rem;
+    color: rgba(201,168,76,0.08);
+    font-family: serif;
+    line-height: 1;
+  }
+
+  body[lang="en"] .testi-quote { left: auto; right: 28px; }
+
+  .testi-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    color: var(--gold);
+    font-size: 0.9rem;
+  }
+
+  .testi-text {
+    font-size: 0.92rem;
+    color: var(--gray2);
+    line-height: 1.9;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .testi-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--black);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .testi-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+  }
+
+  .testi-location { font-size: 0.78rem; color: var(--gray); }
+
+  /* ─── DELIVERY BANNER ─── */
+  .delivery-banner {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.04) 100%);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 60px 5%;
+  }
+
+  .delivery-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .delivery-text h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .delivery-text p { color: var(--gray); font-size: 0.92rem; }
+
+  .delivery-areas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .area-tag {
+    padding: 10px 20px;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ─── ADMIN PREVIEW ─── */
+  .admin-section { background: var(--dark); }
+
+  .admin-preview {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: var(--radius);
+    overflow: hidden;
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+  }
+
+  .admin-topbar {
+    background: var(--dark3);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .admin-topbar-brand {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .admin-topbar-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .admin-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .admin-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    height: 360px;
+  }
+
+  .admin-sidebar {
+    background: rgba(0,0,0,0.3);
+    border-left: 1px solid rgba(201,168,76,0.08);
+    padding: 20px 0;
+  }
+
+  body[lang="en"] .admin-sidebar {
+    border-left: none;
+    border-right: 1px solid rgba(201,168,76,0.08);
+  }
+
+  .admin-nav-item {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.82rem;
+    color: var(--gray);
+    cursor: pointer;
+    transition: var(--transition);
+    border-right: 3px solid transparent;
+  }
+
+  body[lang="en"] .admin-nav-item { border-right: none; border-left: 3px solid transparent; }
+
+  .admin-nav-item.active {
+    color: var(--gold);
+    background: rgba(201,168,76,0.06);
+    border-right-color: var(--gold);
+  }
+
+  body[lang="en"] .admin-nav-item.active {
+    border-right-color: transparent;
+    border-left-color: var(--gold);
+  }
+
+  .admin-main { padding: 24px; overflow: auto; }
+
+  .admin-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .admin-stat {
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.08);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+  }
+
+  .admin-stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--gold);
+  }
+
+  .admin-stat-label { font-size: 0.7rem; color: var(--gray); margin-top: 2px; }
+
+  .admin-table-wrap {
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.08);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .admin-table { width: 100%; border-collapse: collapse; }
+
+  .admin-table th {
+    background: rgba(201,168,76,0.06);
+    padding: 10px 16px;
+    text-align: right;
+    font-size: 0.72rem;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+
+  body[lang="en"] .admin-table th { text-align: left; }
+
+  .admin-table td {
+    padding: 10px 16px;
+    font-size: 0.78rem;
+    color: var(--gray2);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .status-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+
+  .status-new { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .status-done { background: rgba(60,180,100,0.15); color: #4ade80; }
+  .status-pending { background: rgba(255,150,50,0.15); color: #fb923c; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 80px 5% 40px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+
+  .footer-brand-name {
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 14px;
+  }
+
+  .footer-brand-desc {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.9;
+    margin-bottom: 24px;
+    max-width: 280px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 10px;
+  }
+
+  .social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.15);
+    color: var(--gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+  }
+
+  .social-btn:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .footer-col h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .footer-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+  .footer-links a::before { content: '→'; font-size: 0.7rem; color: var(--gold-dark); }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    color: var(--gray);
+  }
+
+  .contact-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(201,168,76,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-copy { font-size: 0.8rem; color: var(--gray); }
+
+  /* ─── NOTIFICATION ─── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: var(--radius-sm);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.88rem;
+    color: var(--gold-light);
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: var(--transition);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    max-width: 320px;
+  }
+
+  body[lang="en"] .toast { left: auto; right: 24px; }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ─── MOBILE NAV ─── */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,10,0.97);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+  }
+
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+
+  .mobile-menu a {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray2);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .mobile-menu a:hover { color: var(--gold); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .hero-visual { display: none; }
+    .hero-content { max-width: 100%; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .testi-track { grid-template-columns: 1fr 1fr; }
+    .admin-stats-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .menu-toggle { display: flex; }
+    .hero-stats { gap: 24px; }
+    .hero-title { font-size: 2rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    .testi-track { grid-template-columns: 1fr; }
+    .admin-layout { grid-template-columns: 1fr; }
+    .admin-sidebar { display: none; }
+    .admin-stats-row { grid-template-columns: repeat(2, 1fr); }
+    .delivery-inner { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    section { padding: 70px 4%; }
+    .hero { padding: 80px 4% 60px; }
+    .hero-btns { flex-direction: column; }
+    .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .products-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+  .fade-in-delay-4 { transition-delay: 0.4s; }
+</style>
+</head>
+<body lang="ckb">
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span>✓</span>
+  <span id="toast-msg">بەرهەمەکە زیادکرا بۆ سەبەتەکەت</span>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="closeMobile()"><span data-ckb="سەرەتا" data-ar="الرئيسية" data-en="Home">سەرەتا</span></a>
+  <a href="#cats" onclick="closeMobile()"><span data-ckb="پۆلەکان" data-ar="الفئات" data-en="Categories">پۆلەکان</span></a>
+  <a href="#products" onclick="closeMobile()"><span data-ckb="بەرهەمەکان" data-ar="المنتجات" data-en="Products">بەرهەمەکان</span></a>
+  <a href="#about" onclick="closeMobile()"><span data-ckb="دەربارە" data-ar="عنا" data-en="About">دەربارە</span></a>
+  <a href="#contact" onclick="closeMobile()"><span data-ckb="پەیوەندی" data-ar="تواصل" data-en="Contact">پەیوەندی</span></a>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="logo-wrap">
+    <img src="../attached_assets/logo_png_be_back_1784750335449.png" alt="Mang Herbal" class="logo-img">
+    <span class="logo-text" data-ckb="مانگ هێربال" data-ar="مانج هربال" data-en="Mang Herbal">مانگ هێربال</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#" data-ckb="سەرەتا" data-ar="الرئيسية" data-en="Home">سەرەتا</a></li>
+    <li><a href="#cats" data-ckb="پۆلەکان" data-ar="الفئات" data-en="Categories">پۆلەکان</a></li>
+    <li><a href="#products" data-ckb="بەرهەمەکان" data-ar="المنتجات" data-en="Products">بەرهەمەکان</a></li>
+    <li><a href="#about" data-ckb="دەربارە" data-ar="عنا" data-en="About">دەربارە</a></li>
+    <li><a href="#contact" data-ckb="پەیوەندی" data-ar="تواصل" data-en="Contact">پەیوەندی</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('ckb')">کوردی</button>
+      <button class="lang-btn" onclick="setLang('ar')">عربی</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="cart-btn" onclick="showToast()">
+      🛒
+      <span class="cart-badge">2</span>
+    </button>
+    <div class="menu-toggle" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+
+  <div class="hero-content fade-in">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      <span data-ckb="١٠٠٪ گیایی سروشتی" data-ar="١٠٠٪ طبيعي عشبي" data-en="100% Natural Herbal">١٠٠٪ گیایی سروشتی</span>
+    </div>
+    <h1 class="hero-title">
+      <span data-ckb="سکالای خۆشکردن بە" data-ar="رحلة جمالك مع" data-en="Your Beauty Journey with">سکالای خۆشکردن بە</span><br>
+      <span class="brand-name" data-ckb="مانگ هێربال" data-ar="مانج هربال" data-en="Mang Herbal">مانگ هێربال</span>
+    </h1>
+    <p class="hero-desc" data-ckb="بەرهەمە گیاییەکانی کەرتی یەکەم بۆ چاکسازی پێست، قوژمە، جوانبوون و تەندروستی. دروستکراو بە مادەی سروشتی ناوچەی کوردستان و عێراق." data-ar="منتجات عشبية طبيعية من الدرجة الأولى لتحسين البشرة والشعر والجمال والصحة. مصنوعة من مكونات طبيعية من كردستان والعراق." data-en="Premium natural herbal products for skin, hair, beauty and wellness. Crafted from natural ingredients sourced from Kurdistan and Iraq.">
+      بەرهەمە گیاییەکانی کەرتی یەکەم بۆ چاکسازی پێست، قوژمە، جوانبوون و تەندروستی. دروستکراو بە مادەی سروشتی ناوچەی کوردستان و عێراق.
+    </p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">
+        <span data-ckb="🛒 کرینی ئێستا" data-ar="🛒 تسوق الآن" data-en="🛒 Shop Now">🛒 کرینی ئێستا</span>
+      </a>
+      <a href="#about" class="btn-outline">
+        <span data-ckb="دەربارەمان" data-ar="عن العلامة" data-en="Our Story">دەربارەمان</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-logo-ring">
+      <div class="hero-logo-inner">
+        <img src="../attached_assets/logo_png_be_back_1784750335449.png" alt="Mang Herbal Logo">
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item fade-in fade-in-delay-1">
+      <span class="stat-num">+500</span>
+      <span class="stat-label" data-ckb="کڕیاری دڵخوش" data-ar="عميل راضٍ" data-en="Happy Customers">کڕیاری دڵخوش</span>
+    </div>
+    <div class="stat-item fade-in fade-in-delay-2">
+      <span class="stat-num">+30</span>
+      <span class="stat-label" data-ckb="جۆری بەرهەم" data-ar="نوع منتج" data-en="Product Types">جۆری بەرهەم</span>
+    </div>
+    <div class="stat-item fade-in fade-in-delay-3">
+      <span class="stat-num">100%</span>
+      <span class="stat-label" data-ckb="گیایی سروشتی" data-ar="طبيعي عشبي" data-en="Natural Herbal">گیایی سروشتی</span>
+    </div>
+    <div class="stat-item fade-in fade-in-delay-4">
+      <span class="stat-num">3+</span>
+      <span class="stat-label" data-ckb="ساڵ ئەزموون" data-ar="سنوات خبرة" data-en="Years Experience">ساڵ ئەزموون</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="کرێمی جوانبوون" data-ar="كريمات التجميل" data-en="Beauty Creams">کرێمی جوانبوون</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="شامپۆی گیایی" data-ar="شامبو عشبي" data-en="Herbal Shampoo">شامپۆی گیایی</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="زەیتی سروشتی" data-ar="زيوت طبيعية" data-en="Natural Oils">زەیتی سروشتی</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="خەنەی پێست" data-ar="سيروم البشرة" data-en="Skin Serum">خەنەی پێست</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="لاواز بوون" data-ar="إنقاص الوزن" data-en="Slimming">لاواز بوون</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="گەیاندنی خێرا" data-ar="توصيل سريع" data-en="Fast Delivery">گەیاندنی خێرا</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="مادەی گیایی" data-ar="مكونات عشبية" data-en="Herbal Ingredients">مادەی گیایی</span></span>
+    <!-- Repeat for seamless loop -->
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="کرێمی جوانبوون" data-ar="كريمات التجميل" data-en="Beauty Creams">کرێمی جوانبوون</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="شامپۆی گیایی" data-ar="شامبو عشبي" data-en="Herbal Shampoo">شامپۆی گیایی</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="زەیتی سروشتی" data-ar="زيوت طبيعية" data-en="Natural Oils">زەیتی سروشتی</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="خەنەی پێست" data-ar="سيروم البشرة" data-en="Skin Serum">خەنەی پێست</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="لاواز بوون" data-ar="إنقاص الوزن" data-en="Slimming">لاواز بوون</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="گەیاندنی خێرا" data-ar="توصيل سريع" data-en="Fast Delivery">گەیاندنی خێرا</span></span>
+    <span class="marquee-item"><span class="marquee-dot"></span><span data-ckb="مادەی گیایی" data-ar="مكونات عشبية" data-en="Herbal Ingredients">مادەی گیایی</span></span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories" id="cats">
+  <div class="section-header fade-in">
+    <div class="section-tag">
+      <span class="section-tag-line"></span>
+      <span data-ckb="پۆلەکان" data-ar="الفئات" data-en="Categories">پۆلەکان</span>
+      <span class="section-tag-line"></span>
+    </div>
+    <h2 class="section-title">
+      <span data-ckb="هەموو " data-ar="تصفح كل " data-en="Browse All ">هەموو </span>
+      <span class="accent" data-ckb="جۆرەکان" data-ar="الأقسام" data-en="Sections">جۆرەکان</span>
+    </h2>
+    <p class="section-desc" data-ckb="پۆلێکی هەڵبژێرە و بەرهەمەکانی ببینە" data-ar="اختر فئة وتصفح منتجاتها" data-en="Choose a category and explore its products">پۆلێکی هەڵبژێرە و بەرهەمەکانی ببینە</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card fade-in">
+      <div class="cat-icon">🧴</div>
+      <div class="cat-name" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</div>
+      <div class="cat-count" data-ckb="١٢ بەرهەم" data-ar="١٢ منتج" data-en="12 Products">١٢ بەرهەم</div>
+    </div>
+    <div class="cat-card fade-in fade-in-delay-1">
+      <div class="cat-icon">🧖</div>
+      <div class="cat-name" data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</div>
+      <div class="cat-count" data-ckb="٨ بەرهەم" data-ar="٨ منتج" data-en="8 Products">٨ بەرهەم</div>
+    </div>
+    <div class="cat-card fade-in fade-in-delay-2">
+      <div class="cat-icon">🫙</div>
+      <div class="cat-name" data-ckb="زەیت" data-ar="زيوت" data-en="Oils">زەیت</div>
+      <div class="cat-count" data-ckb="٦ بەرهەم" data-ar="٦ منتج" data-en="6 Products">٦ بەرهەم</div>
+    </div>
+    <div class="cat-card fade-in fade-in-delay-3">
+      <div class="cat-icon">✨</div>
+      <div class="cat-name" data-ckb="خەنە" data-ar="سيروم" data-en="Serums">خەنە</div>
+      <div class="cat-count" data-ckb="٥ بەرهەم" data-ar="٥ منتج" data-en="5 Products">٥ بەرهەم</div>
+    </div>
+    <div class="cat-card fade-in fade-in-delay-4">
+      <div class="cat-icon">⚖️</div>
+      <div class="cat-name" data-ckb="لاواز بوون" data-ar="إنقاص الوزن" data-en="Slimming">لاواز بوون</div>
+      <div class="cat-count" data-ckb="٤ بەرهەم" data-ar="٤ منتج" data-en="4 Products">٤ بەرهەم</div>
+    </div>
+    <div class="cat-card fade-in">
+      <div class="cat-icon">🌿</div>
+      <div class="cat-name" data-ckb="تر" data-ar="أخرى" data-en="Others">تر</div>
+      <div class="cat-count" data-ckb="٣ بەرهەم" data-ar="٣ منتج" data-en="3 Products">٣ بەرهەم</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="products-header">
+    <div class="section-header fade-in" style="text-align:right;margin-bottom:0">
+      <div class="section-tag" style="justify-content:flex-start">
+        <span class="section-tag-line"></span>
+        <span data-ckb="بەرهەمەکان" data-ar="المنتجات" data-en="Products">بەرهەمەکان</span>
+      </div>
+      <h2 class="section-title" style="margin-bottom:0">
+        <span data-ckb="بەرهەمە " data-ar="المنتجات " data-en="Featured ">بەرهەمە </span>
+        <span class="accent" data-ckb="هەڵبژێردراوەکان" data-ar="المميزة" data-en="Products">هەڵبژێردراوەکان</span>
+      </h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-ckb="هەمووی" data-ar="الكل" data-en="All">هەمووی</button>
+      <button class="filter-tab" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</button>
+      <button class="filter-tab" data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</button>
+      <button class="filter-tab" data-ckb="زەیت" data-ar="زيوت" data-en="Oils">زەیت</button>
+    </div>
+  </div>
+
+  <div class="products-grid">
+    <!-- Product 1 -->
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <div class="product-img-placeholder">🧴</div>
+        <span class="product-badge badge-new" data-ckb="نوێ" data-ar="جديد" data-en="New">نوێ</span>
+        <div class="product-actions">
+          <button class="action-btn" title="wishlist">❤️</button>
+          <button class="action-btn" title="quick view">👁️</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat-tag" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</div>
+        <div class="product-name" data-ckb="کرێمی ڕووی گیایی" data-ar="كريم الوجه العشبي" data-en="Herbal Face Cream">کرێمی ڕووی گیایی</div>
+        <div class="product-desc" data-ckb="کرێمێکی ئاسایی بۆ ڕووی پێستی خشک و سروشتی، دروستکراو بە مادەی سروشتی" data-ar="كريم طبيعي للبشرة الجافة والعادية مصنوع من مكونات طبيعية" data-en="Natural cream for dry and normal skin, made with natural ingredients">کرێمێکی ئاسایی بۆ ڕووی پێستی خشک و سروشتی، دروستکراو بە مادەی سروشتی</div>
+        <div class="product-footer">
+          <div class="product-price">
+            <span class="price-current">15,000 د.ع</span>
+            <span class="price-old">20,000 د.ع</span>
+          </div>
+          <button class="add-cart-btn" onclick="addToCart(this)" data-ckb="+ کڕین" data-ar="+ أضف" data-en="+ Add">+ کڕین</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card fade-in fade-in-delay-1">
+      <div class="product-img-wrap">
+        <div class="product-img-placeholder">🧖</div>
+        <span class="product-badge badge-hot" data-ckb="داواکراو" data-ar="الأكثر طلبًا" data-en="Hot">داواکراو</span>
+        <div class="product-actions">
+          <button class="action-btn">❤️</button>
+          <button class="action-btn">👁️</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat-tag" data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</div>
+        <div class="product-name" data-ckb="شامپۆی گیایی بۆ قوژمە" data-ar="شامبو عشبي للشعر" data-en="Herbal Hair Shampoo">شامپۆی گیایی بۆ قوژمە</div>
+        <div class="product-desc" data-ckb="شامپۆێکی سروشتی کە قوژمەت چاک دەکات، وریشیان دەسترهێنێت و چاکی پێ دەگەیەنێت" data-ar="شامبو طبيعي يُصلح الشعر ويُقلل التساقط ويمنح القوة والحيوية" data-en="Natural shampoo that repairs hair, reduces breakage and gives strength">شامپۆێکی سروشتی کە قوژمەت چاک دەکات، وریشیان دەسترهێنێت و چاکی پێ دەگەیەنێت</div>
+        <div class="product-footer">
+          <div class="product-price">
+            <span class="price-current">18,000 د.ع</span>
+          </div>
+          <button class="add-cart-btn" onclick="addToCart(this)" data-ckb="+ کڕین" data-ar="+ أضف" data-en="+ Add">+ کڕین</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card fade-in fade-in-delay-2">
+      <div class="product-img-wrap">
+        <div class="product-img-placeholder">🫙</div>
+        <span class="product-badge badge-sale" data-ckb="داشکاندن" data-ar="خصم" data-en="Sale">داشکاندن</span>
+        <div class="product-actions">
+          <button class="action-btn">❤️</button>
+          <button class="action-btn">👁️</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat-tag" data-ckb="زەیت" data-ar="زيوت" data-en="Oils">زەیت</div>
+        <div class="product-name" data-ckb="زەیتی قوژمەی گیایی" data-ar="زيت الشعر العشبي" data-en="Herbal Hair Oil">زەیتی قوژمەی گیایی</div>
+        <div class="product-desc" data-ckb="زەیتێکی ئاسایی کە قوژمەت بەرز دەکات، ووریش دەکات و ڕووناکی پێ دەبەخشێت" data-ar="زيت طبيعي يُنعم الشعر ويُقوّيه ويمنحه البريق الطبيعي" data-en="Natural oil that nourishes hair, strengthens and adds natural shine">زەیتێکی ئاسایی کە قوژمەت بەرز دەکات، ووریش دەکات و ڕووناکی پێ دەبەخشێت</div>
+        <div class="product-footer">
+          <div class="product-price">
+            <span class="price-current">12,000 د.ع</span>
+            <span class="price-old">16,000 د.ع</span>
+          </div>
+          <button class="add-cart-btn" onclick="addToCart(this)" data-ckb="+ کڕین" data-ar="+ أضف" data-en="+ Add">+ کڕین</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product-card fade-in fade-in-delay-3">
+      <div class="product-img-wrap">
+        <div class="product-img-placeholder">✨</div>
+        <div class="product-actions">
+          <button class="action-btn">❤️</button>
+          <button class="action-btn">👁️</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat-tag" data-ckb="خەنە" data-ar="سيروم" data-en="Serum">خەنە</div>
+        <div class="product-name" data-ckb="خەنەی ڕووی سروشتی" data-ar="سيروم الوجه الطبيعي" data-en="Natural Face Serum">خەنەی ڕووی سروشتی</div>
+        <div class="product-desc" data-ckb="خەنەێک بۆ گشتی جۆرەکانی پێست، چاکسازی رووناکی و کەمکردنی شیکی" data-ar="سيروم لجميع أنواع البشرة، يُحسّن الإشراق ويُقلل التجاعيد" data-en="Serum for all skin types, improves radiance and reduces wrinkles">خەنەێک بۆ گشتی جۆرەکانی پێست، چاکسازی رووناکی و کەمکردنی شیکی</div>
+        <div class="product-footer">
+          <div class="product-price">
+            <span class="price-current">22,000 د.ع</span>
+          </div>
+          <button class="add-cart-btn" onclick="addToCart(this)" data-ckb="+ کڕین" data-ar="+ أضف" data-en="+ Add">+ کڕین</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-us" id="about">
+  <div class="section-header fade-in">
+    <div class="section-tag">
+      <span class="section-tag-line"></span>
+      <span data-ckb="تایبەتمەندییەکان" data-ar="مميزاتنا" data-en="Why Us">تایبەتمەندییەکان</span>
+      <span class="section-tag-line"></span>
+    </div>
+    <h2 class="section-title">
+      <span data-ckb="بۆچی " data-ar="لماذا " data-en="Why ">بۆچی </span>
+      <span class="accent" data-ckb="مانگ هێربال؟" data-ar="مانج هربال؟" data-en="Mang Herbal?">مانگ هێربال؟</span>
+    </h2>
+    <p class="section-desc" data-ckb="تێمەکانمان بە باشترین کواڵیتی هەیە" data-ar="نلتزم دائمًا بأعلى معايير الجودة" data-en="We always commit to the highest quality standards">تێمەکانمان بە باشترین کواڵیتی هەیە</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card fade-in">
+      <div class="why-icon">📞</div>
+      <div class="why-title" data-ckb="پشتگیری ٢٤/٧" data-ar="دعم ٢٤/٧" data-en="24/7 Support">پشتگیری ٢٤/٧</div>
+      <div class="why-desc" data-ckb="تیمەکەمان هەمیشە ئامادەیە بۆ وەڵامدانەوەی پرسیارەکانتان و یارمەتیدان لە هەر کاتێک" data-ar="فريقنا دائمًا مستعد للإجابة على استفساراتك ومساعدتك في أي وقت" data-en="Our team is always ready to answer your questions and help you at any time">تیمەکەمان هەمیشە ئامادەیە بۆ وەڵامدانەوەی پرسیارەکانتان و یارمەتیدان لە هەر کاتێک</div>
+    </div>
+    <div class="why-card fade-in fade-in-delay-1">
+      <div class="why-icon">💯</div>
+      <div class="why-title" data-ckb="گەرەنتی کواڵیتی" data-ar="ضمان الجودة" data-en="Quality Guarantee">گەرەنتی کواڵیتی</div>
+      <div class="why-desc" data-ckb="نەگەر بەرهەمەکەت رازی نەبیتەوە، پارەکەت دەگەڕێنینەوە. کواڵیتی مان دبەستێت" data-ar="إذا لم تكن راضيًا عن المنتج، نرد لك أموالك. جودتنا ضمان" data-en="If you're not satisfied with the product, we'll refund your money. Quality guaranteed">نەگەر بەرهەمەکەت رازی نەبیتەوە، پارەکەت دەگەڕێنینەوە. کواڵیتی مان دبەستێت</div>
+    </div>
+    <div class="why-card fade-in fade-in-delay-2">
+      <div class="why-icon">🚀</div>
+      <div class="why-title" data-ckb="گەیاندنی خێرا" data-ar="توصيل سريع" data-en="Fast Delivery">گەیاندنی خێرا</div>
+      <div class="why-desc" data-ckb="گەیاندنی بەجۆرایی بۆ سەرتاسەری کوردستان و عێراق لەناو کاتێکی کورت" data-ar="توصيل سريع في جميع أنحاء كردستان والعراق في أقصر وقت ممكن" data-en="Fast delivery across Kurdistan and Iraq in the shortest possible time">گەیاندنی بەجۆرایی بۆ سەرتاسەری کوردستان و عێراق لەناو کاتێکی کورت</div>
+    </div>
+    <div class="why-card fade-in fade-in-delay-3">
+      <div class="why-icon">🌿</div>
+      <div class="why-title" data-ckb="١٠٠٪ سروشتی" data-ar="١٠٠٪ طبيعي" data-en="100% Natural">١٠٠٪ سروشتی</div>
+      <div class="why-desc" data-ckb="هەموو بەرهەمەکانمان لە مادەی گیایی سروشتی دروستکراون، بێ کیمیای بەلێن بووی زیانبەخش" data-ar="جميع منتجاتنا مصنوعة من مكونات عشبية طبيعية بدون مواد كيميائية ضارة" data-en="All our products are made from natural herbal ingredients without harmful chemicals">هەموو بەرهەمەکانمان لە مادەی گیایی سروشتی دروستکراون، بێ کیمیای بەلێن بووی زیانبەخش</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header fade-in">
+    <div class="section-tag">
+      <span class="section-tag-line"></span>
+      <span data-ckb="وتەی مشتەریەکان" data-ar="آراء العملاء" data-en="Reviews">وتەی مشتەریەکان</span>
+      <span class="section-tag-line"></span>
+    </div>
+    <h2 class="section-title">
+      <span data-ckb="خۆیان " data-ar="ماذا يقول " data-en="What Our ">خۆیان </span>
+      <span class="accent" data-ckb="باسیان دەکات" data-ar="عملاؤنا" data-en="Customers Say">باسیان دەکات</span>
+    </h2>
+  </div>
+  <div class="testi-track">
+    <div class="testi-card fade-in">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text" data-ckb="کرێمی مانگ هێربال زۆر کارلێکەرە. پێستم زۆر باش بووە و دووبارەم کڕیوە. گەیاندنیشیان زۆر خێرا بوو." data-ar="كريم مانج هربال فعّال جدًا. تحسّنت بشرتي كثيرًا واشتريت مرة أخرى. والتوصيل كان سريعًا جدًا." data-en="Mang Herbal cream is very effective. My skin improved a lot and I bought it again. Delivery was very fast.">کرێمی مانگ هێربال زۆر کارلێکەرە. پێستم زۆر باش بووە و دووبارەم کڕیوە. گەیاندنیشیان زۆر خێرا بوو.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">ر</div>
+        <div>
+          <div class="testi-name" data-ckb="ڕێبین عومەر" data-ar="ريبين عمر" data-en="Rebin Omar">ڕێبین عومەر</div>
+          <div class="testi-location" data-ckb="دهۆک" data-ar="دهوك" data-en="Duhok">دهۆک</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card fade-in fade-in-delay-1">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text" data-ckb="زەمینی تارگەتانەمان قوژمەم زۆر باشتر بووە و برینم زیادکرا. بەرهەمەکیان بێ نووک دایەبوو!" data-ar="بعد استخدام شامبو مانج هربال تحسّن شعري كثيرًا وزاد بريقه. المنتج رائع!" data-en="After using Mang Herbal shampoo my hair improved a lot and became shinier. The product is amazing!">زەمینی تارگەتانەمان قوژمەم زۆر باشتر بووە و برینم زیادکرا. بەرهەمەکیان بێ نووک دایەبوو!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">د</div>
+        <div>
+          <div class="testi-name" data-ckb="دڵشاد حسێن" data-ar="دلشاد حسين" data-en="Dilshad Hussein">دڵشاد حسێن</div>
+          <div class="testi-location" data-ckb="سلێمانی" data-ar="السليمانية" data-en="Sulaymaniyah">سلێمانی</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card fade-in fade-in-delay-2">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text" data-ckb="کزمەی پێست مانگ هێربال زۆر کاریگەرەمە. ڕووخسارم زۆر ڕووناک بووە. زۆر رازیم، پێشنیاری دەکەم!" data-ar="سيروم البشرة من مانج هربال أثّر كثيرًا على بشرتي. وجهي أصبح مشرقًا جدًا. أنا راضية جدًا، أنصح به!" data-en="Mang Herbal face serum had a great effect on my skin. My face became very radiant. Very satisfied, I recommend it!">کزمەی پێست مانگ هێربال زۆر کاریگەرەمە. ڕووخسارم زۆر ڕووناک بووە. زۆر رازیم، پێشنیاری دەکەم!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">ش</div>
+        <div>
+          <div class="testi-name" data-ckb="شیلان نەحمەد" data-ar="شيلان نجمد" data-en="Shilan Nahmad">شیلان نەحمەد</div>
+          <div class="testi-location" data-ckb="هەولێر" data-ar="أربيل" data-en="Erbil">هەولێر</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY BANNER -->
+<div class="delivery-banner fade-in">
+  <div class="delivery-inner">
+    <div class="delivery-text">
+      <h2>
+        <span data-ckb="🚚 گەیاندن بۆ " data-ar="🚚 التوصيل إلى " data-en="🚚 Delivery to ">🚚 گەیاندن بۆ </span>
+        <span class="accent" data-ckb="هەموو شار و شارۆچکەیەک" data-ar="جميع المحافظات" data-en="All Cities">هەموو شار و شارۆچکەیەک</span>
+      </h2>
+      <p data-ckb="نرخی گەیاندن لەگەڵ سفارشەکەی ئێوە ئاگادار دەکرێنەوە" data-ar="سيتم إعلامك بتكلفة التوصيل مع طلبك" data-en="Delivery cost will be communicated with your order">نرخی گەیاندن لەگەڵ سفارشەکەی ئێوە ئاگادار دەکرێنەوە</p>
+    </div>
+    <div class="delivery-areas">
+      <div class="area-tag">📍 <span data-ckb="هەولێر" data-ar="أربيل" data-en="Erbil">هەولێر</span></div>
+      <div class="area-tag">📍 <span data-ckb="سلێمانی" data-ar="السليمانية" data-en="Sulaymaniyah">سلێمانی</span></div>
+      <div class="area-tag">📍 <span data-ckb="دهۆک" data-ar="دهوك" data-en="Duhok">دهۆک</span></div>
+      <div class="area-tag">📍 <span data-ckb="کرکوک" data-ar="كركوك" data-en="Kirkuk">کرکوک</span></div>
+      <div class="area-tag">📍 <span data-ckb="بەغداد" data-ar="بغداد" data-en="Baghdad">بەغداد</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PREVIEW -->
+<section class="admin-section" id="admin-preview">
+  <div class="section-header fade-in">
+    <div class="section-tag">
+      <span class="section-tag-line"></span>
+      <span data-ckb="پانێلی بەڕێوەبەر" data-ar="لوحة التحكم" data-en="Admin Panel">پانێلی بەڕێوەبەر</span>
+      <span class="section-tag-line"></span>
+    </div>
+    <h2 class="section-title">
+      <span data-ckb="کۆنترۆڵ لەسەر " data-ar="تحكم كامل في " data-en="Full Control of ">کۆنترۆڵ لەسەر </span>
+      <span class="accent" data-ckb="هەموو شتێک" data-ar="كل شيء" data-en="Everything">هەموو شتێک</span>
+    </h2>
+    <p class="section-desc" data-ckb="بەرهەم، پۆل، نرخ، وێنە، داواکاری - هەمووی لە یەک شوێنەوە بکە" data-ar="المنتجات، الفئات، الأسعار، الصور، الطلبات - كل شيء في مكان واحد" data-en="Products, categories, prices, images, orders - manage everything from one place">بەرهەم، پۆل، نرخ، وێنە، داواکاری - هەمووی لە یەک شوێنەوە بکە</p>
+  </div>
+  <div class="admin-preview fade-in">
+    <div class="admin-topbar">
+      <span class="admin-topbar-brand">⚙️ <span data-ckb="پانێلی بەڕێوەبەری مانگ هێربال" data-ar="لوحة تحكم مانج هربال" data-en="Mang Herbal Admin Panel">پانێلی بەڕێوەبەری مانگ هێربال</span></span>
+      <div class="admin-topbar-actions">
+        <div class="admin-dot" style="background:#ff5f57"></div>
+        <div class="admin-dot" style="background:#febc2e"></div>
+        <div class="admin-dot" style="background:#28c840"></div>
+      </div>
+    </div>
+    <div class="admin-layout">
+      <div class="admin-sidebar">
+        <div class="admin-nav-item active">📊 <span data-ckb="داشبۆرد" data-ar="لوحة التحكم" data-en="Dashboard">داشبۆرد</span></div>
+        <div class="admin-nav-item">📦 <span data-ckb="بەرهەمەکان" data-ar="المنتجات" data-en="Products">بەرهەمەکان</span></div>
+        <div class="admin-nav-item">🗂️ <span data-ckb="پۆلەکان" data-ar="الفئات" data-en="Categories">پۆلەکان</span></div>
+        <div class="admin-nav-item">🛒 <span data-ckb="داواکاریەکان" data-ar="الطلبات" data-en="Orders">داواکاریەکان</span></div>
+        <div class="admin-nav-item">👥 <span data-ckb="مشتەریەکان" data-ar="العملاء" data-en="Customers">مشتەریەکان</span></div>
+        <div class="admin-nav-item">📍 <span data-ckb="گەیاندن" data-ar="التوصيل" data-en="Delivery">گەیاندن</span></div>
+        <div class="admin-nav-item">⚙️ <span data-ckb="ڕێکخستن" data-ar="الإعدادات" data-en="Settings">ڕێکخستن</span></div>
+      </div>
+      <div class="admin-main">
+        <div class="admin-stats-row">
+          <div class="admin-stat">
+            <div class="admin-stat-value">147</div>
+            <div class="admin-stat-label" data-ckb="داواکاری" data-ar="طلب" data-en="Orders">داواکاری</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-value">38</div>
+            <div class="admin-stat-label" data-ckb="بەرهەم" data-ar="منتج" data-en="Products">بەرهەم</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-value">512</div>
+            <div class="admin-stat-label" data-ckb="مشتەری" data-ar="عميل" data-en="Customers">مشتەری</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-value">4.8★</div>
+            <div class="admin-stat-label" data-ckb="تێکڕای ستێرە" data-ar="متوسط التقييم" data-en="Avg Rating">تێکڕای ستێرە</div>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-ckb="ناوی کڕیار" data-ar="اسم العميل" data-en="Customer">ناوی کڕیار</th>
+                <th data-ckb="بەرهەمەکان" data-ar="المنتجات" data-en="Products">بەرهەمەکان</th>
+                <th data-ckb="نرخ" data-ar="السعر" data-en="Price">نرخ</th>
+                <th data-ckb="دۆخ" data-ar="الحالة" data-en="Status">دۆخ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sara Ahmed</td>
+                <td data-ckb="کرێم × ٢" data-ar="كريم × ٢" data-en="Cream × 2">کرێم × ٢</td>
+                <td>30,000 د.ع</td>
+                <td><span class="status-pill status-new" data-ckb="نوێ" data-ar="جديد" data-en="New">نوێ</span></td>
+              </tr>
+              <tr>
+                <td>Ali Hassan</td>
+                <td data-ckb="شامپۆ × ١" data-ar="شامبو × ١" data-en="Shampoo × 1">شامپۆ × ١</td>
+                <td>18,000 د.ع</td>
+                <td><span class="status-pill status-done" data-ckb="گەیشتووە" data-ar="تم التوصيل" data-en="Delivered">گەیشتووە</span></td>
+              </tr>
+              <tr>
+                <td>Narin Bakr</td>
+                <td data-ckb="زەیت + خەنە" data-ar="زيت + سيروم" data-en="Oil + Serum">زەیت + خەنە</td>
+                <td>34,000 د.ع</td>
+                <td><span class="status-pill status-pending" data-ckb="چاوەڕێ" data-ar="قيد الانتظار" data-en="Pending">چاوەڕێ</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Mang Herbal</div>
+      <p class="footer-brand-desc" data-ckb="براندی کوردی لە واری کۆزمێتیک و بەرهەمی گیایی، ئامانجمان پێشکەشکردنی باشترین بەرهەمی سروشتی بە خەڵکی کوردستانە." data-ar="علامة كردية في مجال التجميل والمنتجات العشبية، هدفنا تقديم أفضل المنتجات الطبيعية لشعب كردستان." data-en="A Kurdish brand in cosmetics and herbal products, our goal is to provide the best natural products to the people of Kurdistan.">براندی کوردی لە واری کۆزمێتیک و بەرهەمی گیایی، ئامانجمان پێشکەشکردنی باشترین بەرهەمی سروشتی بە خەڵکی کوردستانە.</p>
+      <div class="social-links">
+        <a class="social-btn" href="#" title="Facebook">f</a>
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="TikTok">♪</a>
+        <a class="social-btn" href="#" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-ckb="بەستەرەکان" data-ar="روابط سريعة" data-en="Quick Links">بەستەرەکان</h4>
+      <ul class="footer-links">
+        <li><a href="#" data-ckb="سەرەتا" data-ar="الرئيسية" data-en="Home">سەرەتا</a></li>
+        <li><a href="#products" data-ckb="بەرهەمەکان" data-ar="المنتجات" data-en="Products">بەرهەمەکان</a></li>
+        <li><a href="#about" data-ckb="دەربارە" data-ar="عنا" data-en="About Us">دەربارە</a></li>
+        <li><a href="#contact" data-ckb="پەیوەندی" data-ar="تواصل" data-en="Contact">پەیوەندی</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-ckb="پۆلەکان" data-ar="الفئات" data-en="Categories">پۆلەکان</h4>
+      <ul class="footer-links">
+        <li><a href="#" data-ckb="کرێم" data-ar="كريمات" data-en="Creams">کرێم</a></li>
+        <li><a href="#" data-ckb="شامپۆ" data-ar="شامبو" data-en="Shampoo">شامپۆ</a></li>
+        <li><a href="#" data-ckb="زەیت" data-ar="زيوت" data-en="Oils">زەیت</a></li>
+        <li><a href="#" data-ckb="خەنە" data-ar="سيروم" data-en="Serums">خەنە</a></li>
+        <li><a href="#" data-ckb="لاواز بوون" data-ar="إنقاص الوزن" data-en="Slimming">لاواز بوون</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-ckb="پەیوەندی" data-ar="تواصل معنا" data-en="Contact">پەیوەندی</h4>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <span>+964 770 143 2814</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <span>mangherbal@gmail.com</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <span data-ckb="نەورۆز، هەولێر، عێراق" data-ar="نوروز، أربيل، العراق" data-en="Nawroz, Erbil, Iraq">نەورۆز، هەولێر، عێراق</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Mang Herbal. <span data-ckb="هەموو مافەکان پارێزراون." data-ar="جميع الحقوق محفوظة." data-en="All rights reserved.">هەموو مافەکان پارێزراون.</span></p>
+    <p class="footer-copy" style="color:var(--gold-dark); font-size:0.75rem;">
+      <span data-ckb="دروستکراوی" data-ar="صُمّم بـ" data-en="Built with">دروستکراوی</span> ❤️ <span data-ckb="بۆ مانگ هێربال" data-ar="لمانج هربال" data-en="for Mang Herbal">بۆ مانگ هێربال</span>
+    </p>
+  </div>
+</footer>
+
+<script>
+// ─── LANGUAGE SYSTEM ───
+let currentLang = 'ckb';
+const rtlLangs = ['ckb', 'ar'];
+
+function setLang(lang) {
+  currentLang = lang;
+  document.body.lang = lang;
+  document.documentElement.lang = lang;
+
+  // Direction
+  const isRtl = rtlLangs.includes(lang);
+  document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+  document.body.dir = isRtl ? 'rtl' : 'ltr';
+
+  // Update all translatable elements
+  document.querySelectorAll('[data-ckb]').forEach(el => {
+    const text = el.getAttribute(`data-${lang}`);
+    if (text) el.textContent = text;
+  });
+
+  // Update lang buttons
+  document.querySelectorAll('.lang-btn').forEach((btn, i) => {
+    btn.classList.remove('active');
+  });
+  const langs = ['ckb', 'ar', 'en'];
+  const idx = langs.indexOf(lang);
+  if (idx > -1) document.querySelectorAll('.lang-btn')[idx].classList.add('active');
+
+  // Toast messages
+  const toastMsgs = {
+    ckb: 'بەرهەمەکە زیادکرا بۆ سەبەتەکەت',
+    ar: 'تمت إضافة المنتج إلى سلتك',
+    en: 'Product added to your cart'
+  };
+  document.getElementById('toast-msg').textContent = toastMsgs[lang];
+}
+
+// ─── CART ───
+let cartCount = 2;
+
+function addToCart(btn) {
+  cartCount++;
+  document.querySelector('.cart-badge').textContent = cartCount;
+  showToast();
+  btn.style.transform = 'scale(0.9)';
+  setTimeout(() => { btn.style.transform = ''; }, 200);
+}
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  const msgs = { ckb: 'بەرهەمەکە زیادکرا بۆ سەبەتەکەت', ar: 'تمت إضافة المنتج إلى سلتك', en: 'Product added to your cart' };
+  document.getElementById('toast-msg').textContent = msgs[currentLang];
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ─── NAVBAR SCROLL ───
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50);
+});
+
+// ─── MOBILE MENU ───
+function toggleMobile() { document.getElementById('mobileMenu').classList.toggle('open'); }
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+// ─── FILTER TABS ───
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// ─── ADMIN SIDEBAR ───
+document.querySelectorAll('.admin-nav-item').forEach(item => {
+  item.addEventListener('click', function() {
+    document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// ─── INTERSECTION OBSERVER (ANIMATIONS) ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
