@@ -81,6 +81,20 @@ export function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
+          {/* Admin panel — visible button for admins */}
+          {user?.role === 'admin' && (
+            <Link href="/admin">
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden sm:flex items-center gap-2 border-primary/40 text-primary hover:bg-primary/10 hover:border-primary"
+              >
+                <ShieldCheck className="w-4 h-4" />
+                {t('پانێڵی بەڕێوەبەر', 'لوحة الإدارة', 'Admin Panel')}
+              </Button>
+            </Link>
+          )}
+
           {/* Cart */}
           <Button variant="ghost" size="icon" className="relative" onClick={() => setIsCartOpen(true)}>
             <ShoppingBag className="w-5 h-5" />
@@ -161,6 +175,17 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          {user?.role === 'admin' && (
+            <Link href="/admin" onClick={() => setIsMobileMenuOpen(false)}>
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2 border-primary/40 text-primary hover:bg-primary/10 hover:border-primary"
+              >
+                <ShieldCheck className="w-4 h-4" />
+                {t('پانێڵی بەڕێوەبەر', 'لوحة الإدارة', 'Admin Panel')}
+              </Button>
+            </Link>
+          )}
           {!user && (
             <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
               <Button className="w-full mt-2 bg-primary text-primary-foreground hover:bg-primary/90">

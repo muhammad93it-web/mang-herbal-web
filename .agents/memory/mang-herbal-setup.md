@@ -14,7 +14,8 @@ Query params sent as string "null"/"undefined" from the frontend must be filtere
 `parseInt("null")` = NaN causes DB query failures.
 
 ## Admin credentials
-Phone: +9647701432814 / Password: mang2024admin (role: admin)
+Phone: 1 / Password: 1 (role: admin) — user requested simple credentials on 2026-07-27.
+Admin panel button is visible in navbar (desktop + mobile menu) when logged in as admin.
 
 ## DB schema
 Tables: users, categories, products, cart_items, orders, favorites
