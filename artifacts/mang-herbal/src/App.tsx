@@ -3,11 +3,11 @@ import { Toaster } from 'sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
-import { LanguageProvider } from '@/contexts/LanguageContext';
+import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { CartUIProvider } from '@/store/ui-store';
 import { RootLayout } from '@/components/layout/RootLayout';
-import { setBaseUrl } from '@workspace/api-client-react';
+import { setBaseUrl, setAuthTokenGetter } from '@workspace/api-client-react';
 
 import Home from '@/pages/Home';
 import Products from '@/pages/Products';
@@ -15,15 +15,22 @@ import ProductDetail from '@/pages/ProductDetail';
 import CartPage from '@/pages/CartPage';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
+import ForgotPassword from '@/pages/ForgotPassword';
 import Orders from '@/pages/Orders';
 import Favorites from '@/pages/Favorites';
+
 import AdminDashboard from '@/pages/admin/AdminDashboard';
+import AdminOrders from '@/pages/admin/AdminOrders';
 import AdminProducts from '@/pages/admin/AdminProducts';
+import AdminUsers from '@/pages/admin/AdminUsers';
+import AdminSettings from '@/pages/admin/AdminSettings';
 import { useEffect } from 'react';
 
 // Configure the base URL for API calls so we don't need to specify it manually everywhere.
 // API calls go through the shared proxy at /api — no base URL prefix needed
 setBaseUrl('');
+// JWT lives in localStorage; attach it to every API request as a Bearer header.
+setAuthTokenGetter(() => localStorage.getItem('mang_token'));
 
 const queryClient = new QueryClient();
 
@@ -31,6 +38,7 @@ const queryClient = new QueryClient();
 function ProtectedRoute({ component: Component }: { component: React.ComponentType }) {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -38,7 +46,7 @@ function ProtectedRoute({ component: Component }: { component: React.ComponentTy
     }
   }, [user, isLoading, setLocation]);
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-background text-foreground">Loading...</div>;
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-background text-muted-foreground">{t('چاوەڕوان بە...', 'جاري التحميل...', 'Loading...')}</div>;
   if (!user) return null;
 
   return <Component />;
@@ -47,6 +55,7 @@ function ProtectedRoute({ component: Component }: { component: React.ComponentTy
 function AdminRoute({ component: Component }: { component: React.ComponentType }) {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!isLoading && (!user || user.role !== 'admin')) {
@@ -54,7 +63,7 @@ function AdminRoute({ component: Component }: { component: React.ComponentType }
     }
   }, [user, isLoading, setLocation]);
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-background text-foreground">Loading...</div>;
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-background text-muted-foreground">{t('چاوەڕوان بە...', 'جاري التحميل...', 'Loading...')}</div>;
   if (!user || user.role !== 'admin') return null;
 
   return <Component />;
@@ -70,6 +79,7 @@ function AppRouter() {
         <Route path="/cart" component={CartPage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/forgot-password" component={ForgotPassword} />
         
         {/* Protected */}
         <Route path="/orders">
@@ -83,8 +93,17 @@ function AppRouter() {
         <Route path="/admin">
           {() => <AdminRoute component={AdminDashboard} />}
         </Route>
+        <Route path="/admin/orders">
+          {() => <AdminRoute component={AdminOrders} />}
+        </Route>
         <Route path="/admin/products">
           {() => <AdminRoute component={AdminProducts} />}
+        </Route>
+        <Route path="/admin/users">
+          {() => <AdminRoute component={AdminUsers} />}
+        </Route>
+        <Route path="/admin/settings">
+          {() => <AdminRoute component={AdminSettings} />}
         </Route>
 
         <Route component={NotFound} />

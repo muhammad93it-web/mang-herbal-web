@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { useAdminGetProducts, useAdminDeleteProduct, getAdminGetProductsQueryKey, useAdminCreateProduct, useAdminUpdateProduct } from '@workspace/api-client-react';
-import { formatPrice } from '@/lib/utils';
+import { formatPrice, getImageUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { PackageSearch, Plus, Trash2, Edit, X, Image as ImageIcon } from 'lucide-react';
+import { Plus, Trash2, Edit, Image as ImageIcon } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Link } from 'wouter';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { AdminLayout } from '@/components/admin/AdminLayout';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AdminProducts() {
+  const { t } = useLanguage();
   const queryClient = useQueryClient();
   const { data: products, isLoading } = useAdminGetProducts();
   const deleteProduct = useAdminDeleteProduct();
@@ -58,10 +60,10 @@ export default function AdminProducts() {
   };
 
   const handleDelete = (id: number) => {
-    if (confirm('Are you sure you want to delete this product?')) {
+    if (confirm(t('دڵنیایت لە سڕینەوەی ئەم بەرهەمە؟', 'هل أنت متأكد من حذف هذا المنتج؟', 'Are you sure you want to delete this product?'))) {
       deleteProduct.mutate({ id }, {
         onSuccess: () => {
-          toast.success('Product deleted');
+          toast.success(t('بەرهەم سڕایەوە', 'تم حذف المنتج', 'Product deleted'));
           queryClient.invalidateQueries({ queryKey: getAdminGetProductsQueryKey() });
         }
       });
@@ -80,7 +82,7 @@ export default function AdminProducts() {
     if (editingId) {
       updateProduct.mutate({ id: editingId, data: payload }, {
         onSuccess: () => {
-          toast.success('Product updated');
+          toast.success(t('بەرهەم نوێکرایەوە', 'تم تحديث المنتج', 'Product updated'));
           setIsModalOpen(false);
           queryClient.invalidateQueries({ queryKey: getAdminGetProductsQueryKey() });
         }
@@ -88,7 +90,7 @@ export default function AdminProducts() {
     } else {
       createProduct.mutate({ data: payload }, {
         onSuccess: () => {
-          toast.success('Product created');
+          toast.success(t('بەرهەم زیادکرا', 'تمت إضافة المنتج', 'Product created'));
           setIsModalOpen(false);
           queryClient.invalidateQueries({ queryKey: getAdminGetProductsQueryKey() });
         }
@@ -97,34 +99,23 @@ export default function AdminProducts() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-12">
-      <div className="container mx-auto px-4 md:px-8">
-        
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b border-border/50 pb-6">
-          <div className="flex items-center gap-4">
-            <Link href="/admin" className="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center hover:bg-secondary/80 transition-colors">
-              <X className="w-5 h-5 text-muted-foreground" />
-            </Link>
-            <div>
-              <h1 className="font-serif text-3xl font-bold text-foreground">
-                Products Management
-              </h1>
-            </div>
-          </div>
-          
-          <Button onClick={openNew} className="shadow-lg shadow-primary/20">
-            <Plus className="w-4 h-4 mr-2" /> Add Product
-          </Button>
-        </div>
+    <AdminLayout title={t('بەرهەمەکان', 'المنتجات', 'Products')}>
+      <div className="flex justify-end mb-8">
+        <Button onClick={openNew} className="shadow-lg shadow-primary/20 h-12 px-6 rounded-xl">
+          <Plus className="w-5 h-5 mr-2" /> {t('زیادکردنی بەرهەم', 'إضافة منتج', 'Add Product')}
+        </Button>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {isLoading ? (
-            <div className="p-8 text-center col-span-full">Loading...</div>
-          ) : products?.map(product => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {isLoading ? (
+          <div className="p-8 text-center col-span-full text-muted-foreground">{t('چاوەڕوان بە...', 'جاري التحميل...', 'Loading...')}</div>
+        ) : products?.map(product => {
+          const resolvedImage = getImageUrl(product.imageUrl);
+          return (
             <div key={product.id} className="bg-card border border-border/50 rounded-2xl overflow-hidden flex flex-col hover:border-primary/30 transition-colors">
               <div className="aspect-square bg-secondary relative">
-                {product.imageUrl ? (
-                  <img src={product.imageUrl} alt={product.nameEn} className="w-full h-full object-cover" />
+                {resolvedImage ? (
+                  <img src={resolvedImage} alt={product.nameEn} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground/30"><ImageIcon className="w-12 h-12" /></div>
                 )}
@@ -139,98 +130,103 @@ export default function AdminProducts() {
                 <div className="flex justify-between items-center mt-auto pt-4">
                   <span className="font-bold text-foreground">{formatPrice(product.price)}</span>
                   <div className="flex gap-2">
-                    {product.isFeatured && <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded">Featured</span>}
-                    {!product.inStock && <span className="text-[10px] bg-destructive/20 text-destructive px-2 py-0.5 rounded">Out</span>}
+                    {product.isFeatured && <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded">{t('تایبەت', 'مميز', 'Featured')}</span>}
+                    {!product.inStock && <span className="text-[10px] bg-destructive/20 text-destructive px-2 py-0.5 rounded">{t('نەماوە', 'نفذ', 'Out')}</span>}
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          )
+        })}
       </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-card">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-card border-border">
           <DialogHeader>
-            <DialogTitle>{editingId ? 'Edit Product' : 'Add New Product'}</DialogTitle>
+            <DialogTitle className="text-2xl font-serif">{editingId ? t('دەستکاری بەرهەم', 'تعديل المنتج', 'Edit Product') : t('زیادکردنی بەرهەم', 'إضافة منتج', 'Add New Product')}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-6 pt-4">
             
             <div className="grid md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label>Name (Kurdish)</Label>
+                <Label>{t('ناو (کوردی)', 'الاسم (كردي)', 'Name (Kurdish)')}</Label>
                 <Input required value={formData.nameCkb} onChange={e => setFormData({...formData, nameCkb: e.target.value})} className="bg-background" />
               </div>
               <div className="space-y-2">
-                <Label>Name (Arabic)</Label>
+                <Label>{t('ناو (عەرەبی)', 'الاسم (عربي)', 'Name (Arabic)')}</Label>
                 <Input required value={formData.nameAr} onChange={e => setFormData({...formData, nameAr: e.target.value})} className="bg-background" />
               </div>
               <div className="space-y-2">
-                <Label>Name (English)</Label>
+                <Label>{t('ناو (ئینگلیزی)', 'الاسم (إنجليزي)', 'Name (English)')}</Label>
                 <Input required value={formData.nameEn} onChange={e => setFormData({...formData, nameEn: e.target.value})} className="bg-background" />
               </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label>Desc (Kurdish)</Label>
+                <Label>{t('وەسف (کوردی)', 'الوصف (كردي)', 'Desc (Kurdish)')}</Label>
                 <Textarea required value={formData.descCkb} onChange={e => setFormData({...formData, descCkb: e.target.value})} className="bg-background" />
               </div>
               <div className="space-y-2">
-                <Label>Desc (Arabic)</Label>
+                <Label>{t('وەسف (عەرەبی)', 'الوصف (عربي)', 'Desc (Arabic)')}</Label>
                 <Textarea required value={formData.descAr} onChange={e => setFormData({...formData, descAr: e.target.value})} className="bg-background" />
               </div>
               <div className="space-y-2">
-                <Label>Desc (English)</Label>
+                <Label>{t('وەسف (ئینگلیزی)', 'الوصف (إنجليزي)', 'Desc (English)')}</Label>
                 <Textarea required value={formData.descEn} onChange={e => setFormData({...formData, descEn: e.target.value})} className="bg-background" />
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Price (IQD)</Label>
-                <Input required type="number" value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})} className="bg-background" />
+                <Label>{t('نرخ (د.ع)', 'السعر (دينار)', 'Price (IQD)')}</Label>
+                <Input required type="number" value={formData.price} onChange={e => setFormData({...formData, price: Number(e.target.value)})} className="bg-background" dir="ltr" />
               </div>
               <div className="space-y-2">
-                <Label>Old Price (IQD - Optional)</Label>
-                <Input type="number" value={formData.oldPrice} onChange={e => setFormData({...formData, oldPrice: Number(e.target.value)})} className="bg-background" />
+                <Label>{t('نرخی کۆن (ئارەزوومەندانە)', 'السعر القديم (اختياري)', 'Old Price (IQD - Optional)')}</Label>
+                <Input type="number" value={formData.oldPrice} onChange={e => setFormData({...formData, oldPrice: Number(e.target.value)})} className="bg-background" dir="ltr" />
               </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label>Category Slug</Label>
-                <Input required value={formData.categorySlug} onChange={e => setFormData({...formData, categorySlug: e.target.value})} className="bg-background" />
+                <Label>{t('پۆل', 'الفئة', 'Category Slug')}</Label>
+                <Input required value={formData.categorySlug} onChange={e => setFormData({...formData, categorySlug: e.target.value})} className="bg-background" dir="ltr" />
               </div>
               <div className="space-y-2">
-                <Label>Image URL</Label>
-                <Input value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} className="bg-background" />
+                <Label>{t('وێنە', 'صورة', 'Image URL')}</Label>
+                <Input value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} className="bg-background" dir="ltr" placeholder="products/image.jpg" />
+                {formData.imageUrl && (
+                  <div className="mt-2 text-xs text-muted-foreground">
+                    Preview: <img src={getImageUrl(formData.imageUrl) || ''} alt="preview" className="h-16 mt-1 rounded border border-border" />
+                  </div>
+                )}
               </div>
               <div className="space-y-2">
-                <Label>Badge</Label>
-                <Input value={formData.badge} onChange={e => setFormData({...formData, badge: e.target.value})} className="bg-background" placeholder="e.g. New" />
+                <Label>{t('باج', 'شارة', 'Badge')}</Label>
+                <Input value={formData.badge} onChange={e => setFormData({...formData, badge: e.target.value})} className="bg-background" placeholder={t('بۆ نموونە: نوێ', 'مثال: جديد', 'e.g. New')} />
               </div>
             </div>
 
             <div className="flex gap-8 border-t border-border/50 pt-6">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 gap-2">
                 <Switch id="stock" checked={formData.inStock} onCheckedChange={c => setFormData({...formData, inStock: c})} />
-                <Label htmlFor="stock">In Stock</Label>
+                <Label htmlFor="stock">{t('لە کۆگا هەیە', 'متوفر', 'In Stock')}</Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 gap-2">
                 <Switch id="feat" checked={formData.isFeatured} onCheckedChange={c => setFormData({...formData, isFeatured: c})} />
-                <Label htmlFor="feat">Featured</Label>
+                <Label htmlFor="feat">{t('تایبەت', 'مميز', 'Featured')}</Label>
               </div>
             </div>
 
             <div className="flex justify-end gap-4 pt-4 border-t border-border/50">
-              <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-              <Button type="submit" disabled={createProduct.isPending || updateProduct.isPending}>Save Product</Button>
+              <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>{t('پاشگەزبوونەوە', 'إلغاء', 'Cancel')}</Button>
+              <Button type="submit" disabled={createProduct.isPending || updateProduct.isPending}>{t('پاشەکەوتکردن', 'حفظ', 'Save')}</Button>
             </div>
 
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </AdminLayout>
   );
 }

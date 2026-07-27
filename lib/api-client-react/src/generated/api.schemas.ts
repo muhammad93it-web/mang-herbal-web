@@ -168,6 +168,9 @@ export interface Order {
   userId: number;
   status: OrderStatus;
   total: number;
+  /** @nullable */
+  customerName?: string | null;
+  isSeen: boolean;
   phone: string;
   address: string;
   /** @nullable */
@@ -177,6 +180,7 @@ export interface Order {
 }
 
 export interface OrderInput {
+  name: string;
   phone: string;
   address: string;
   /** @nullable */
@@ -198,11 +202,72 @@ export interface OrderStatusUpdate {
   status: OrderStatusUpdateStatus;
 }
 
+export interface UnseenCountResponse {
+  count: number;
+}
+
 export interface StoreStats {
   totalProducts: number;
   totalCategories: number;
   totalOrders: number;
   happyCustomers: number;
+}
+
+export interface ResetPasswordInput {
+  phone: string;
+  code: string;
+  /** @minLength 6 */
+  newPassword: string;
+}
+
+export interface ResetCodeResponse {
+  code: string;
+  expiresAt: string;
+}
+
+export interface SiteSetting {
+  key: string;
+  valueCkb: string;
+  valueAr: string;
+  valueEn: string;
+}
+
+export interface UpdateSettingsInput {
+  settings: SiteSetting[];
+}
+
+export interface WhatsAppTestInput {
+  phone: string;
+  apiKey: string;
+}
+
+export interface WhatsAppTestResponse {
+  success: boolean;
+  /** @nullable */
+  detail: string | null;
+}
+
+export interface AdminUser {
+  id: number;
+  name: string;
+  phone: string;
+  role: string;
+  createdAt: string;
+  hasResetCode: boolean;
+  /** @nullable */
+  resetCode?: string | null;
+  /** @nullable */
+  resetCodeExpiresAt?: string | null;
+}
+
+export interface AdminStats {
+  totalOrders: number;
+  pendingOrders: number;
+  deliveredOrders: number;
+  totalRevenue: number;
+  totalUsers: number;
+  totalProducts: number;
+  totalFavorites: number;
 }
 
 export type GetProductsParams = {

@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { useCartUI } from '@/store/ui-store';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useGetCart, useUpdateCartItem, useRemoveFromCart, getGetCartQueryKey } from '@workspace/api-client-react';
-import { formatPrice } from '@/lib/utils';
+import { formatPrice, getImageUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -76,7 +76,7 @@ export function CartSidebar() {
                 <div key={item.productId} className="flex gap-4 p-3 bg-secondary/30 rounded-lg border border-border/50">
                   <div className="w-20 h-20 rounded-md overflow-hidden bg-secondary border border-border shrink-0">
                     {item.product.imageUrl ? (
-                      <img src={item.product.imageUrl} alt={item.product.nameEn} className="w-full h-full object-cover" />
+                      <img src={getImageUrl(item.product.imageUrl) ?? undefined} alt={item.product.nameEn} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                         <ShoppingBag className="w-6 h-6" />
@@ -88,7 +88,10 @@ export function CartSidebar() {
                       <h4 className="font-medium text-foreground line-clamp-1">
                         {lang === 'ckb' ? item.product.nameCkb : lang === 'ar' ? item.product.nameAr : item.product.nameEn}
                       </h4>
-                      <p className="text-primary font-bold mt-1 text-sm">{formatPrice(item.product.price)}</p>
+                      <p className="text-primary font-bold mt-1 text-sm">{formatPrice(item.product.price * item.quantity)}</p>
+                      {item.quantity > 1 && (
+                        <p className="text-xs text-muted-foreground mt-0.5" dir="ltr">{item.quantity} × {formatPrice(item.product.price)}</p>
+                      )}
                     </div>
                     <div className="flex items-center justify-between mt-2">
                       <div className="flex items-center border border-border rounded-md overflow-hidden bg-background">

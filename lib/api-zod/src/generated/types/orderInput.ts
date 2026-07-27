@@ -7,6 +7,7 @@
  */
 
 export interface OrderInput {
+  name: string;
   phone: string;
   address: string;
   /** @nullable */

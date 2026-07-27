@@ -321,6 +321,8 @@ export const GetOrdersResponseItem = zod.object({
   "userId": zod.number(),
   "status": zod.enum(['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']),
   "total": zod.number(),
+  "customerName": zod.string().nullish(),
+  "isSeen": zod.boolean(),
   "phone": zod.string(),
   "address": zod.string(),
   "note": zod.string().nullish(),
@@ -341,6 +343,7 @@ export const GetOrdersResponse = zod.array(GetOrdersResponseItem)
  * @summary Place an order
  */
 export const CreateOrderBody = zod.object({
+  "name": zod.string(),
   "phone": zod.string(),
   "address": zod.string(),
   "note": zod.string().nullish()
@@ -351,6 +354,8 @@ export const CreateOrderResponse = zod.object({
   "userId": zod.number(),
   "status": zod.enum(['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']),
   "total": zod.number(),
+  "customerName": zod.string().nullish(),
+  "isSeen": zod.boolean(),
   "phone": zod.string(),
   "address": zod.string(),
   "note": zod.string().nullish(),
@@ -378,6 +383,8 @@ export const GetOrderResponse = zod.object({
   "userId": zod.number(),
   "status": zod.enum(['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']),
   "total": zod.number(),
+  "customerName": zod.string().nullish(),
+  "isSeen": zod.boolean(),
   "phone": zod.string(),
   "address": zod.string(),
   "note": zod.string().nullish(),
@@ -582,6 +589,8 @@ export const AdminGetOrdersResponseItem = zod.object({
   "userId": zod.number(),
   "status": zod.enum(['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']),
   "total": zod.number(),
+  "customerName": zod.string().nullish(),
+  "isSeen": zod.boolean(),
   "phone": zod.string(),
   "address": zod.string(),
   "note": zod.string().nullish(),
@@ -596,6 +605,22 @@ export const AdminGetOrdersResponseItem = zod.object({
   "createdAt": zod.string()
 })
 export const AdminGetOrdersResponse = zod.array(AdminGetOrdersResponseItem)
+
+
+/**
+ * @summary Count of orders not yet seen by admin
+ */
+export const AdminGetUnseenOrdersCountResponse = zod.object({
+  "count": zod.number()
+})
+
+
+/**
+ * @summary Mark all orders as seen
+ */
+export const AdminMarkOrdersSeenResponse = zod.object({
+  "success": zod.boolean()
+})
 
 
 /**
@@ -614,6 +639,8 @@ export const AdminUpdateOrderStatusResponse = zod.object({
   "userId": zod.number(),
   "status": zod.enum(['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']),
   "total": zod.number(),
+  "customerName": zod.string().nullish(),
+  "isSeen": zod.boolean(),
   "phone": zod.string(),
   "address": zod.string(),
   "note": zod.string().nullish(),
@@ -626,6 +653,126 @@ export const AdminUpdateOrderStatusResponse = zod.object({
   "nameEn": zod.string()
 })),
   "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Reset password using an admin-issued code
+ */
+export const resetPasswordBodyNewPasswordMin = 6;
+
+
+
+export const ResetPasswordBody = zod.object({
+  "phone": zod.string(),
+  "code": zod.string(),
+  "newPassword": zod.string().min(resetPasswordBodyNewPasswordMin)
+})
+
+export const ResetPasswordResponse = zod.object({
+  "success": zod.boolean()
+})
+
+
+/**
+ * @summary Public site settings (hero, footer, contact)
+ */
+export const GetSettingsResponseItem = zod.object({
+  "key": zod.string(),
+  "valueCkb": zod.string(),
+  "valueAr": zod.string(),
+  "valueEn": zod.string()
+})
+export const GetSettingsResponse = zod.array(GetSettingsResponseItem)
+
+
+/**
+ * @summary Admin list all site settings including private keys
+ */
+export const AdminGetSettingsResponseItem = zod.object({
+  "key": zod.string(),
+  "valueCkb": zod.string(),
+  "valueAr": zod.string(),
+  "valueEn": zod.string()
+})
+export const AdminGetSettingsResponse = zod.array(AdminGetSettingsResponseItem)
+
+
+/**
+ * @summary Admin bulk upsert site settings
+ */
+export const AdminUpdateSettingsBody = zod.object({
+  "settings": zod.array(zod.object({
+  "key": zod.string(),
+  "valueCkb": zod.string(),
+  "valueAr": zod.string(),
+  "valueEn": zod.string()
+}))
+})
+
+export const AdminUpdateSettingsResponseItem = zod.object({
+  "key": zod.string(),
+  "valueCkb": zod.string(),
+  "valueAr": zod.string(),
+  "valueEn": zod.string()
+})
+export const AdminUpdateSettingsResponse = zod.array(AdminUpdateSettingsResponseItem)
+
+
+/**
+ * @summary Send a test WhatsApp message via CallMeBot
+ */
+export const AdminTestWhatsAppBody = zod.object({
+  "phone": zod.string(),
+  "apiKey": zod.string()
+})
+
+export const AdminTestWhatsAppResponse = zod.object({
+  "success": zod.boolean(),
+  "detail": zod.string().nullable()
+})
+
+
+/**
+ * @summary Admin list registered users
+ */
+export const AdminGetUsersResponseItem = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "phone": zod.string(),
+  "role": zod.string(),
+  "createdAt": zod.string(),
+  "hasResetCode": zod.boolean(),
+  "resetCode": zod.string().nullish(),
+  "resetCodeExpiresAt": zod.string().nullish()
+})
+export const AdminGetUsersResponse = zod.array(AdminGetUsersResponseItem)
+
+
+/**
+ * @summary Admin generate a password reset code for a user
+ */
+export const AdminCreateResetCodeParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const AdminCreateResetCodeResponse = zod.object({
+  "code": zod.string(),
+  "expiresAt": zod.string()
+})
+
+
+/**
+ * @summary Admin dashboard statistics
+ */
+export const AdminGetStatsResponse = zod.object({
+  "totalOrders": zod.number(),
+  "pendingOrders": zod.number(),
+  "deliveredOrders": zod.number(),
+  "totalRevenue": zod.number(),
+  "totalUsers": zod.number(),
+  "totalProducts": zod.number(),
+  "totalFavorites": zod.number()
 })
 
 

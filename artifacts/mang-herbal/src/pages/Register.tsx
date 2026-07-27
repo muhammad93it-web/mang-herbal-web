@@ -11,12 +11,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import logoPath from '@assets/logo_png_be_back_1784753437461.png';
 
-const registerSchema = z.object({
-  name: z.string().min(2),
-  phone: z.string().min(10),
-  password: z.string().min(6)
-});
-
 export default function Register() {
   const { t } = useLanguage();
   const { setAuth } = useAuth();
@@ -24,6 +18,12 @@ export default function Register() {
   const registerMutation = useRegister();
   
   const [errorMsg, setErrorMsg] = useState('');
+
+  const registerSchema = z.object({
+    name: z.string().min(2, t('ناو زۆر کورتە', 'الاسم قصير جداً', 'Name is too short')),
+    phone: z.string().min(10, t('ژمارەی مۆبایلی دروست بنووسە', 'أدخل رقم هاتف صحيح', 'Enter a valid phone number')),
+    password: z.string().min(6, t('وشەی تێپەڕ دەبێت لانیکەم ٦ پیت بێت', 'يجب أن تكون كلمة المرور ٦ أحرف على الأقل', 'Password must be at least 6 characters'))
+  });
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -38,7 +38,10 @@ export default function Register() {
         setLocation('/');
       },
       onError: (err) => {
-        setErrorMsg(err?.data?.error || 'Registration failed');
+        const apiError = (err as any)?.data?.error;
+        setErrorMsg(apiError === 'Phone already registered'
+          ? t('ئەم ژمارەیە پێشتر تۆمارکراوە', 'هذا الرقم مسجل مسبقاً', 'This phone is already registered')
+          : t('تۆمارکردن سەرکەوتوو نەبوو', 'فشل إنشاء الحساب', 'Registration failed'));
       }
     });
   };

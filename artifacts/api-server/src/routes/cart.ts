@@ -1,3 +1,4 @@
+import { paramToInt } from "../lib/params";
 import { Router } from "express";
 import { db, cartItemsTable, productsTable } from "@workspace/db";
 import { eq, and } from "drizzle-orm";
@@ -72,7 +73,7 @@ router.post("/cart/items", requireAuth, async (req, res) => {
 
 router.patch("/cart/items/:productId", requireAuth, async (req, res) => {
   const { id: userId } = (req as any).user;
-  const productId = parseInt(req.params.productId);
+  const productId = paramToInt(req.params.productId);
   if (isNaN(productId)) { res.status(400).json({ error: "Invalid productId" }); return; }
 
   const parsed = UpdateCartItemBody.safeParse(req.body);
@@ -89,7 +90,7 @@ router.patch("/cart/items/:productId", requireAuth, async (req, res) => {
 
 router.delete("/cart/items/:productId", requireAuth, async (req, res) => {
   const { id: userId } = (req as any).user;
-  const productId = parseInt(req.params.productId);
+  const productId = paramToInt(req.params.productId);
   if (isNaN(productId)) { res.status(400).json({ error: "Invalid productId" }); return; }
 
   await db

@@ -1,9 +1,9 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
 import { db, usersTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { and, eq, gt } from "drizzle-orm";
 import { signToken, requireAuth } from "../lib/auth";
-import { RegisterBody, LoginBody } from "@workspace/api-zod";
+import { RegisterBody, LoginBody, ResetPasswordBody } from "@workspace/api-zod";
 
 const router = Router();
 
@@ -59,6 +59,43 @@ router.post("/auth/login", async (req, res) => {
 });
 
 router.post("/auth/logout", (_req, res) => {
+  res.json({ success: true });
+});
+
+router.post("/auth/reset-password", async (req, res) => {
+  const parsed = ResetPasswordBody.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: "Invalid input" });
+    return;
+  }
+  const { phone, code, newPassword } = parsed.data;
+
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.phone, phone)).limit(1);
+  if (!user || !user.resetCode || user.resetCode !== code.trim()) {
+    res.status(400).json({ error: "Invalid code" });
+    return;
+  }
+  if (!user.resetCodeExpiresAt || user.resetCodeExpiresAt.getTime() < Date.now()) {
+    res.status(400).json({ error: "Code expired" });
+    return;
+  }
+
+  // Atomic redemption: code + expiry re-checked in the WHERE clause so two
+  // concurrent submissions cannot both redeem the same code (replay race).
+  const passwordHash = await bcrypt.hash(newPassword, 10);
+  const redeemed = await db.update(usersTable)
+    .set({ passwordHash, resetCode: null, resetCodeExpiresAt: null })
+    .where(and(
+      eq(usersTable.id, user.id),
+      eq(usersTable.resetCode, code.trim()),
+      gt(usersTable.resetCodeExpiresAt, new Date()),
+    ))
+    .returning();
+  if (redeemed.length === 0) {
+    res.status(400).json({ error: "Invalid code" });
+    return;
+  }
+
   res.json({ success: true });
 });
 

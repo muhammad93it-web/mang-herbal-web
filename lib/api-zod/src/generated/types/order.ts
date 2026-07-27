@@ -13,6 +13,9 @@ export interface Order {
   userId: number;
   status: OrderStatus;
   total: number;
+  /** @nullable */
+  customerName?: string | null;
+  isSeen: boolean;
   phone: string;
   address: string;
   /** @nullable */

@@ -1,3 +1,4 @@
+import { paramToInt } from "../lib/params";
 import { Router } from "express";
 import { db, favoritesTable, productsTable } from "@workspace/db";
 import { eq, and, inArray } from "drizzle-orm";
@@ -26,7 +27,7 @@ router.get("/favorites", requireAuth, async (req, res) => {
 
 router.post("/favorites/:productId", requireAuth, async (req, res) => {
   const { id: userId } = (req as any).user;
-  const productId = parseInt(req.params.productId);
+  const productId = paramToInt(req.params.productId);
   if (isNaN(productId)) { res.status(400).json({ error: "Invalid productId" }); return; }
 
   const [existing] = await db
@@ -43,7 +44,7 @@ router.post("/favorites/:productId", requireAuth, async (req, res) => {
 
 router.delete("/favorites/:productId", requireAuth, async (req, res) => {
   const { id: userId } = (req as any).user;
-  const productId = parseInt(req.params.productId);
+  const productId = paramToInt(req.params.productId);
   if (isNaN(productId)) { res.status(400).json({ error: "Invalid productId" }); return; }
 
   await db

@@ -15,21 +15,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const [token, setTokenState] = useState<string | null>(localStorage.getItem('mang_token'));
-  
-  // Custom headers approach using fetch in the client is typically handled by setting default headers or interceptors. 
-  // For the auto-generated hooks, if standard fetch is used, we usually rely on credentials or modifying custom-fetch.
-  // Assuming the token is in localstorage and customFetch can be patched, or we just rely on standard auth.
-  // Actually, we are asked to store JWT in localStorage under "mang_token".
-  // Let's use the token state.
-  
+
+  // Authorization header is attached globally via setAuthTokenGetter in App.tsx.
   const { data: user, isLoading, isError } = useGetMe({ 
     query: { 
       enabled: !!token, 
       queryKey: getGetMeQueryKey(),
       retry: false
-    },
-    request: {
-      headers: token ? { Authorization: `Bearer ${token}` } : undefined
     }
   });
 

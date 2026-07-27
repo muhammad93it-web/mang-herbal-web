@@ -1,3 +1,4 @@
+import { paramToInt } from "../lib/params";
 import { Router } from "express";
 import { db, productsTable } from "@workspace/db";
 import { eq, and, gte, lte, ilike, type SQL } from "drizzle-orm";
@@ -50,7 +51,7 @@ router.get("/products", async (req, res) => {
 });
 
 router.get("/products/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = paramToInt(req.params.id);
   if (isNaN(id)) { res.status(400).json({ error: "Invalid id" }); return; }
 
   const [product] = await db.select().from(productsTable).where(eq(productsTable.id, id)).limit(1);

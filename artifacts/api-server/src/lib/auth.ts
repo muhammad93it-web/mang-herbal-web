@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import { type Request, type Response, type NextFunction } from "express";
 
+if (!process.env.SESSION_SECRET && process.env.NODE_ENV === "production") {
+  throw new Error("SESSION_SECRET must be set in production");
+}
 const JWT_SECRET = process.env.SESSION_SECRET || "mang-herbal-secret-2024";
 
 export function signToken(payload: { id: number; role: string }) {

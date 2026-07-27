@@ -488,6 +488,32 @@ paths:
                 items:
                   $ref: "#/components/schemas/Order"
 
+  /admin/orders/unseen-count:
+    get:
+      operationId: adminGetUnseenOrdersCount
+      tags: [admin]
+      summary: Count of orders not yet seen by admin
+      responses:
+        "200":
+          description: Unseen order count
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnseenCountResponse"
+
+  /admin/orders/mark-seen:
+    post:
+      operationId: adminMarkOrdersSeen
+      tags: [admin]
+      summary: Mark all orders as seen
+      responses:
+        "200":
+          description: Marked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
   /admin/orders/{id}/status:
     patch:
       operationId: adminUpdateOrderStatus
@@ -512,6 +538,147 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Order"
+
+  /auth/reset-password:
+    post:
+      operationId: resetPassword
+      tags: [auth]
+      summary: Reset password using an admin-issued code
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordInput"
+      responses:
+        "200":
+          description: Password reset
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
+          description: Invalid or expired code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ── Site settings ─────────────────────────────────────────────────────────
+  /settings:
+    get:
+      operationId: getSettings
+      tags: [settings]
+      summary: Public site settings (hero, footer, contact)
+      responses:
+        "200":
+          description: Settings list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SiteSetting"
+
+  /admin/settings:
+    get:
+      operationId: adminGetSettings
+      tags: [admin]
+      summary: Admin list all site settings including private keys
+      responses:
+        "200":
+          description: All settings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SiteSetting"
+    put:
+      operationId: adminUpdateSettings
+      tags: [admin]
+      summary: Admin bulk upsert site settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSettingsInput"
+      responses:
+        "200":
+          description: Updated settings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SiteSetting"
+
+  /admin/whatsapp-test:
+    post:
+      operationId: adminTestWhatsApp
+      tags: [admin]
+      summary: Send a test WhatsApp message via CallMeBot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WhatsAppTestInput"
+      responses:
+        "200":
+          description: Result of the send attempt
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WhatsAppTestResponse"
+
+  /admin/users:
+    get:
+      operationId: adminGetUsers
+      tags: [admin]
+      summary: Admin list registered users
+      responses:
+        "200":
+          description: Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminUser"
+
+  /admin/users/{id}/reset-code:
+    post:
+      operationId: adminCreateResetCode
+      tags: [admin]
+      summary: Admin generate a password reset code for a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Reset code created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResetCodeResponse"
+
+  /admin/stats:
+    get:
+      operationId: adminGetStats
+      tags: [admin]
+      summary: Admin dashboard statistics
+      responses:
+        "200":
+          description: Admin stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminStats"
 
 components:
   schemas:
@@ -767,7 +934,7 @@ components:
 
     Order:
       type: object
-      required: [id, userId, status, total, phone, address, items, createdAt]
+      required: [id, userId, status, total, phone, address, items, createdAt, isSeen]
       properties:
         id:
           type: integer
@@ -778,6 +945,10 @@ components:
           enum: [pending, confirmed, shipped, delivered, cancelled]
         total:
           type: integer
+        customerName:
+          type: ["string", "null"]
+        isSeen:
+          type: boolean
         phone:
           type: string
         address:
@@ -793,8 +964,10 @@ components:
 
     OrderInput:
       type: object
-      required: [phone, address]
+      required: [name, phone, address]
       properties:
+        name:
+          type: string
         phone:
           type: string
         address:
@@ -810,6 +983,13 @@ components:
           type: string
           enum: [pending, confirmed, shipped, delivered, cancelled]
 
+    UnseenCountResponse:
+      type: object
+      required: [count]
+      properties:
+        count:
+          type: integer
+
     # ── Stats ────────────────────────────────────────────────────────────────
     StoreStats:
       type: object
@@ -822,4 +1002,108 @@ components:
         totalOrders:
           type: integer
         happyCustomers:
+          type: integer
+
+    # ── Password reset ───────────────────────────────────────────────────────
+    ResetPasswordInput:
+      type: object
+      required: [phone, code, newPassword]
+      properties:
+        phone:
+          type: string
+        code:
+          type: string
+        newPassword:
+          type: string
+          minLength: 6
+
+    ResetCodeResponse:
+      type: object
+      required: [code, expiresAt]
+      properties:
+        code:
+          type: string
+        expiresAt:
+          type: string
+
+    # ── Site settings ────────────────────────────────────────────────────────
+    SiteSetting:
+      type: object
+      required: [key, valueCkb, valueAr, valueEn]
+      properties:
+        key:
+          type: string
+        valueCkb:
+          type: string
+        valueAr:
+          type: string
+        valueEn:
+          type: string
+
+    UpdateSettingsInput:
+      type: object
+      required: [settings]
+      properties:
+        settings:
+          type: array
+          items:
+            $ref: "#/components/schemas/SiteSetting"
+
+    WhatsAppTestInput:
+      type: object
+      required: [phone, apiKey]
+      properties:
+        phone:
+          type: string
+        apiKey:
+          type: string
+
+    WhatsAppTestResponse:
+      type: object
+      required: [success, detail]
+      properties:
+        success:
+          type: boolean
+        detail:
+          type: ["string", "null"]
+
+    # ── Admin users & stats ──────────────────────────────────────────────────
+    AdminUser:
+      type: object
+      required: [id, name, phone, role, createdAt, hasResetCode]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        phone:
+          type: string
+        role:
+          type: string
+        createdAt:
+          type: string
+        hasResetCode:
+          type: boolean
+        resetCode:
+          type: ["string", "null"]
+        resetCodeExpiresAt:
+          type: ["string", "null"]
+
+    AdminStats:
+      type: object
+      required: [totalOrders, pendingOrders, deliveredOrders, totalRevenue, totalUsers, totalProducts, totalFavorites]
+      properties:
+        totalOrders:
+          type: integer
+        pendingOrders:
+          type: integer
+        deliveredOrders:
+          type: integer
+        totalRevenue:
+          type: integer
+        totalUsers:
+          type: integer
+        totalProducts:
+          type: integer
+        totalFavorites:
           type: integer

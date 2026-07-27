@@ -1,12 +1,12 @@
-# [Project name]
+# Mang Herbal — مانگ هێربال
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Online storefront for a Kurdish herbal cosmetics shop (Nawroz, Erbil): customers browse and order natural skin/hair products; the owner manages orders, products, customers, and site texts from an admin panel.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/mang-herbal run dev` — storefront (Vite, preview at `/mang-herbal/`)
+- `pnpm --filter @workspace/api-server run dev` — API server (port 8080, proxied at `/api`)
 - `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - Required env: `DATABASE_URL` — Postgres connection string
@@ -14,31 +14,46 @@ _Replace the heading above with the project's name, and this line with one sente
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Frontend: React + Vite + Tailwind + shadcn/ui, wouter routing, TanStack Query via generated hooks
+- API: Express 5 · DB: PostgreSQL + Drizzle ORM · Validation: Zod (`zod/v4`)
+- API codegen: Orval (from `lib/api-spec/openapi.yaml`)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- DB schema: `lib/db/src/schema/` (users, categories, products, carts, orders, favorites, settings)
+- API contract: `lib/api-spec/openapi.yaml` → generated hooks in `lib/api-client-react`, Zod in `lib/api-zod`
+- API routes: `artifacts/api-server/src/routes/`
+- Storefront: `artifacts/mang-herbal/src/` — theme tokens in `index.css`, i18n in `contexts/LanguageContext.tsx`
+- Product photos: `artifacts/mang-herbal/public/products/*.jpg`; DB `image_url` holds relative paths (`products/x.jpg`) resolved with `import.meta.env.BASE_URL`
+- Logo: `attached_assets/logo_png_be_back_1784753437461.png`
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Editable site texts live in `site_settings` (key + 3 language columns), served publicly via `GET /api/settings`, upserted via `PUT /api/admin/settings`
+- Password reset is admin-mediated: admin generates a 6-digit code (24h validity) shown in `/admin/users`, hands it to the customer manually; customer redeems it at `/forgot-password` (`POST /api/auth/reset-password`)
+- `setBaseUrl('')` in App.tsx is required — the shared proxy routes `/api` directly; prefixing the artifact base path breaks API calls
+- Express 5 types `req.params.*` as `string | string[]` — always use `paramToInt()` from `src/lib/params.ts`
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Customer: browse by category, search/filter, product detail, cart, checkout (cash on delivery), order history, favorites, register/login by phone. Checkout requires login and collects name/phone/address; the success screen offers prefilled wa.me links to send the order to the shop's WhatsApp (customer must tap send). Mobile app feel: PWA (manifest + icons, installable) and a fixed bottom tab bar on mobile (Home/Products/Favorites/Cart/Account).
+- Admin (role `admin`): stats overview, order status management, product CRUD, customer list with reset-code generation, site-text editor (hero/footer/contact, 3 languages), new-order bell with unseen count + row highlight, one-tap copy / wa.me share of formatted order text. Mobile admin: horizontal pill nav replaces the sidebar, and orders render as labeled cards.
+- Automatic WhatsApp order notifications via CallMeBot (free personal API): server fire-and-forgets each new order to owner numbers configured in `order_whatsapp_numbers`, using per-number API keys in `order_whatsapp_apikeys` (`number:key` CSV, admin-only setting filtered from the public settings API). Admin Settings has the activation guide, key inputs, and a Test button (`POST /api/admin/whatsapp-test`). Numbers without a key still get the manual deep-link flow.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- **LAW — full translation**: when the language switches (Kurdish Sorani / Arabic / English), EVERYTHING on the site must switch — every label, button, toast, error, empty state, admin screen. No hardcoded single-language strings. Kurdish (ckb) is default; ckb/ar are RTL, en is LTR; use the `t(ckb, ar, en)` helper.
+- **No emojis anywhere** in the UI or content. Icons only (lucide-react).
+- Phone numbers always render `dir="ltr"` regardless of language.
+- Brand: near-black `#0A0A0A` + gold `#C9A84C`; luxury boutique feel.
+- Contact: +964 770 143 2814 · mangherbal@gmail.com · Nawroz, Erbil.
+- The owner intentionally uses very simple admin credentials (her choice — never add password-strength rules to the login form; strength rules belong to registration/reset only).
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- After editing `openapi.yaml`: run codegen, then restart the API workflow; after DB schema edits: `db push`
+- Frontend query params can arrive as literal `"null"`/`"NaN"` strings — API routes guard with `isValidStr()` (products.ts)
+- Do not modify `artifacts/mang-herbal/vite.config.ts` — canonical scaffold version (PORT/BASE_PATH, allowedHosts) must stay
 
 ## Pointers
 

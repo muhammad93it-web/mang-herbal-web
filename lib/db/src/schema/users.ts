@@ -8,6 +8,8 @@ export const usersTable = pgTable("users", {
   phone: text("phone").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
   role: text("role").notNull().default("customer"),
+  resetCode: text("reset_code"),
+  resetCodeExpiresAt: timestamp("reset_code_expires_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

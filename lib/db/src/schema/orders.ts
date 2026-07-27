@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text, jsonb, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, text, jsonb, timestamp, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -7,9 +7,11 @@ export const ordersTable = pgTable("orders", {
   userId: integer("user_id").notNull(),
   status: text("status").notNull().default("pending"),
   total: integer("total").notNull(),
+  customerName: text("customer_name"),
   phone: text("phone").notNull(),
   address: text("address").notNull(),
   note: text("note"),
+  isSeen: boolean("is_seen").notNull().default(false),
   items: jsonb("items").notNull().$type<Array<{
     productId: number;
     quantity: number;

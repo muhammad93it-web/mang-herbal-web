@@ -11,11 +11,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import logoPath from '@assets/logo_png_be_back_1784753437461.png';
 
-const loginSchema = z.object({
-  phone: z.string().min(1),
-  password: z.string().min(6)
-});
-
 export default function Login() {
   const { t } = useLanguage();
   const { setAuth } = useAuth();
@@ -23,6 +18,12 @@ export default function Login() {
   const loginMutation = useLogin();
   
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Login must never gate on password length — only require non-empty fields.
+  const loginSchema = z.object({
+    phone: z.string().min(1, t('ژمارەی مۆبایل داواکراوە', 'رقم الهاتف مطلوب', 'Phone number is required')),
+    password: z.string().min(1, t('وشەی تێپەڕ داواکراوە', 'كلمة المرور مطلوبة', 'Password is required'))
+  });
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -36,8 +37,8 @@ export default function Login() {
         setAuth(res.user, res.token);
         setLocation('/');
       },
-      onError: (err) => {
-        setErrorMsg(err?.data?.error || 'Login failed');
+      onError: () => {
+        setErrorMsg(t('ژمارە یان وشەی تێپەڕ هەڵەیە', 'رقم الهاتف أو كلمة المرور غير صحيحة', 'Phone or password is incorrect'));
       }
     });
   };
@@ -95,6 +96,12 @@ export default function Login() {
                 </FormItem>
               )}
             />
+
+            <div className="flex justify-end">
+              <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                {t('وشەی تێپەڕت لەبیرچووە؟', 'نسيت كلمة المرور؟', 'Forgot Password?')}
+              </Link>
+            </div>
 
             <Button type="submit" disabled={loginMutation.isPending} className="w-full h-14 rounded-full text-lg mt-4 shadow-lg shadow-primary/20">
               {loginMutation.isPending ? '...' : t('چوونە ژوورەوە', 'تسجيل الدخول', 'Login')}
