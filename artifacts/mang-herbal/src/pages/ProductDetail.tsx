@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRoute, Link } from 'wouter';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useGetProduct, useAddToCart, getGetCartQueryKey, useAddFavorite, useRemoveFavorite, useGetFavorites, getGetFavoritesQueryKey } from '@workspace/api-client-react';
+import { useGetProduct, useAddToCart, getGetCartQueryKey, useAddFavorite, useRemoveFavorite, useGetFavorites, getGetFavoritesQueryKey, useGetCategories } from '@workspace/api-client-react';
 import { formatPrice, getImageUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -22,6 +22,7 @@ export default function ProductDetail() {
   const { setIsOpen: setIsCartOpen } = useCartUI();
   
   const { data: product, isLoading, isError } = useGetProduct(id);
+  const { data: categories = [] } = useGetCategories();
   const { data: favorites } = useGetFavorites();
   const addFav = useAddFavorite();
   const removeFav = useRemoveFavorite();
@@ -85,6 +86,10 @@ export default function ProductDetail() {
 
   const name = lang === 'ckb' ? product.nameCkb : lang === 'ar' ? product.nameAr : product.nameEn;
   const desc = lang === 'ckb' ? product.descCkb : lang === 'ar' ? product.descAr : product.descEn;
+  const category = categories.find((c) => c.slug === product.categorySlug);
+  const categoryName = category
+    ? (lang === 'ckb' ? category.nameCkb : lang === 'ar' ? category.nameAr : category.nameEn)
+    : product.categorySlug;
   const isRtl = lang !== 'en';
   const ArrowIcon = isRtl ? ArrowRight : ArrowLeft;
   const resolvedImage = getImageUrl(product.imageUrl);
@@ -98,7 +103,7 @@ export default function ProductDetail() {
           <span>/</span>
           <Link href="/products" className="hover:text-primary transition-colors">{t('بەرهەمەکان', 'المنتجات', 'Products')}</Link>
           <span>/</span>
-          <span className="text-foreground">{product.categorySlug}</span>
+          <span className="text-foreground">{categoryName}</span>
         </div>
       </div>
 
@@ -135,7 +140,7 @@ export default function ProductDetail() {
           {/* Details */}
           <div className="flex flex-col">
             <div className="mb-6">
-              <span className="text-primary font-medium tracking-widest uppercase text-sm mb-3 block">{product.categorySlug}</span>
+              <span className="text-primary font-medium tracking-widest text-sm mb-3 block">{categoryName}</span>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-6">{name}</h1>
               
               <div className="flex flex-wrap items-center gap-4 mb-8 text-sm">

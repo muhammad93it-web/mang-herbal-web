@@ -98,7 +98,10 @@ export default function Login() {
                         type="button"
                         onClick={() => setShowPassword(v => !v)}
                         className="absolute inset-y-0 end-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
-                        tabIndex={-1}
+                        aria-label={showPassword
+                          ? t('شاردنەوەی وشەی تێپەڕ', 'إخفاء كلمة المرور', 'Hide password')
+                          : t('پیشاندانی وشەی تێپەڕ', 'إظهار كلمة المرور', 'Show password')}
+                        aria-pressed={showPassword}
                       >
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>

@@ -7,7 +7,7 @@ import { ShoppingBag, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useAddToCart, getGetCartQueryKey } from '@workspace/api-client-react';
+import { useAddToCart, getGetCartQueryKey, useGetCategories } from '@workspace/api-client-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCartUI } from '@/store/ui-store';
 import { toast } from 'sonner';
@@ -26,6 +26,12 @@ export function ProductCard({ product, className, style }: ProductCardProps) {
 
   const name = lang === 'ckb' ? product.nameCkb : lang === 'ar' ? product.nameAr : product.nameEn;
   const desc = lang === 'ckb' ? product.descCkb : lang === 'ar' ? product.descAr : product.descEn;
+
+  const { data: categories = [] } = useGetCategories();
+  const category = categories.find((c) => c.slug === product.categorySlug);
+  const categoryName = category
+    ? (lang === 'ckb' ? category.nameCkb : lang === 'ar' ? category.nameAr : category.nameEn)
+    : product.categorySlug;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -86,8 +92,8 @@ export function ProductCard({ product, className, style }: ProductCardProps) {
 
       {/* Content */}
       <div className="p-6 flex flex-col flex-1 bg-gradient-to-b from-card to-background">
-        <div className="text-xs text-primary/90 font-medium mb-3 tracking-wider uppercase">
-          {product.categorySlug}
+        <div className="text-xs text-primary/90 font-medium mb-3 tracking-wider">
+          {categoryName}
         </div>
         <h3 className="font-serif text-xl text-foreground font-semibold leading-tight line-clamp-1 mb-2 group-hover:text-primary transition-colors">
           {name}
