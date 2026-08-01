@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Eye, EyeOff } from 'lucide-react';
 import logoPath from '@assets/logo_png_be_back_1784753437461.png';
 
 export default function Login() {
@@ -18,6 +19,7 @@ export default function Login() {
   const loginMutation = useLogin();
   
   const [errorMsg, setErrorMsg] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   // Login must never gate on password length — only require non-empty fields.
   const loginSchema = z.object({
@@ -90,7 +92,17 @@ export default function Login() {
                 <FormItem>
                   <FormLabel>{t('وشەی تێپەڕ', 'كلمة المرور', 'Password')}</FormLabel>
                   <FormControl>
-                    <Input {...field} type="password" dir="ltr" className="bg-background h-12" />
+                    <div className="relative">
+                      <Input {...field} type={showPassword ? 'text' : 'password'} dir="ltr" className="bg-background h-12 pe-12" />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(v => !v)}
+                        className="absolute inset-y-0 end-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
+                        tabIndex={-1}
+                      >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
