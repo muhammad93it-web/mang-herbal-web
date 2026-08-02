@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict linsJqrIBafKgLKRoDhGK9lf74QhaahZBdgbwCvG07JVi2XJzwrTuNmfgO1ur0R
 
 -- Dumped from database version 16.10
 -- Dumped by pg_dump version 16.10
@@ -300,78 +299,66 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: cart_items; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.cart_items (id, user_id, product_id, quantity, created_at) FROM stdin;
-\.
 
 
 --
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.categories (id, slug, name_ckb, name_ar, name_en) FROM stdin;
-1	face-care	چاودێری ڕوو	العناية بالوجه	Face Care
-2	hair-care	چاودێری موو	العناية بالشعر	Hair Care
-3	lips-body	لێو و جەستە	الشفاه والجسم	Lips & Body
-\.
+INSERT INTO public.categories VALUES (1, 'face-care', 'چاودێری ڕوو', 'العناية بالوجه', 'Face Care');
+INSERT INTO public.categories VALUES (2, 'hair-care', 'چاودێری موو', 'العناية بالشعر', 'Hair Care');
+INSERT INTO public.categories VALUES (3, 'lips-body', 'لێو و جەستە', 'الشفاه والجسم', 'Lips & Body');
 
 
 --
 -- Data for Name: favorites; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.favorites (id, user_id, product_id, created_at) FROM stdin;
-\.
 
 
 --
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.orders (id, user_id, status, total, customer_name, phone, address, note, is_seen, items, created_at) FROM stdin;
-\.
+INSERT INTO public.orders VALUES (1, 36, 'shipped', 42000, 'Muhammad Hassan', '07502037873', 'حاجیاوا  پینجی ئازار', '', true, '[{"price": 12000, "nameAr": "زيت أرغان للوجه", "nameEn": "Argan Face Oil", "nameCkb": "ڕۆنی ئەرگان بۆ ڕوو", "quantity": 2, "productId": 1}, {"price": 18000, "nameAr": "سيروم الإشراق", "nameEn": "Brightening Serum", "nameCkb": "سیرۆمی گەشکردنەوە", "quantity": 1, "productId": 2}]', '2026-08-02 22:41:20.8017');
 
 
 --
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.products (id, name_ckb, name_ar, name_en, desc_ckb, desc_ar, desc_en, price, old_price, category_slug, image_url, badge, in_stock, is_featured, rating, review_count, created_at) FROM stdin;
-1	ڕۆنی ئەرگان بۆ ڕوو	زيت أرغان للوجه	Argan Face Oil	ڕۆنێکی سروشتی دەوڵەمەند کە پێست بە قووڵی تەڕ دەکاتەوە و گەشاوەیی پێدەبەخشێت. لە باشترین جۆری ئەرگان دروستکراوە؛ هێڵە وردەکان کەم دەکاتەوە و پێستەکەت نەرم و درەوشاوە دەکات.	منتج طبيعي غني يرطب البشرة ويجددها. يحتوي على أجود أنواع زيت الأرغان المغربي، يعمل ضد الشيخوخة ويمنح البشرة توهجاً مميزاً.	A rich natural product that deeply moisturizes and revitalizes skin. Packed with premium Moroccan argan oil, it fights aging and gives skin a radiant glow.	12000	15000	face-care	products/argan-face-oil.jpg	زۆرترین فرۆشراو	t	t	4.8	24	2026-08-02 21:35:11.502181
-2	سیرۆمی گەشکردنەوە	سيروم الإشراق	Brightening Serum	سیرۆمێکی کاریگەر کە ڕەنگی پێست یەکدەخات و لەکە تاریکەکان کاڵ دەکاتەوە. بە بەکارهێنانی بەردەوام، دوای دوو هەفتە جیاوازییەکە بە ڕوونی دەبینیت.	سيروم فعّال يوحد لون البشرة ويزيل آثار التعب وعلامات التقدم في السن. لاحظ المستخدمون تحسناً ملحوظاً خلال أسبوعين فقط.	A powerful serum that evens skin tone and restores a youthful glow. Users notice visible improvement within two weeks of use.	18000	22000	face-care	products/brightening-serum.jpg	تازە	t	t	4.7	18	2026-08-02 21:35:11.502181
-3	کرێمی ڕووی گیایی	كريم الوجه العشبي	Herbal Face Cream	کرێمێکی نەرم و خۆشبۆن کە لە ڕووەکی سروشتی دروستکراوە. پێست بە قووڵی تەڕ دەکاتەوە و بە درێژایی ڕۆژ دەیپارێزێت. گونجاوە بۆ هەموو جۆرە پێستێک.	كريم ناعم وعطري مصنوع من مستخلصات نباتية طبيعية. يوصل الترطيب والتغذية العميقة للبشرة ويحميها طوال اليوم.	A soft, fragrant cream based on natural botanical extracts. Delivers deep moisture and nourishment, protecting skin from morning to night.	14000	17000	face-care	products/herbal-face-cream.jpg	\N	t	f	4.6	31	2026-08-02 21:35:11.502181
-4	ماسکی ڕووی گیایی	قناع الوجه العشبي	Herbal Face Mask	ماسکێکی کاریگەر بۆ پاککردنەوەی قووڵ و نوێکردنەوەی پێست. تەنها ١٥ خولەک بەسە بۆ پێستێکی پاک و گەشاوە، وەک ئەوەی لە باشترین سالۆنەکان وەریدەگریت.	قناع فعّال ينظف البشرة بعمق ويمسد مسامها. 15 دقيقة فقط كافية للحصول على بشرة مشرقة كما بعد جلسة سبا فاخرة.	An effective mask that deep-cleanses and tightens pores. Just 15 minutes for skin that glows like after a luxury spa session.	10000	13000	face-care	products/herbal-face-mask.jpg	داشکاندن	t	f	4.5	15	2026-08-02 21:35:11.502181
-5	سیرۆمی سروشتی ڕوو	سيروم الوجه الطبيعي	Natural Face Serum	لووتکەی چاودێری سروشتی پێست. پێکهاتەکەی تەڕی و خۆراک دەگەیەنێتە قووڵترین چینەکانی پێست. هەڵبژاردەیەکی نایابە بۆ پێستی هەستیار و ماندوو.	ذروة العناية الطبيعية — تقنية متقدمة تنقل الأكسجين والترطيب إلى أعمق طبقات البشرة. مثالي للبشرة الحساسة والمتعبة.	The pinnacle of natural skincare — advanced technology delivers oxygen and hydration to the deepest skin layers. Ideal for sensitive or stressed skin.	20000	25000	face-care	products/natural-face-serum.jpg	نایاب	t	t	4.9	42	2026-08-02 21:35:11.502181
-6	کرێمی چاککردنەوەی شەوانە	كريم الإصلاح الليلي	Night Repair Cream	لە کاتی خەودا کار دەکات: پێست نوێ دەکاتەوە، نیشانەکانی پیربوون کەم دەکاتەوە و بەیانییان بە پێستێکی تازە و گەشاوە هەڵدەستیت.	أثناء نومك، يعمل هذا الكريم بجد: يصلح حاجز البشرة ويقلل علامات التقدم في السن لتستيقظ ببشرة منتعشة ومتجددة كل صباح.	While you sleep, this cream works hard: repairs the skin barrier, fades signs of aging, and you wake up to fresh, radiant skin every morning.	16000	20000	face-care	products/night-repair-cream.jpg	\N	t	t	4.7	29	2026-08-02 21:35:11.502181
-7	شامپۆی دژە هەڵوەرینی موو	شامبو مضاد لتساقط الشعر	Anti Hair-Loss Shampoo	شامپۆیەکی چارەسەرکەر کە موو لە ڕەگەوە بەهێز دەکات. گیا تایبەتەکانی ناوی سوڕی خوێن بۆ ڕەگی موو زیاد دەکەن و هەڵوەرین بە شێوەیەکی بەرچاو کەم دەکەنەوە.	شامبو علاجي يقوي الشعر من جذوره. يحتوي على أعشاب خاصة تحفز الدورة الدموية لجريبات الشعر وتقلل التساقط بشكل ملحوظ.	A therapeutic shampoo that strengthens hair from the roots. Special herbal blends stimulate blood flow to hair follicles and significantly reduce hair loss.	11000	14000	hair-care	products/anti-hair-loss-shampoo.jpg	زۆرترین فرۆشراو	t	t	4.8	37	2026-08-02 21:35:11.502181
-8	ڕۆنی مووی گیایی	زيت الشعر العشبي	Herbal Hair Oil	تێکەڵەیەکی نایاب لە ١٢ جۆر ڕۆنی سروشتی. درەوشانەوە بە موو دەبەخشێت، شکان کەم دەکاتەوە و مووی سەرکێش هێمن دەکاتەوە.	تركيبة فريدة من 12 نوعاً من الزيوت النباتية الطبيعية. يمنح الشعر لمعاناً ساطعاً، يمنع التقصف ويسيطر على التجعد الصعب.	A unique blend of 12 natural plant oils. Gives hair brilliant shine, prevents breakage, and tames even the most stubborn frizz.	9000	12000	hair-care	products/herbal-hair-oil.jpg	\N	t	f	4.6	22	2026-08-02 21:35:11.502181
-9	شامپۆی گیایی	شامبو عشبي	Herbal Shampoo	پاککردنەوەیەکی نەرم بە بۆنی گیای شاخاوی. هاوسەنگی سروشتی موو دەپارێزێت و ڕۆژ لەدوای ڕۆژ مووەکەت تەندروستتر و جوانتر دەکات.	تنظيف لطيف برائحة الأعشاب الجبلية الطبيعية. يوازن درجة الحموضة ويقلل التراكم الكيميائي ليجعل شعرك أجمل وأصح يوماً بعد يوم.	Gentle cleansing with the natural scent of mountain herbs. Balances pH, reduces chemical buildup, and makes hair noticeably healthier day by day.	8000	10000	hair-care	products/herbal-shampoo.jpg	\N	t	f	4.5	19	2026-08-02 21:35:11.502181
-10	مەرهەمی لێوی گیایی	بلسم الشفاه العشبي	Herbal Lip Balm	چارەسەرێکی نایاب بۆ لێوی وشک و شەقاربوو. بە هەنگوینی سروشتی و ڕۆنی گوڵ، لێوەکانت نەرم دەکات و بە درێژایی ڕۆژ دەیانپارێزێت.	الشفاه الجافة والمتشققة مشكلة كثيرين. هذا البلسم بتركيبة العسل الطبيعي وزيت ورد الجوري يلطف شفتيك ويحميهما طوال اليوم.	Dry and cracked lips are a common struggle. This balm with natural honey and rose oil soothes and protects your lips throughout the day.	5000	7000	lips-body	products/herbal-lip-balm.jpg	تازە	t	f	4.7	11	2026-08-02 21:35:11.502181
-11	پرۆتۆکۆلی لاوازبوون	بروتوكول التنحيف	Slimming Protocol	بەرنامەیەکی تەواو بۆ ڕێککردنی جەستە لەسەر بنەمای گیای سروشتی. بەبێ هیچ ماددەیەکی کیمیایی — تەنها بەخششە سروشتییەکانی چیاکانی کوردستان.	برنامج متكامل لرشاقة الجسم مبني على الأعشاب الطبيعية. بعيداً عن المواد الكيميائية — فقط ما تجود به الطبيعة الكردية الخالصة.	A complete body shaping program built on natural botanical herbs. No chemicals — only the pure natural gifts of the Kurdish highlands.	35000	45000	lips-body	products/slimming-protocol.jpg	نایاب	t	t	4.9	8	2026-08-02 21:35:11.502181
-\.
+INSERT INTO public.products VALUES (1, 'ڕۆنی ئەرگان بۆ ڕوو', 'زيت أرغان للوجه', 'Argan Face Oil', 'ڕۆنێکی سروشتی دەوڵەمەند کە پێست بە قووڵی تەڕ دەکاتەوە و گەشاوەیی پێدەبەخشێت. لە باشترین جۆری ئەرگان دروستکراوە؛ هێڵە وردەکان کەم دەکاتەوە و پێستەکەت نەرم و درەوشاوە دەکات.', 'منتج طبيعي غني يرطب البشرة ويجددها. يحتوي على أجود أنواع زيت الأرغان المغربي، يعمل ضد الشيخوخة ويمنح البشرة توهجاً مميزاً.', 'A rich natural product that deeply moisturizes and revitalizes skin. Packed with premium Moroccan argan oil, it fights aging and gives skin a radiant glow.', 12000, 15000, 'face-care', 'products/argan-face-oil.jpg', 'زۆرترین فرۆشراو', true, true, 4.8, 24, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (2, 'سیرۆمی گەشکردنەوە', 'سيروم الإشراق', 'Brightening Serum', 'سیرۆمێکی کاریگەر کە ڕەنگی پێست یەکدەخات و لەکە تاریکەکان کاڵ دەکاتەوە. بە بەکارهێنانی بەردەوام، دوای دوو هەفتە جیاوازییەکە بە ڕوونی دەبینیت.', 'سيروم فعّال يوحد لون البشرة ويزيل آثار التعب وعلامات التقدم في السن. لاحظ المستخدمون تحسناً ملحوظاً خلال أسبوعين فقط.', 'A powerful serum that evens skin tone and restores a youthful glow. Users notice visible improvement within two weeks of use.', 18000, 22000, 'face-care', 'products/brightening-serum.jpg', 'تازە', true, true, 4.7, 18, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (3, 'کرێمی ڕووی گیایی', 'كريم الوجه العشبي', 'Herbal Face Cream', 'کرێمێکی نەرم و خۆشبۆن کە لە ڕووەکی سروشتی دروستکراوە. پێست بە قووڵی تەڕ دەکاتەوە و بە درێژایی ڕۆژ دەیپارێزێت. گونجاوە بۆ هەموو جۆرە پێستێک.', 'كريم ناعم وعطري مصنوع من مستخلصات نباتية طبيعية. يوصل الترطيب والتغذية العميقة للبشرة ويحميها طوال اليوم.', 'A soft, fragrant cream based on natural botanical extracts. Delivers deep moisture and nourishment, protecting skin from morning to night.', 14000, 17000, 'face-care', 'products/herbal-face-cream.jpg', NULL, true, false, 4.6, 31, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (4, 'ماسکی ڕووی گیایی', 'قناع الوجه العشبي', 'Herbal Face Mask', 'ماسکێکی کاریگەر بۆ پاککردنەوەی قووڵ و نوێکردنەوەی پێست. تەنها ١٥ خولەک بەسە بۆ پێستێکی پاک و گەشاوە، وەک ئەوەی لە باشترین سالۆنەکان وەریدەگریت.', 'قناع فعّال ينظف البشرة بعمق ويمسد مسامها. 15 دقيقة فقط كافية للحصول على بشرة مشرقة كما بعد جلسة سبا فاخرة.', 'An effective mask that deep-cleanses and tightens pores. Just 15 minutes for skin that glows like after a luxury spa session.', 10000, 13000, 'face-care', 'products/herbal-face-mask.jpg', 'داشکاندن', true, false, 4.5, 15, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (5, 'سیرۆمی سروشتی ڕوو', 'سيروم الوجه الطبيعي', 'Natural Face Serum', 'لووتکەی چاودێری سروشتی پێست. پێکهاتەکەی تەڕی و خۆراک دەگەیەنێتە قووڵترین چینەکانی پێست. هەڵبژاردەیەکی نایابە بۆ پێستی هەستیار و ماندوو.', 'ذروة العناية الطبيعية — تقنية متقدمة تنقل الأكسجين والترطيب إلى أعمق طبقات البشرة. مثالي للبشرة الحساسة والمتعبة.', 'The pinnacle of natural skincare — advanced technology delivers oxygen and hydration to the deepest skin layers. Ideal for sensitive or stressed skin.', 20000, 25000, 'face-care', 'products/natural-face-serum.jpg', 'نایاب', true, true, 4.9, 42, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (6, 'کرێمی چاککردنەوەی شەوانە', 'كريم الإصلاح الليلي', 'Night Repair Cream', 'لە کاتی خەودا کار دەکات: پێست نوێ دەکاتەوە، نیشانەکانی پیربوون کەم دەکاتەوە و بەیانییان بە پێستێکی تازە و گەشاوە هەڵدەستیت.', 'أثناء نومك، يعمل هذا الكريم بجد: يصلح حاجز البشرة ويقلل علامات التقدم في السن لتستيقظ ببشرة منتعشة ومتجددة كل صباح.', 'While you sleep, this cream works hard: repairs the skin barrier, fades signs of aging, and you wake up to fresh, radiant skin every morning.', 16000, 20000, 'face-care', 'products/night-repair-cream.jpg', NULL, true, true, 4.7, 29, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (7, 'شامپۆی دژە هەڵوەرینی موو', 'شامبو مضاد لتساقط الشعر', 'Anti Hair-Loss Shampoo', 'شامپۆیەکی چارەسەرکەر کە موو لە ڕەگەوە بەهێز دەکات. گیا تایبەتەکانی ناوی سوڕی خوێن بۆ ڕەگی موو زیاد دەکەن و هەڵوەرین بە شێوەیەکی بەرچاو کەم دەکەنەوە.', 'شامبو علاجي يقوي الشعر من جذوره. يحتوي على أعشاب خاصة تحفز الدورة الدموية لجريبات الشعر وتقلل التساقط بشكل ملحوظ.', 'A therapeutic shampoo that strengthens hair from the roots. Special herbal blends stimulate blood flow to hair follicles and significantly reduce hair loss.', 11000, 14000, 'hair-care', 'products/anti-hair-loss-shampoo.jpg', 'زۆرترین فرۆشراو', true, true, 4.8, 37, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (8, 'ڕۆنی مووی گیایی', 'زيت الشعر العشبي', 'Herbal Hair Oil', 'تێکەڵەیەکی نایاب لە ١٢ جۆر ڕۆنی سروشتی. درەوشانەوە بە موو دەبەخشێت، شکان کەم دەکاتەوە و مووی سەرکێش هێمن دەکاتەوە.', 'تركيبة فريدة من 12 نوعاً من الزيوت النباتية الطبيعية. يمنح الشعر لمعاناً ساطعاً، يمنع التقصف ويسيطر على التجعد الصعب.', 'A unique blend of 12 natural plant oils. Gives hair brilliant shine, prevents breakage, and tames even the most stubborn frizz.', 9000, 12000, 'hair-care', 'products/herbal-hair-oil.jpg', NULL, true, false, 4.6, 22, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (9, 'شامپۆی گیایی', 'شامبو عشبي', 'Herbal Shampoo', 'پاککردنەوەیەکی نەرم بە بۆنی گیای شاخاوی. هاوسەنگی سروشتی موو دەپارێزێت و ڕۆژ لەدوای ڕۆژ مووەکەت تەندروستتر و جوانتر دەکات.', 'تنظيف لطيف برائحة الأعشاب الجبلية الطبيعية. يوازن درجة الحموضة ويقلل التراكم الكيميائي ليجعل شعرك أجمل وأصح يوماً بعد يوم.', 'Gentle cleansing with the natural scent of mountain herbs. Balances pH, reduces chemical buildup, and makes hair noticeably healthier day by day.', 8000, 10000, 'hair-care', 'products/herbal-shampoo.jpg', NULL, true, false, 4.5, 19, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (10, 'مەرهەمی لێوی گیایی', 'بلسم الشفاه العشبي', 'Herbal Lip Balm', 'چارەسەرێکی نایاب بۆ لێوی وشک و شەقاربوو. بە هەنگوینی سروشتی و ڕۆنی گوڵ، لێوەکانت نەرم دەکات و بە درێژایی ڕۆژ دەیانپارێزێت.', 'الشفاه الجافة والمتشققة مشكلة كثيرين. هذا البلسم بتركيبة العسل الطبيعي وزيت ورد الجوري يلطف شفتيك ويحميهما طوال اليوم.', 'Dry and cracked lips are a common struggle. This balm with natural honey and rose oil soothes and protects your lips throughout the day.', 5000, 7000, 'lips-body', 'products/herbal-lip-balm.jpg', 'تازە', true, false, 4.7, 11, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (11, 'پرۆتۆکۆلی لاوازبوون', 'بروتوكول التنحيف', 'Slimming Protocol', 'بەرنامەیەکی تەواو بۆ ڕێککردنی جەستە لەسەر بنەمای گیای سروشتی. بەبێ هیچ ماددەیەکی کیمیایی — تەنها بەخششە سروشتییەکانی چیاکانی کوردستان.', 'برنامج متكامل لرشاقة الجسم مبني على الأعشاب الطبيعية. بعيداً عن المواد الكيميائية — فقط ما تجود به الطبيعة الكردية الخالصة.', 'A complete body shaping program built on natural botanical herbs. No chemicals — only the pure natural gifts of the Kurdish highlands.', 35000, 45000, 'lips-body', 'products/slimming-protocol.jpg', 'نایاب', true, true, 4.9, 8, '2026-08-02 21:35:11.502181');
 
 
 --
 -- Data for Name: site_settings; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.site_settings (key, value_ckb, value_ar, value_en) FROM stdin;
-\.
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.users (id, name, phone, password_hash, role, reset_code, reset_code_expires_at, created_at, email, last_login_at) FROM stdin;
-1	Admin	7501263713	$2b$10$bY0w/vByypAFQWa5/11bfu/nvbRG2Zw2e3WMkaNJ2MUie0iQpyGQe	admin	\N	\N	2026-08-02 20:59:55.185291	\N	\N
-\.
+INSERT INTO public.users VALUES (1, 'Admin', '7501263713', '$2b$10$bY0w/vByypAFQWa5/11bfu/nvbRG2Zw2e3WMkaNJ2MUie0iQpyGQe', 'admin', NULL, NULL, '2026-08-02 20:59:55.185291', NULL, '2026-08-02 22:42:04.305');
+INSERT INTO public.users VALUES (36, 'Muhammad Hassan', '07502037873', '$2b$10$d8B0R/Wy0zSgUIvXhjocAOT5AtmtbkLvvSjMuL97LgnFvwvfaqnM2', 'customer', NULL, NULL, '2026-08-02 22:40:12.654702', 'anyt0557@gmail.com', '2026-08-02 22:42:54.728');
 
 
 --
 -- Name: cart_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.cart_items_id_seq', 1, false);
+SELECT pg_catalog.setval('public.cart_items_id_seq', 3, true);
 
 
 --
@@ -392,7 +379,7 @@ SELECT pg_catalog.setval('public.favorites_id_seq', 1, false);
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 1, false);
+SELECT pg_catalog.setval('public.orders_id_seq', 1, true);
 
 
 --
@@ -406,7 +393,7 @@ SELECT pg_catalog.setval('public.products_id_seq', 11, true);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 35, true);
+SELECT pg_catalog.setval('public.users_id_seq', 36, true);
 
 
 --
@@ -493,5 +480,4 @@ ALTER TABLE ONLY public.users
 -- PostgreSQL database dump complete
 --
 
-\unrestrict linsJqrIBafKgLKRoDhGK9lf74QhaahZBdgbwCvG07JVi2XJzwrTuNmfgO1ur0R
 

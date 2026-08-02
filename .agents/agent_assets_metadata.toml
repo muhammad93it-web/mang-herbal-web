@@ -13,3 +13,10 @@ uri = "file://mang-herbal-host-package.zip"
 type = "unspecified"
 title = "Mang Herbal — پاکەیجی تەواو بۆ هۆستی خۆت"
 description = "فرۆشگاکە + سێرڤەر + هەموو داتای ئێستا (بەرهەم، هەژمار، داواکاری، ڕێکخستن، وێنەکان) لەگەڵ ڕێنمایی دامەزراندن بە کوردی."
+
+[[outputs]]
+id = "glZgu7QSHpTL15aAJbF1T"
+uri = "file://database.sql"
+type = "unspecified"
+title = "database.sql — نوسخەی چاککراو بۆ Neon"
+description = "هەمان داتا بەڵام بە SQL ی سادە — لە SQL Editor ی Neon بێ کێشە کار دەکات."

@@ -38,10 +38,17 @@ cp scripts/host-package/package.json "$STAGE/package.json"
 cp scripts/host-package/SETUP-GUIDE.md "$STAGE/SETUP-GUIDE.md"
 # Ship the CURRENT data: dump the live dev database when available so the
 # owner's products, settings, users and images always travel with the package.
-if [ -n "${DATABASE_URL:-}" ] && pg_dump --no-owner --no-privileges "$DATABASE_URL" > "$STAGE/database.sql" 2>/dev/null && [ -s "$STAGE/database.sql" ]; then
+if [ -n "${DATABASE_URL:-}" ] && pg_dump --no-owner --no-privileges --inserts "$DATABASE_URL" > "$STAGE/database.sql.raw" 2>/dev/null && [ -s "$STAGE/database.sql.raw" ]; then
+  # The owner imports this through Neon's WEB SQL editor, which is not psql:
+  # COPY FROM stdin blocks, psql meta-commands (\restrict/\unrestrict from
+  # newer pg_dump) and PG17-only SETs all fail there. --inserts avoids COPY;
+  # strip the rest so the file is plain SQL that runs anywhere.
+  grep -v -e '^\\' -e '^SET transaction_timeout' "$STAGE/database.sql.raw" > "$STAGE/database.sql"
+  rm -f "$STAGE/database.sql.raw"
   cp "$STAGE/database.sql" database.sql
-  echo "    database.sql regenerated from the live database"
+  echo "    database.sql regenerated from the live database (plain INSERTs)"
 else
+  rm -f "$STAGE/database.sql.raw"
   cp database.sql "$STAGE/database.sql"
   echo "    WARNING: live dump unavailable — shipping the committed database.sql"
 fi
