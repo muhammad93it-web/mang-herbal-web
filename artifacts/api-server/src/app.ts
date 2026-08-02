@@ -36,20 +36,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// API routes are mounted first so nothing can ever shadow them.
+app.use("/api", router);
+
 if (staticDir) {
   // redirect:false — /products is both a public/ subfolder and an SPA route;
   // the static dir-redirect would break client-side routing.
   app.use(express.static(staticDir, { redirect: false }));
-} else {
-  // Root probe (preview/monitoring tools hit "/"); keep logs free of 404 noise.
-  app.get("/", (_req, res) => {
-    res.json({ status: "ok", service: "mang-herbal-api" });
-  });
-}
 
-app.use("/api", router);
-
-if (staticDir) {
   // SPA fallback: any non-API GET serves the storefront's index.html.
   app.use((req, res, next) => {
     if (req.method !== "GET" || req.path.startsWith("/api")) {
@@ -57,6 +51,11 @@ if (staticDir) {
       return;
     }
     res.sendFile(path.join(staticDir, "index.html"));
+  });
+} else {
+  // Root probe (preview/monitoring tools hit "/"); keep logs free of 404 noise.
+  app.get("/", (_req, res) => {
+    res.json({ status: "ok", service: "mang-herbal-api" });
   });
 }
 
