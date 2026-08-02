@@ -70,11 +70,11 @@ export default function Products() {
             </div>
 
             {/* Product Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
               {isLoading ? (
-                Array.from({ length: 6 }).map((_, i) => (
+                Array.from({ length: 8 }).map((_, i) => (
                   <div key={i} className="flex flex-col gap-4">
-                    <Skeleton className="w-full aspect-[4/5] rounded-xl" />
+                    <Skeleton className="w-full aspect-square rounded-xl" />
                     <Skeleton className="h-6 w-2/3" />
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-6 w-1/3" />

@@ -96,7 +96,7 @@ router.get("/admin/users", requireAdmin, async (_req, res) => {
   res.json(users.map((u) => {
     const codeActive = !!u.resetCode && !!u.resetCodeExpiresAt && u.resetCodeExpiresAt.getTime() > now;
     return {
-      id: u.id, name: u.name, phone: u.phone, role: u.role,
+      id: u.id, name: u.name, phone: u.phone, email: u.email ?? null, role: u.role,
       createdAt: u.createdAt.toISOString(),
       hasResetCode: codeActive,
       resetCode: codeActive ? u.resetCode : null,

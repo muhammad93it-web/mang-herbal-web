@@ -10,6 +10,8 @@ export interface AdminUser {
   id: number;
   name: string;
   phone: string;
+  /** @nullable */
+  email: string | null;
   role: string;
   createdAt: string;
   hasResetCode: boolean;

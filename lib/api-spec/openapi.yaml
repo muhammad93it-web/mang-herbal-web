@@ -709,13 +709,18 @@ components:
     # ── Auth ────────────────────────────────────────────────────────────────
     RegisterInput:
       type: object
-      required: [name, phone, password]
+      required: [name, phone, email, password]
       properties:
         name:
           type: string
           minLength: 2
         phone:
           type: string
+        email:
+          type: string
+          # pattern instead of `format: email` — orval emits zod-v4 `zod.email()`
+          # for the format, which breaks against the workspace's zod v3 import.
+          pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$'
         password:
           type: string
           minLength: 6
@@ -737,10 +742,13 @@ components:
           $ref: "#/components/schemas/User"
         token:
           type: string
+        firstLogin:
+          type: boolean
+          description: True when this is the user's first ever login (used for the welcome message).
 
     User:
       type: object
-      required: [id, name, phone, role, createdAt]
+      required: [id, name, phone, email, role, createdAt]
       properties:
         id:
           type: integer
@@ -748,6 +756,8 @@ components:
           type: string
         phone:
           type: string
+        email:
+          type: ["string", "null"]
         role:
           type: string
           enum: [customer, admin]
@@ -1070,7 +1080,7 @@ components:
     # ── Admin users & stats ──────────────────────────────────────────────────
     AdminUser:
       type: object
-      required: [id, name, phone, role, createdAt, hasResetCode]
+      required: [id, name, phone, email, role, createdAt, hasResetCode]
       properties:
         id:
           type: integer
@@ -1078,6 +1088,8 @@ components:
           type: string
         phone:
           type: string
+        email:
+          type: ["string", "null"]
         role:
           type: string
         createdAt:

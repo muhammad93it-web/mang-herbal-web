@@ -1,17 +1,25 @@
 import React from 'react';
 import { Link, useLocation } from 'wouter';
-import { ShoppingBag, User, Menu, X, LogOut, Package, ShieldCheck, Heart } from 'lucide-react';
+import { ShoppingBag, User, Menu, X, LogOut, Package, ShieldCheck, Heart, Check, ChevronDown } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useGetCart } from '@workspace/api-client-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { KurdistanFlag, IraqFlag, UKFlag } from './flags';
 import logoPath from '@assets/logo_png_be_back_1784753437461.png';
 import { cn } from '@/lib/utils';
 import { useCartUI } from '@/store/ui-store';
+import { toast } from 'sonner';
+
+const LANGS = [
+  { code: 'ckb' as const, name: 'کوردی', Flag: KurdistanFlag },
+  { code: 'ar' as const, name: 'العربية', Flag: IraqFlag },
+  { code: 'en' as const, name: 'English', Flag: UKFlag },
+];
 
 export function Navbar() {
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   const { lang, setLang, t } = useLanguage();
   const { user, logout } = useAuth();
   const { data: cart } = useGetCart();
@@ -19,6 +27,17 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const cartItemsCount = cart?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+
+  const currentLang = LANGS.find((l) => l.code === lang) ?? LANGS[0];
+
+  const handleLogout = () => {
+    logout();
+    setIsMobileMenuOpen(false);
+    navigate('/');
+    toast.success(t('بە سەرکەوتوویی چوویتە دەرەوە', 'تم تسجيل الخروج بنجاح', 'You have signed out'), {
+      description: t('بەخێربێیتەوە هەر کاتێک ویستت.', 'نتمنى رؤيتك مجدداً قريباً.', 'We hope to see you again soon.'),
+    });
+  };
 
   const navLinks = [
     { href: '/', label: t('سەرەتا', 'الرئيسية', 'Home') },
@@ -61,23 +80,27 @@ export function Navbar() {
         {/* Actions */}
         <div className="flex items-center gap-2 sm:gap-4">
           
-          {/* Language Switcher */}
+          {/* Language Switcher — flag + language name */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="w-10 px-0 font-serif">
-                {lang.toUpperCase()}
+              <Button variant="ghost" size="sm" className="gap-2 px-2 sm:px-3">
+                <span className="inline-block w-6 h-4 rounded-[3px] overflow-hidden ring-1 ring-border/70 shrink-0">
+                  <currentLang.Flag className="w-full h-full" />
+                </span>
+                <span className="text-sm font-medium">{currentLang.name}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-muted-foreground hidden sm:block" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-32 bg-card border-border">
-              <DropdownMenuItem onClick={() => setLang('ckb')} className="justify-between">
-                کوردی {lang === 'ckb' && <span className="text-primary">•</span>}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLang('ar')} className="justify-between">
-                العربية {lang === 'ar' && <span className="text-primary">•</span>}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLang('en')} className="justify-between">
-                English {lang === 'en' && <span className="text-primary">•</span>}
-              </DropdownMenuItem>
+            <DropdownMenuContent align="end" className="w-44 bg-card border-border">
+              {LANGS.map(({ code, name, Flag }) => (
+                <DropdownMenuItem key={code} onClick={() => setLang(code)} className="gap-3 cursor-pointer">
+                  <span className="inline-block w-6 h-4 rounded-[3px] overflow-hidden ring-1 ring-border/70 shrink-0">
+                    <Flag className="w-full h-full" />
+                  </span>
+                  <span className="flex-1">{name}</span>
+                  {lang === code && <Check className="w-4 h-4 text-primary" />}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -137,7 +160,7 @@ export function Navbar() {
                     {t('دڵخوازەکان', 'المفضلة', 'Favorites')}
                   </DropdownMenuItem>
                 </Link>
-                <DropdownMenuItem onClick={logout} className="text-destructive cursor-pointer mt-1">
+                <DropdownMenuItem onClick={handleLogout} className="text-destructive cursor-pointer mt-1">
                   <LogOut className="w-4 h-4 mr-2" />
                   {t('چوونە دەرەوە', 'تسجيل خروج', 'Logout')}
                 </DropdownMenuItem>

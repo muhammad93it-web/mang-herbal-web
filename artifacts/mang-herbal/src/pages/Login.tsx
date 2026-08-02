@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Eye, EyeOff } from 'lucide-react';
+import { showWelcomeToast } from '@/lib/welcome';
 import logoPath from '@assets/logo_png_be_back_1784753437461.png';
 
 export default function Login() {
@@ -38,6 +39,7 @@ export default function Login() {
       onSuccess: (res) => {
         setAuth(res.user, res.token);
         setLocation('/');
+        showWelcomeToast(t, res.user.name, !!res.firstLogin);
       },
       onError: () => {
         setErrorMsg(t('ژمارە یان وشەی تێپەڕ هەڵەیە', 'رقم الهاتف أو كلمة المرور غير صحيحة', 'Phone or password is incorrect'));
@@ -46,31 +48,31 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 py-10 relative overflow-hidden">
       <div className="absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="w-full max-w-md bg-card/80 backdrop-blur-xl border border-border rounded-3xl p-8 shadow-2xl relative z-10">
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 rounded-full border border-primary/30 bg-black flex items-center justify-center mb-4">
-            <img src={logoPath} alt="Mang Herbal" className="w-12 h-12 object-contain" />
+      <div className="w-full max-w-md bg-card/80 backdrop-blur-xl border border-border rounded-3xl p-6 md:p-7 shadow-2xl relative z-10">
+        <div className="flex flex-col items-center mb-6">
+          <div className="w-14 h-14 rounded-full border border-primary/30 bg-black flex items-center justify-center mb-3">
+            <img src={logoPath} alt="Mang Herbal" className="w-10 h-10 object-contain" />
           </div>
-          <h1 className="font-serif text-3xl font-bold text-foreground">
+          <h1 className="font-serif text-2xl font-bold text-foreground">
             {t('بەخێربێیتەوە', 'أهلاً بك مجدداً', 'Welcome Back')}
           </h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="text-muted-foreground mt-1.5 text-sm">
             {t('چوونە ژوورەوە بۆ هەژمارەکەت', 'تسجيل الدخول إلى حسابك', 'Sign in to your account')}
           </p>
         </div>
 
         {errorMsg && (
-          <div className="bg-destructive/10 text-destructive p-3 rounded-lg text-sm font-medium mb-6 text-center">
+          <div className="bg-destructive/10 text-destructive p-3 rounded-lg text-sm font-medium mb-4 text-center">
             {errorMsg}
           </div>
         )}
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="phone"
@@ -78,7 +80,7 @@ export default function Login() {
                 <FormItem>
                   <FormLabel>{t('ژمارەی تەلەفۆن', 'رقم الهاتف', 'Phone Number')}</FormLabel>
                   <FormControl>
-                    <Input {...field} dir="ltr" placeholder="0750..." className="bg-background h-12" />
+                    <Input {...field} dir="ltr" placeholder="0750..." className="bg-background h-11" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,7 +95,7 @@ export default function Login() {
                   <FormLabel>{t('وشەی تێپەڕ', 'كلمة المرور', 'Password')}</FormLabel>
                   <FormControl>
                     <div className="relative" dir="ltr">
-                      <Input {...field} type={showPassword ? 'text' : 'password'} dir="ltr" className="bg-background h-12 pe-12" />
+                      <Input {...field} type={showPassword ? 'text' : 'password'} dir="ltr" className="bg-background h-11 pe-12" />
                       <button
                         type="button"
                         onClick={() => setShowPassword(v => !v)}
@@ -118,13 +120,13 @@ export default function Login() {
               </Link>
             </div>
 
-            <Button type="submit" disabled={loginMutation.isPending} className="w-full h-14 rounded-full text-lg mt-4 shadow-lg shadow-primary/20">
+            <Button type="submit" disabled={loginMutation.isPending} className="w-full h-12 rounded-full text-base mt-2 shadow-lg shadow-primary/20">
               {loginMutation.isPending ? '...' : t('چوونە ژوورەوە', 'تسجيل الدخول', 'Login')}
             </Button>
           </form>
         </Form>
 
-        <p className="text-center text-muted-foreground mt-8 text-sm">
+        <p className="text-center text-muted-foreground mt-6 text-sm">
           {t('هەژمارت نییە؟', 'ليس لديك حساب؟', 'Don\'t have an account?')}
           <Link href="/register" className="text-primary font-medium mx-2 hover:underline">
             {t('خۆت تۆمار بکە', 'سجل الآن', 'Register here')}

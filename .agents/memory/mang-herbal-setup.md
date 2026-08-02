@@ -9,8 +9,14 @@ JWT lives in localStorage; `setAuthTokenGetter` must stay registered at App.tsx 
 ## Orval query options need explicit queryKey
 The generated hooks type `query` options with a required `queryKey`. Whenever passing options (`enabled`, `refetchInterval`, …), also pass `queryKey: get<Operation>QueryKey()` or typecheck fails.
 
+## Orval: never use `format: email` in openapi.yaml
+It makes Orval emit `zod.email()` (zod-v4-only API) into `lib/api-zod`, which breaks against the workspace zod v3 at build time. Use a regex `pattern` instead (one already sits in the spec with a comment).
+
+## Drizzle push prompts interactively on column adds
+`drizzle-kit push` can stop at an interactive prompt (offering truncate) even for additive columns, which hangs/misleads in a non-TTY shell. For additive changes: apply manual `ALTER TABLE` SQL first, then run push and confirm it reports "No changes detected".
+
 ## Product images carry an opaque logo badge (2026-08-01)
-All product jpgs in `public/products/` have a baked-in brand seal bottom-right: opaque #0A0A0A disk (21.5% of width, 1.37% margin) with the gold logo PNG at 88% of disk size, full opacity. It was composited OVER an older faint 62% watermark to hide it — so the disk must stay opaque and any redo must use the same-or-larger geometry (disk ≥21.5%, margin ≤1.37%) or the old mark ghosts out from underneath. Originals were never committed; git only has watermarked versions. The hero jpg (`attached_assets/generated_images/herbal-hero.jpg`) still carries only the old faint 62% mark (partially cropped by its 4:5 display) — untouched by the badge pass.
+All product jpgs in `public/products/` have a baked-in brand seal bottom-right: opaque #0A0A0A disk (21.5% of width, 1.37% margin) with the gold logo PNG at 88% of disk size, full opacity. It was composited OVER an older faint 62% watermark to hide it — so the disk must stay opaque and any redo must use the same-or-larger geometry (disk ≥21.5%, margin ≤1.37%) or the old mark ghosts out from underneath. Originals were never committed; git only has watermarked versions. The displayed hero is now `public/hero.jpg` — a pre-cropped 4:5 version with the old cropped mark patched over (color-matched disk) and a fresh fully-visible badge; the original `attached_assets/generated_images/herbal-hero.jpg` still carries the old faint 62% mark, so never display it raw again.
 **Why:** owner wanted the logo fully and clearly visible; pristine base images are unrecoverable, so covering beat regenerating.
 **How to apply:** if images are ever regenerated or added, run the same badge pass (sharp lives in `scripts/` package; node scripts must sit inside `scripts/` dir to resolve it). Product cards show images uncropped (square) so the corner badge stays fully visible — keep it that way.
 
@@ -22,7 +28,7 @@ Server auto-sends new orders via CallMeBot (`api.callmebot.com/whatsapp.php`, fr
 **Normalization rule:** all number↔key lookups (server and admin UI) must go through the same normalize step (0…→964…); raw-string lookups silently mismatch keys stored in the other format.
 
 ## Self-host export package (Namecheap cPanel)
-Owner self-hosts a copy on Namecheap shared hosting + Neon Postgres; the hosted copy never updates itself — after any change the owner wants live, regenerate `mang-herbal-host-package.zip` (gitignored; assembly steps live in SETUP-GUIDE.md inside it and in the package layout itself).
+Owner self-hosts a copy on Namecheap shared hosting + Neon Postgres; the hosted copy never updates itself — after any change the owner wants live, regenerate `mang-herbal-host-package.zip` (gitignored) with `bash scripts/build-host-package.sh` (committed; templates in `scripts/host-package/`: CJS Passenger launcher, Kurdish SETUP-GUIDE, minimal package.json). Zip ships `database.sql` (fresh `pg_dump` of the live dev DB taken at build time by `build-host-package.sh` — carries ALL current products/users/orders/settings; falls back to the committed seed if pg_dump fails) + `migrate-existing-db.sql` (incremental ALTERs — email, last_login_at — for the owner's live DB; live DBs must get ALTERs, never a re-import).
 **Why:** owner insisted on own host/domain; shared hosting can't build native modules (bcryptjs, not bcrypt — verifies old $2b$ hashes) and has no Postgres (hence Neon).
 **Gotchas:** the vite config throws unless BOTH `BASE_PATH` and `PORT` are set, even for plain builds; Passenger needs a CJS launcher (can't load ESM startup files); static serving must use `redirect: false` because `public/products/` collides with the `/products` SPA route.
 
@@ -31,3 +37,9 @@ Build zod schemas *inside* the component so `t(ckb, ar, en)` is in scope for mes
 
 ## Password reset race
 Code redemption must remain a single atomic conditional UPDATE (code + expiry inside the WHERE) to prevent replay races. Codes are stored plaintext by design so the admin can re-read and hand them over.
+
+## First-login welcome claim
+`firstLogin` must come from the atomic conditional UPDATE (`SET last_login_at = now() WHERE id = ? AND last_login_at IS NULL` + returning), never from a prior SELECT — otherwise two concurrent logins both win the special welcome. Registration sets `last_login_at` at insert and the UI always treats registration as first time.
+
+## Language switcher flags are inline SVGs
+Owner law bans emoji everywhere, including flags: the switcher uses hand-drawn SVG components in `components/layout/flags.tsx` (Kurdistan sun / Iraq / UK). Reuse those for any locale UI; never substitute emoji flags or an icon-font.

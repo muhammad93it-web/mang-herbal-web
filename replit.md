@@ -9,6 +9,9 @@ Online storefront for a Kurdish herbal cosmetics shop (Nawroz, Erbil): customers
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
+- `pnpm --filter @workspace/db run seed` — seed starter catalog (3 categories, 11 products; products only when table is empty)
+- `bash scripts/build-host-package.sh` — build `mang-herbal-host-package.zip` for self-hosting (cPanel/Passenger; templates in `scripts/host-package/`); runs a fresh `pg_dump` so the zip always carries the current data (products, users, orders, settings)
+- `node src/apply-badge.mjs <img...>` (run inside `scripts/`) — stamp the brand seal onto new product photos
 - Required env: `DATABASE_URL` — Postgres connection string
 
 ## Stack
@@ -30,13 +33,16 @@ Online storefront for a Kurdish herbal cosmetics shop (Nawroz, Erbil): customers
 ## Architecture decisions
 
 - Editable site texts live in `site_settings` (key + 3 language columns), served publicly via `GET /api/settings`, upserted via `PUT /api/admin/settings`
-- Password reset is admin-mediated: admin generates a 6-digit code (24h validity) shown in `/admin/users`, hands it to the customer manually; customer redeems it at `/forgot-password` (`POST /api/auth/reset-password`)
+- Password reset is admin-mediated: admin generates a 6-digit code (24h validity) shown in `/admin/users` and sends it to the customer via WhatsApp or email (emails visible in the admin users table); the customer can request one from `/forgot-password` via a prefilled WhatsApp deep link, then redeems it there (`POST /api/auth/reset-password`)
+- Registration requires phone AND email (email stored nullable-unique for legacy rows; normalized trim+lowercase; duplicates rejected)
 - `setBaseUrl('')` in App.tsx is required — the shared proxy routes `/api` directly; prefixing the artifact base path breaks API calls
 - Express 5 types `req.params.*` as `string | string[]` — always use `paramToInt()` from `src/lib/params.ts`
+- Hero image is a site setting (`hero_image`, one value copied into all 3 language columns; empty = bundled `public/hero.jpg`); edited in Admin Settings → Hero section
+- First-login welcome: login claims `users.last_login_at` atomically (`WHERE last_login_at IS NULL`) and returns `firstLogin`; the storefront shows a special first-time toast vs. a short returning toast with a Flower2 icon (`src/lib/welcome.tsx`); register always counts as first time
 
 ## Product
 
-- Customer: browse by category, search/filter, product detail, cart, checkout (cash on delivery), order history, favorites, register/login by phone. Checkout requires login and collects name/phone/address; the success screen offers prefilled wa.me links to send the order to the shop's WhatsApp (customer must tap send). Mobile app feel: PWA (manifest + icons, installable) and a fixed bottom tab bar on mobile (Home/Products/Favorites/Cart/Account).
+- Customer: browse by category, search/filter, product detail, cart, checkout (cash on delivery), order history, favorites, register by phone + email / login by phone. Checkout requires login and collects name/phone/address; the success screen offers prefilled wa.me links to send the order to the shop's WhatsApp (customer must tap send). Mobile app feel: PWA (manifest + icons, installable) and a fixed bottom tab bar on mobile (Home/Products/Favorites/Cart/Account). Language switcher shows flag + language name (hand-drawn SVG flags in `components/layout/flags.tsx` — Kurdistan/Iraq/UK, no emoji). Logout navigates home with a goodbye toast.
 - Admin (role `admin`): stats overview, order status management, product CRUD, customer list with reset-code generation, site-text editor (hero/footer/contact, 3 languages), new-order bell with unseen count + row highlight, one-tap copy / wa.me share of formatted order text. Mobile admin: horizontal pill nav replaces the sidebar, and orders render as labeled cards.
 - Automatic WhatsApp order notifications via CallMeBot (free personal API): server fire-and-forgets each new order to owner numbers configured in `order_whatsapp_numbers`, using per-number API keys in `order_whatsapp_apikeys` (`number:key` CSV, admin-only setting filtered from the public settings API). Admin Settings has the activation guide, key inputs, and a Test button (`POST /api/admin/whatsapp-test`). Numbers without a key still get the manual deep-link flow.
 
@@ -56,6 +62,8 @@ Online storefront for a Kurdish herbal cosmetics shop (Nawroz, Erbil): customers
 - After editing `openapi.yaml`: run codegen, then restart the API workflow; after DB schema edits: `db push`
 - Frontend query params can arrive as literal `"null"`/`"NaN"` strings — API routes guard with `isValidStr()` (products.ts)
 - Do not modify `artifacts/mang-herbal/vite.config.ts` — canonical scaffold version (PORT/BASE_PATH, allowedHosts) must stay
+- Never use `format: email` in `openapi.yaml` — Orval emits zod-v4-only `zod.email()` which breaks the build; use the regex `pattern` already in the spec
+- `drizzle push` may prompt interactively (truncate offers) — for additive changes apply manual `ALTER TABLE` SQL, then verify push reports "No changes detected"
 
 ## Pointers
 

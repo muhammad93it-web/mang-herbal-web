@@ -6,10 +6,12 @@ export const usersTable = pgTable("users", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   phone: text("phone").notNull().unique(),
+  email: text("email").unique(),
   passwordHash: text("password_hash").notNull(),
   role: text("role").notNull().default("customer"),
   resetCode: text("reset_code"),
   resetCodeExpiresAt: timestamp("reset_code_expires_at"),
+  lastLoginAt: timestamp("last_login_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

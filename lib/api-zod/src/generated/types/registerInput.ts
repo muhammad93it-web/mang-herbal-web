@@ -10,6 +10,8 @@ export interface RegisterInput {
   /** @minLength 2 */
   name: string;
   phone: string;
+  /** @pattern ^[^\s@]+@[^\s@]+\.[^\s@]+$ */
+  email: string;
   /** @minLength 6 */
   password: string;
 }

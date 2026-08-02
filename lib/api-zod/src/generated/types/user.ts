@@ -11,6 +11,8 @@ export interface User {
   id: number;
   name: string;
   phone: string;
+  /** @nullable */
+  email: string | null;
   role: UserRole;
   createdAt: string;
 }

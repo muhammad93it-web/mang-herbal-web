@@ -21,6 +21,7 @@ export const HealthCheckResponse = zod.object({
  */
 export const registerBodyNameMin = 2;
 
+export const registerBodyEmailRegExp = new RegExp('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$');
 export const registerBodyPasswordMin = 6;
 
 
@@ -28,6 +29,7 @@ export const registerBodyPasswordMin = 6;
 export const RegisterBody = zod.object({
   "name": zod.string().min(registerBodyNameMin),
   "phone": zod.string(),
+  "email": zod.string().regex(registerBodyEmailRegExp),
   "password": zod.string().min(registerBodyPasswordMin)
 })
 
@@ -36,10 +38,12 @@ export const RegisterResponse = zod.object({
   "id": zod.number(),
   "name": zod.string(),
   "phone": zod.string(),
+  "email": zod.string().nullable(),
   "role": zod.enum(['customer', 'admin']),
   "createdAt": zod.string()
 }),
-  "token": zod.string()
+  "token": zod.string(),
+  "firstLogin": zod.boolean().optional().describe('True when this is the user\'s first ever login (used for the welcome message).')
 })
 
 
@@ -56,10 +60,12 @@ export const LoginResponse = zod.object({
   "id": zod.number(),
   "name": zod.string(),
   "phone": zod.string(),
+  "email": zod.string().nullable(),
   "role": zod.enum(['customer', 'admin']),
   "createdAt": zod.string()
 }),
-  "token": zod.string()
+  "token": zod.string(),
+  "firstLogin": zod.boolean().optional().describe('True when this is the user\'s first ever login (used for the welcome message).')
 })
 
 
@@ -78,6 +84,7 @@ export const GetMeResponse = zod.object({
   "id": zod.number(),
   "name": zod.string(),
   "phone": zod.string(),
+  "email": zod.string().nullable(),
   "role": zod.enum(['customer', 'admin']),
   "createdAt": zod.string()
 })
@@ -740,6 +747,7 @@ export const AdminGetUsersResponseItem = zod.object({
   "id": zod.number(),
   "name": zod.string(),
   "phone": zod.string(),
+  "email": zod.string().nullable(),
   "role": zod.string(),
   "createdAt": zod.string(),
   "hasResetCode": zod.boolean(),

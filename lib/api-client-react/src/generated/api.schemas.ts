@@ -21,6 +21,8 @@ export interface RegisterInput {
   /** @minLength 2 */
   name: string;
   phone: string;
+  /** @pattern ^[^\s@]+@[^\s@]+\.[^\s@]+$ */
+  email: string;
   /** @minLength 6 */
   password: string;
 }
@@ -42,6 +44,8 @@ export interface User {
   id: number;
   name: string;
   phone: string;
+  /** @nullable */
+  email: string | null;
   role: UserRole;
   createdAt: string;
 }
@@ -49,6 +53,8 @@ export interface User {
 export interface AuthResponse {
   user: User;
   token: string;
+  /** True when this is the user's first ever login (used for the welcome message). */
+  firstLogin?: boolean;
 }
 
 export interface Category {
@@ -251,6 +257,8 @@ export interface AdminUser {
   id: number;
   name: string;
   phone: string;
+  /** @nullable */
+  email: string | null;
   role: string;
   createdAt: string;
   hasResetCode: boolean;

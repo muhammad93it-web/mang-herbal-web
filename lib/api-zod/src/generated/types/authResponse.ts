@@ -10,4 +10,6 @@ import type { User } from './user';
 export interface AuthResponse {
   user: User;
   token: string;
+  /** True when this is the user's first ever login (used for the welcome message). */
+  firstLogin?: boolean;
 }

@@ -59,7 +59,7 @@ export function ProductCard({ product, className, style }: ProductCardProps) {
           <img 
             src={resolvedImage} 
             alt={name} 
-            className="w-full h-full object-cover rounded-[1.5rem] transition-transform duration-1000 group-hover:scale-105"
+            className="w-full h-full object-cover rounded-2xl transition-transform duration-1000 group-hover:scale-105"
           />
         ) : (
           <div className="w-20 h-20 rounded-full bg-secondary-foreground/5 flex items-center justify-center text-muted-foreground/20">
@@ -72,17 +72,17 @@ export function ProductCard({ product, className, style }: ProductCardProps) {
         
         {/* Badges */}
         {product.badge && (
-          <Badge className="absolute top-6 right-6 bg-primary text-primary-foreground border-none font-medium px-3 py-1 text-xs shadow-lg shadow-primary/20 pointer-events-none z-10">
+          <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground border-none font-medium px-2.5 py-0.5 text-xs shadow-lg shadow-primary/20 pointer-events-none z-10">
             {product.badge}
           </Badge>
         )}
         
         {/* Quick Actions (Desktop only hover) */}
-        <div className="absolute bottom-6 left-0 right-0 flex justify-center translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 px-6 z-10">
+        <div className="absolute bottom-3 left-0 right-0 flex justify-center translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 px-3 z-10">
           <Button 
             onClick={handleAddToCart}
             disabled={!product.inStock || addToCart.isPending}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl rounded-full h-12 text-sm"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl rounded-full h-10 text-xs md:text-sm"
           >
             <ShoppingBag className="w-4 h-4 mr-2" />
             {t('خستنە سەبەتە', 'أضف للسلة', 'Add to Cart')}
@@ -91,20 +91,20 @@ export function ProductCard({ product, className, style }: ProductCardProps) {
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-1 bg-gradient-to-b from-card to-background">
-        <div className="text-xs text-primary/90 font-medium mb-3 tracking-wider">
+      <div className="p-4 md:p-5 flex flex-col flex-1 bg-gradient-to-b from-card to-background">
+        <div className="text-[11px] md:text-xs text-primary/90 font-medium mb-1.5 tracking-wider">
           {categoryName}
         </div>
-        <h3 className="font-serif text-xl text-foreground font-semibold leading-tight line-clamp-1 mb-2 group-hover:text-primary transition-colors">
+        <h3 className="font-serif text-base md:text-lg text-foreground font-semibold leading-tight line-clamp-1 mb-1.5 group-hover:text-primary transition-colors">
           {name}
         </h3>
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-6 flex-1 leading-relaxed">
+        <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 mb-4 flex-1 leading-relaxed">
           {desc}
         </p>
         
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-border/30">
+        <div className="flex items-center justify-between mt-auto pt-3 border-t border-border/30">
           <div className="flex flex-col">
-            <span className="font-bold text-foreground text-xl">{formatPrice(product.price)}</span>
+            <span className="font-bold text-foreground text-base md:text-lg">{formatPrice(product.price)}</span>
             {product.oldPrice && (
               <span className="text-xs text-muted-foreground line-through mt-0.5">{formatPrice(product.oldPrice)}</span>
             )}

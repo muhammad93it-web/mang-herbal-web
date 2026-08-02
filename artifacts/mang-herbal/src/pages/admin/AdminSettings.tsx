@@ -16,12 +16,14 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { parseWhatsAppNumbers, parseWhatsAppKeyPairs, serializeWhatsAppKeyPairs, normalizeWhatsAppNumber } from '@/lib/order-text';
 import { Plus, Trash2, Send, Copy, Check } from 'lucide-react';
+import { getImageUrl } from '@/lib/utils';
 
 const REQUIRED_KEYS = [
   'hero_badge',
   'hero_title_1',
   'hero_title_2',
   'hero_subtitle',
+  'hero_image',
   'footer_about',
   'contact_address',
   'contact_phone',
@@ -143,6 +145,41 @@ export default function AdminSettings() {
             dir="ltr"
           />
           <p className="text-xs text-muted-foreground">{t('هەمان بەها بۆ هەموو زمانەکان بەکاردێت.', 'تستخدم نفس القيمة لجميع اللغات.', 'Same value used for all languages.')}</p>
+        </div>
+      </div>
+    );
+  };
+
+  const renderHeroImage = () => {
+    const field = formData['hero_image'] || { key: 'hero_image', valueCkb: '', valueAr: '', valueEn: '' };
+    const preview = getImageUrl(field.valueEn || 'hero.jpg');
+    return (
+      <div className="bg-card border border-border/50 p-4 md:p-6 rounded-2xl space-y-4">
+        <h3 className="font-semibold text-lg text-foreground border-b border-border/50 pb-2">
+          {t('وێنەی بەشی سەرەکی', 'صورة القسم الرئيسي', 'Hero Image')}
+          <span className="text-xs text-muted-foreground ml-2 font-mono bg-secondary px-2 py-0.5 rounded">hero_image</span>
+        </h3>
+        <div className="flex flex-col sm:flex-row gap-4 items-start">
+          <div className="w-24 aspect-[4/5] rounded-xl overflow-hidden border border-border/50 bg-secondary/30 shrink-0">
+            {preview && <img src={preview} alt="" className="w-full h-full object-cover" />}
+          </div>
+          <div className="flex-1 w-full space-y-2">
+            <Label>{t('لینکی وێنە یان ناوی فایل', 'رابط الصورة أو اسم الملف', 'Image link or file name')}</Label>
+            <Input
+              value={field.valueEn}
+              onChange={e => {
+                handleChange('hero_image', 'En', e.target.value);
+                handleChange('hero_image', 'Ar', e.target.value);
+                handleChange('hero_image', 'Ckb', e.target.value);
+              }}
+              dir="ltr"
+              placeholder="hero.jpg"
+              className="bg-background text-left"
+            />
+            <p className="text-xs text-muted-foreground">
+              {t('بەتاڵی بهێڵەوە بۆ وێنە بنەڕەتییەکە، یان لینکی وێنەیەک دابنێ (https://...).', 'اتركه فارغاً للصورة الافتراضية، أو ضع رابط صورة (https://...).', 'Leave empty for the default image, or paste an image link (https://...).')}
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -368,6 +405,7 @@ export default function AdminSettings() {
             {renderFieldGroup('hero_title_1', t('دێڕی یەکەمی ناونیشان', 'العنوان الأول', 'Hero Title Line 1'))}
             {renderFieldGroup('hero_title_2', t('دێڕی دووەمی ناونیشان', 'العنوان الثاني', 'Hero Title Line 2'))}
             {renderFieldGroup('hero_subtitle', t('ژێرناونیشان', 'العنوان الفرعي', 'Hero Subtitle'))}
+            {renderHeroImage()}
           </section>
 
           <section className="space-y-4">

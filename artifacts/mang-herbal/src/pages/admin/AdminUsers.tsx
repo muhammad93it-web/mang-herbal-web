@@ -33,12 +33,13 @@ export default function AdminUsers() {
     <AdminLayout title={t('بەکارهێنەران', 'المستخدمين', 'Users')}>
       <div className="bg-card border border-border/50 rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse min-w-[960px]">
             <thead>
               <tr className="border-b border-border/50 bg-secondary/30">
                 <th className="p-4 font-semibold text-muted-foreground">ID</th>
                 <th className="p-4 font-semibold text-muted-foreground">{t('ناو', 'الاسم', 'Name')}</th>
                 <th className="p-4 font-semibold text-muted-foreground">{t('تەلەفۆن', 'الهاتف', 'Phone')}</th>
+                <th className="p-4 font-semibold text-muted-foreground">{t('ئیمەیڵ', 'البريد الإلكتروني', 'Email')}</th>
                 <th className="p-4 font-semibold text-muted-foreground">{t('ڕۆڵ', 'الدور', 'Role')}</th>
                 <th className="p-4 font-semibold text-muted-foreground">{t('بەرواری تۆماربوون', 'تاريخ التسجيل', 'Join Date')}</th>
                 <th className="p-4 font-semibold text-muted-foreground">{t('کۆدی گۆڕینی وشەی تێپەڕ', 'رمز تغيير كلمة المرور', 'Reset Code')}</th>
@@ -49,7 +50,7 @@ export default function AdminUsers() {
               {isLoading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <tr key={i}>
-                    <td colSpan={7} className="p-4"><Skeleton className="h-12 w-full" /></td>
+                    <td colSpan={8} className="p-4"><Skeleton className="h-12 w-full" /></td>
                   </tr>
                 ))
               ) : users && users.length > 0 ? (
@@ -66,6 +67,15 @@ export default function AdminUsers() {
                     </td>
                     <td className="p-4 text-sm font-medium text-left" dir="ltr">
                       {formatPhone(user.phone)}
+                    </td>
+                    <td className="p-4 text-sm text-left" dir="ltr">
+                      {user.email ? (
+                        <a href={`mailto:${user.email}`} className="text-foreground hover:text-primary hover:underline">
+                          {user.email}
+                        </a>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
                     </td>
                     <td className="p-4">
                       {user.role === 'admin' ? (
@@ -109,7 +119,7 @@ export default function AdminUsers() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} className="p-12 text-center text-muted-foreground">
+                  <td colSpan={8} className="p-12 text-center text-muted-foreground">
                     {t('هیچ بەکارهێنەرێک نەدۆزرایەوە.', 'لم يتم العثور على مستخدمين.', 'No users found.')}
                   </td>
                 </tr>
