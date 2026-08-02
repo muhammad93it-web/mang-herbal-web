@@ -6,3 +6,10 @@ id = "P2eOwYrxj8Vm4Qek3oXHP"
 uri = "file://preview/mang-herbal-preview.html"
 type = "unspecified"
 title = "🌿 Mang Herbal — نوێکراوەوە"
+
+[[outputs]]
+id = "DLtHdOPNFZ_VBRUHVG_oJ"
+uri = "file://mang-herbal-host-package.zip"
+type = "unspecified"
+title = "Mang Herbal — پاکەیجی تەواو بۆ هۆستی خۆت"
+description = "فرۆشگاکە + سێرڤەر + هەموو داتای ئێستا (بەرهەم، هەژمار، داواکاری، ڕێکخستن، وێنەکان) لەگەڵ ڕێنمایی دامەزراندن بە کوردی."
