@@ -21,6 +21,11 @@ Server auto-sends new orders via CallMeBot (`api.callmebot.com/whatsapp.php`, fr
 **Testing note:** wa.me redirects to `api.whatsapp.com/send/` — URL assertions must accept both prefixes. E2E tester instructions must forbid modifying existing accounts (especially the admin user) — have them create their own throwaway accounts instead.
 **Normalization rule:** all number↔key lookups (server and admin UI) must go through the same normalize step (0…→964…); raw-string lookups silently mismatch keys stored in the other format.
 
+## Self-host export package (Namecheap cPanel)
+Owner self-hosts a copy on Namecheap + Neon. Export flow: `BASE_PATH=/ PORT=<any> vite build` (config throws without BOTH env vars) → dist/public; esbuild server bundle needs no node_modules on the host (bcrypt was swapped to bcryptjs for this — pure JS, verifies old $2b$ hashes); `app.cjs` CJS launcher (Passenger can't load ESM directly) reads `.env`, sets STATIC_DIR, dynamic-imports index.mjs. Server serves the storefront when STATIC_DIR is set — MUST use `express.static(dir, { redirect: false })` because `public/products/` collides with the `/products` SPA route (dir-redirect breaks routing). Ship `database.sql` (pg_dump --no-owner --no-privileges).
+**Why:** owner insisted on own host/domain; shared hosting can't build native modules and has no Postgres (hence Neon).
+**How to apply:** after any change the owner wants live, rebuild both, reassemble the package dir, re-zip (`mang-herbal-host-package.zip`, gitignored) — the hosted copy never updates itself.
+
 ## Translated zod messages
 Build zod schemas *inside* the component so `t(ckb, ar, en)` is in scope for message strings; module-level schemas silently reintroduce English-only validation errors.
 
