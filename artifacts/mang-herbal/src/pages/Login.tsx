@@ -92,7 +92,7 @@ export default function Login() {
                 <FormItem>
                   <FormLabel>{t('وشەی تێپەڕ', 'كلمة المرور', 'Password')}</FormLabel>
                   <FormControl>
-                    <div className="relative">
+                    <div className="relative" dir="ltr">
                       <Input {...field} type={showPassword ? 'text' : 'password'} dir="ltr" className="bg-background h-12 pe-12" />
                       <button
                         type="button"

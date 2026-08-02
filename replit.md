@@ -43,6 +43,8 @@ Online storefront for a Kurdish herbal cosmetics shop (Nawroz, Erbil): customers
 ## User preferences
 
 - **LAW — full translation**: when the language switches (Kurdish Sorani / Arabic / English), EVERYTHING on the site must switch — every label, button, toast, error, empty state, admin screen. No hardcoded single-language strings. Kurdish (ckb) is default; ckb/ar are RTL, en is LTR; use the `t(ckb, ar, en)` helper.
+- **Text inputs auto-direction**: base `Input`/`Textarea` default to `dir="auto"` — typed Kurdish/Arabic renders RTL, English LTR. Keep explicit `dir="ltr"` only for technical fields (phone, price, codes, URLs, API keys, passwords). Password fields with an eye toggle: wrap in a `dir="ltr"` container so the eye sits right and never overlaps typed text.
+- **No "Ready for review" / completion prompts in chat until the user asks** — do not propose follow-up tasks or push review cards unprompted; wait for the user to request them.
 - **No emojis anywhere** in the UI or content. Icons only (lucide-react).
 - Phone numbers always render `dir="ltr"` regardless of language.
 - Brand: near-black `#0A0A0A` + gold `#C9A84C`; luxury boutique feel.
