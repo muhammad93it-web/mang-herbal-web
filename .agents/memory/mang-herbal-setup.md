@@ -43,3 +43,17 @@ Code redemption must remain a single atomic conditional UPDATE (code + expiry in
 
 ## Language switcher flags are inline SVGs
 Owner law bans emoji everywhere, including flags: the switcher uses hand-drawn SVG components in `components/layout/flags.tsx` (Kurdistan sun / Iraq / UK). Reuse those for any locale UI; never substitute emoji flags or an icon-font.
+
+## Namecheap blocks outbound 5432 → Neon over WebSocket 443
+Her cPanel host refuses outbound TCP to 5432 (ECONNREFUSED in ~1s — firewall, not Neon). Fix: `lib/db/src/index.ts` auto-selects a driver — `*.neon.tech` host ⇒ `@neondatabase/serverless` Pool over WSS 443 + `drizzle-orm/neon-serverless` (with `ws` pkg as webSocketConstructor, pool max 2, idle 30s for Passenger); anything else ⇒ pg.Pool + node-postgres (dev). `DB_DRIVER=pg|neon-ws` overrides.
+**Why:** shared hosts commonly firewall non-web outbound ports; 443 is always open.
+**How to apply:** never assume raw 5432 works from shared hosting; test with the gated diagnostic below before blaming credentials.
+
+## pnpm peer dedup: @neondatabase/serverless must be in BOTH lib/db and api-server
+It is a drizzle-orm peer; installing it in only one package makes pnpm build two drizzle-orm instances → hundreds of nominal type errors ("separate declarations of a private property"). Add the dep to every package that imports drizzle-orm.
+
+## Composite refs: rebuild lib/db d.ts after editing it
+api-server typecheck reads `lib/db/dist/*.d.ts` (project references, emitDeclarationOnly). After changing lib/db exports run `pnpm exec tsc -b lib/db` or typecheck reports missing members that exist in source.
+
+## Gated DB diagnostic + redaction
+`GET /api/healthz/db` needs header `x-diag: 1` (else 404). Reports driver, host, TCP tests to DB port + 443, and a credential-redacted pg error cause chain (`api-server/src/lib/redact.ts`; final error handler also redacts). Update zips for her host can ship `dist/index.mjs` alone — the pino sibling worker files in dist/ are stable across builds.

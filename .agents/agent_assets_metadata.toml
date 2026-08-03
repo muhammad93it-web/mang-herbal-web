@@ -34,3 +34,10 @@ uri = "file://mang-herbal-update.zip"
 type = "unspecified"
 title = "mang-herbal-update.zip — نوێکردنەوەی بچووک (یەک فایل)"
 description = "هەمان سایتە + ئامرازی پشکنینی داتابەیس. لە فۆڵدەری mang-herbal-app بار بکە و Extract بکە."
+
+[[outputs]]
+id = "d6MzhrnPKnGmywuZjMZF5"
+uri = "file://mang-herbal-update2.zip"
+type = "unspecified"
+title = "mang-herbal-update2.zip — چارەسەری پەیوەندی داتابەیس"
+description = "پەیوەندی بە Neon لەسەر پۆرتی 443 (WebSocket) — تایبەت بە hosting‌ی هاوبەش کە پۆرتی 5432 دادەخات. هەمان شێوازی جاری پێشوو: بار بکە و Extract بکە."

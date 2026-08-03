@@ -5,6 +5,7 @@ import { inspect } from "node:util";
 import pinoHttp from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
+import { redactSecrets } from "./lib/redact";
 
 const app: Express = express();
 
@@ -64,7 +65,7 @@ if (staticDir) {
 // error in err.cause, which the default handler never printed) and answers
 // JSON instead of Express's HTML error page.
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
-  console.error("Unhandled error:", inspect(err, { depth: 6 }));
+  console.error("Unhandled error:", redactSecrets(inspect(err, { depth: 6 })));
   if (!res.headersSent) {
     res.status(500).json({ message: "Internal Server Error" });
   }
