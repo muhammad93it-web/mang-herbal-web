@@ -5,8 +5,25 @@ import { eq, ne, count, sum, desc } from "drizzle-orm";
 import { requireAdmin } from "../lib/auth";
 import { AdminCreateProductBody, AdminUpdateProductBody, AdminUpdateOrderStatusBody, AdminUpdateSettingsBody, AdminTestWhatsAppBody } from "@workspace/api-zod";
 import { normalizeWhatsAppNumber, sendCallMeBot } from "../lib/whatsapp";
+import { generateBackupSql } from "../lib/backup";
 
 const router = Router();
+
+// Full database backup as a runnable restore file (safe for the Neon web SQL
+// editor: plain INSERTs, no COPY, no psql meta-commands). The owner downloads
+// this from the admin settings page and keeps it as her disaster-recovery copy.
+router.get("/admin/backup", requireAdmin, async (_req, res) => {
+  const sql = await generateBackupSql();
+  const stamp = new Date().toISOString().slice(0, 10);
+  // The file contains password hashes and customer data — never cache it.
+  res.setHeader("Cache-Control", "no-store, private");
+  res.setHeader("Content-Type", "application/sql; charset=utf-8");
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename="mang-herbal-backup-${stamp}.sql"`,
+  );
+  res.send(sql);
+});
 
 function formatProduct(p: typeof productsTable.$inferSelect) {
   return {

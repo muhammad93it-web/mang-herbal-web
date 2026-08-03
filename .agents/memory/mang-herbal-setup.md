@@ -57,3 +57,6 @@ api-server typecheck reads `lib/db/dist/*.d.ts` (project references, emitDeclara
 
 ## Gated DB diagnostic + redaction
 `GET /api/healthz/db` needs header `x-diag: 1` (else 404). Reports driver, host, TCP tests to DB port + 443, and a credential-redacted pg error cause chain (`api-server/src/lib/redact.ts`; final error handler also redacts). Update zips for her host can ship `dist/index.mjs` alone — the pino sibling worker files in dist/ are stable across builds.
+
+## Admin backup button (settings page)
+`GET /api/admin/backup` (requireAdmin) streams a self-contained restore .sql (drop schema + DDL + INSERTs + setvals) built by `api-server/src/lib/backup.ts` inside one repeatable-read read-only transaction. The DDL there is HARDCODED to mirror `lib/db/src/schema` — **any schema change must update backup.ts in the same commit**. File is Neon-web-editor-safe (INSERTs only, `SET standard_conforming_strings = on` pinned). Frontend: manual fetch + blob download in AdminSettings (not orval — file download). Update zips that touch the storefront must include `public/index.html` + `public/assets/*` (new hashes), not just dist/index.mjs.

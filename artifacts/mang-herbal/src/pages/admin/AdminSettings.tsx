@@ -15,7 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { parseWhatsAppNumbers, parseWhatsAppKeyPairs, serializeWhatsAppKeyPairs, normalizeWhatsAppNumber } from '@/lib/order-text';
-import { Plus, Trash2, Send, Copy, Check } from 'lucide-react';
+import { Plus, Trash2, Send, Copy, Check, Download } from 'lucide-react';
 import { getImageUrl } from '@/lib/utils';
 
 const REQUIRED_KEYS = [
@@ -52,6 +52,36 @@ export default function AdminSettings() {
   const [newWaKey, setNewWaKey] = useState('');
   const [copiedMsg, setCopiedMsg] = useState(false);
   const [testingNumber, setTestingNumber] = useState<string | null>(null);
+  const [downloadingBackup, setDownloadingBackup] = useState(false);
+
+  // Downloads the full-database backup file. Manual fetch (not the generated
+  // client) because this is a file download, not a JSON API call.
+  const handleDownloadBackup = async () => {
+    setDownloadingBackup(true);
+    try {
+      const token = localStorage.getItem('mang_token');
+      const res = await fetch('/api/admin/backup', {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `mang-herbal-backup-${new Date().toISOString().slice(0, 10)}.sql`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      // Revoke later — revoking immediately can race the download start on
+      // some browsers (Safari/iOS).
+      setTimeout(() => URL.revokeObjectURL(url), 10_000);
+      toast.success(t('فایلی باکئاپ داگیرا — لە شوێنێکی سەلامەت هەڵیبگرە', 'تم تنزيل النسخة الاحتياطية — احفظها في مكان آمن', 'Backup downloaded — keep it somewhere safe'));
+    } catch {
+      toast.error(t('داگرتنی باکئاپ سەرنەکەوت', 'فشل تنزيل النسخة الاحتياطية', 'Backup download failed'));
+    } finally {
+      setDownloadingBackup(false);
+    }
+  };
 
   useEffect(() => {
     if (settings) {
@@ -422,6 +452,31 @@ export default function AdminSettings() {
               {renderSingleField('social_instagram', t('ئینستاگرام', 'انستغرام', 'Instagram URL'))}
               {renderSingleField('social_facebook', t('فەیسبووک', 'فيسبوك', 'Facebook URL'))}
               {renderSingleField('social_whatsapp', t('وەتسئەپ (ژمارە)', 'واتساب (رقم)', 'WhatsApp Number'))}
+            </div>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-serif font-bold text-primary">{t('باکئاپی داتابەیس', 'النسخة الاحتياطية', 'Database Backup')}</h2>
+            <div className="bg-card border border-border/50 p-4 md:p-6 rounded-2xl space-y-4">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t(
+                  'فایلێک دادەگریت کە هەموو داتاکانی فرۆشگاکەی تێدایە: بەرهەمەکان، بەشەکان، داواکارییەکان، هەژمارەکان و ڕێکخستنەکان. ماوە ماوە دایبگرە و لە شوێنێکی سەلامەت هەڵیبگرە — ئەگەر ڕۆژێک کێشەیەک ڕوویدا، بەم فایلە هەموو شتێک دەگەڕێتەوە.',
+                  'يُنزّل ملفاً يحتوي كل بيانات المتجر: المنتجات والأقسام والطلبات والحسابات والإعدادات. نزّله من وقت لآخر واحفظه في مكان آمن — إذا حدثت مشكلة يوماً ما، يعيد هذا الملف كل شيء.',
+                  'Downloads a file containing all your store data: products, categories, orders, accounts and settings. Download it from time to time and keep it somewhere safe — if anything ever goes wrong, this file brings everything back.'
+                )}
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleDownloadBackup}
+                disabled={downloadingBackup}
+                className="h-11 rounded-full"
+              >
+                <Download className="w-4 h-4" />
+                {downloadingBackup
+                  ? t('چاوەڕوان بە...', 'انتظر...', 'Please wait...')
+                  : t('داگرتنی باکئاپ', 'تنزيل النسخة الاحتياطية', 'Download Backup')}
+              </Button>
             </div>
           </section>
         </div>

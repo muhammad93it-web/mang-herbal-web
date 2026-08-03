@@ -349,7 +349,7 @@ INSERT INTO public.products VALUES (11, 'پرۆتۆکۆلی لاوازبوون',
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (1, 'Admin', '7501263713', '$2b$10$bY0w/vByypAFQWa5/11bfu/nvbRG2Zw2e3WMkaNJ2MUie0iQpyGQe', 'admin', NULL, NULL, '2026-08-02 20:59:55.185291', NULL, '2026-08-02 22:42:04.305');
+INSERT INTO public.users VALUES (1, 'Admin', '7501263713', '$2b$10$bY0w/vByypAFQWa5/11bfu/nvbRG2Zw2e3WMkaNJ2MUie0iQpyGQe', 'admin', NULL, NULL, '2026-08-02 20:59:55.185291', NULL, '2026-08-03 14:32:23.591');
 
 
 --
@@ -384,7 +384,7 @@ SELECT pg_catalog.setval('public.orders_id_seq', 1, true);
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.products_id_seq', 11, true);
+SELECT pg_catalog.setval('public.products_id_seq', 13, true);
 
 
 --
