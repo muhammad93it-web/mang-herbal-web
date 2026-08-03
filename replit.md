@@ -21,6 +21,19 @@ Online storefront for a Kurdish herbal cosmetics shop (Nawroz, Erbil): customers
 - API: Express 5 · DB: PostgreSQL + Drizzle ORM · Validation: Zod (`zod/v4`)
 - API codegen: Orval (from `lib/api-spec/openapi.yaml`)
 
+## Production (live site) — read this first in a new account/workspace
+
+This chat's history does NOT travel with the project — this file does. Everything below is what a future agent needs to operate the live site without re-asking the owner.
+
+- Live at **https://mang-herbal.com** — self-hosted by the owner on **Namecheap shared cPanel** (Phusion Passenger, Node 20.20.0), app folder `/home/mangidvu/mang-herbal-app`. There is NO Replit deployment and the owner does not want one suggested.
+- Production database: **Neon Postgres** — endpoint `ep-jolly-boat-a2bis3o7.eu-central-1.aws.neon.tech`, database `neondb`. Credentials live ONLY in the server's `.env` (`DATABASE_URL`) and in the owner's Neon account — never in this repo. The workspace dev DB is a completely separate database with separate data; nothing done in dev touches live data.
+- **Namecheap blocks outbound TCP 5432.** `lib/db/src/index.ts` therefore picks the driver by hostname: `*.neon.tech` → `@neondatabase/serverless` Pool over WebSocket :443 (driver name `neon-ws`, uses `ws`); any other host → node-postgres (`pg`). `DB_DRIVER=pg|neon-ws` overrides. Never "simplify" this back to a single driver — plain `pg` cannot reach Neon from her host.
+- Shipping an update: `bash scripts/build-host-package.sh`, then make a small zip of only the changed files — always `dist/index.mjs`; ALSO `public/index.html` + `public/assets/*` whenever the storefront changed. The owner's entire skill set for deploys: cPanel File Manager → upload zip → Extract → delete zip → Stop App → Start App. Give her exactly those steps, then verify with `curl https://mang-herbal.com/api/products`.
+- Remote diagnostics: `GET https://mang-herbal.com/api/healthz/db` with header `x-diag: 1` (404 without it) reports active driver, TCP reachability, and credential-redacted error chains.
+- Backups: Admin panel → Settings → "Download Backup" (`GET /api/admin/backup`) yields a self-contained restore `.sql` (Neon-SQL-Editor-safe: plain INSERTs, no COPY). Restore = paste the whole file into the Neon SQL Editor → Run. The DDL inside `artifacts/api-server/src/lib/backup.ts` is hardcoded — **update it in the same commit as any schema change**.
+- Fresh workspace/fork setup: create the dev Postgres, ensure the `SESSION_SECRET` secret exists, `pnpm install`, `pnpm --filter @workspace/db run push`, then `run seed` — or restore one of the owner's backup `.sql` files for real data. Dev admin login: phone `7501263713`, password `123456` (production has its own password, known only to the owner).
+- **Keep this section current**: whenever hosting, database, drivers, or the update flow change, update this file in the same session — the next agent may be in a different account with zero chat history.
+
 ## Where things live
 
 - DB schema: `lib/db/src/schema/` (users, categories, products, carts, orders, favorites, settings)
