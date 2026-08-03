@@ -20,3 +20,10 @@ uri = "file://database.sql"
 type = "unspecified"
 title = "database.sql — نوسخەی چاککراو بۆ Neon"
 description = "هەمان داتا بەڵام بە SQL ی سادە — لە SQL Editor ی Neon بێ کێشە کار دەکات."
+
+[[outputs]]
+id = "wwDY2p86nwCqVKKRbqe2l"
+uri = "file://neon-import.sql"
+type = "unspecified"
+title = "neon-import.sql — داتابەیسی تەواو، یەک کۆپی و یەک Run"
+description = "پاککردنەوە و داتا نوێیەکە پێکەوە لە یەک فایلدا — تەنها هەمووی کۆپی بکە و لە Neon SQL Editor یەکجار Run بکە."
