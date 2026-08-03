@@ -1,6 +1,7 @@
-import express, { type Express } from "express";
+import express, { type Express, type ErrorRequestHandler } from "express";
 import cors from "cors";
 import path from "node:path";
+import { inspect } from "node:util";
 import pinoHttp from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
@@ -58,5 +59,16 @@ if (staticDir) {
     res.json({ status: "ok", service: "mang-herbal-api" });
   });
 }
+
+// Final error handler: logs the FULL cause chain (drizzle wraps the real pg
+// error in err.cause, which the default handler never printed) and answers
+// JSON instead of Express's HTML error page.
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  console.error("Unhandled error:", inspect(err, { depth: 6 }));
+  if (!res.headersSent) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+app.use(errorHandler);
 
 export default app;

@@ -27,3 +27,10 @@ uri = "file://neon-import.sql"
 type = "unspecified"
 title = "neon-import.sql — داتابەیسی تەواو، یەک کۆپی و یەک Run"
 description = "پاککردنەوە و داتا نوێیەکە پێکەوە لە یەک فایلدا — تەنها هەمووی کۆپی بکە و لە Neon SQL Editor یەکجار Run بکە."
+
+[[outputs]]
+id = "3TJjPAX5LJaa2pE9VonVu"
+uri = "file://mang-herbal-update.zip"
+type = "unspecified"
+title = "mang-herbal-update.zip — نوێکردنەوەی بچووک (یەک فایل)"
+description = "هەمان سایتە + ئامرازی پشکنینی داتابەیس. لە فۆڵدەری mang-herbal-app بار بکە و Extract بکە."

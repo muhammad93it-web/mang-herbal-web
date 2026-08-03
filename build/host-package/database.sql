@@ -320,7 +320,6 @@ INSERT INTO public.categories VALUES (3, 'lips-body', 'لێو و جەستە', '�
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.orders VALUES (1, 36, 'shipped', 42000, 'Muhammad Hassan', '07502037873', 'حاجیاوا  پینجی ئازار', '', true, '[{"price": 12000, "nameAr": "زيت أرغان للوجه", "nameEn": "Argan Face Oil", "nameCkb": "ڕۆنی ئەرگان بۆ ڕوو", "quantity": 2, "productId": 1}, {"price": 18000, "nameAr": "سيروم الإشراق", "nameEn": "Brightening Serum", "nameCkb": "سیرۆمی گەشکردنەوە", "quantity": 1, "productId": 2}]', '2026-08-02 22:41:20.8017');
 
 
 --
@@ -351,7 +350,6 @@ INSERT INTO public.products VALUES (11, 'پرۆتۆکۆلی لاوازبوون',
 --
 
 INSERT INTO public.users VALUES (1, 'Admin', '7501263713', '$2b$10$bY0w/vByypAFQWa5/11bfu/nvbRG2Zw2e3WMkaNJ2MUie0iQpyGQe', 'admin', NULL, NULL, '2026-08-02 20:59:55.185291', NULL, '2026-08-02 22:42:04.305');
-INSERT INTO public.users VALUES (36, 'Muhammad Hassan', '07502037873', '$2b$10$d8B0R/Wy0zSgUIvXhjocAOT5AtmtbkLvvSjMuL97LgnFvwvfaqnM2', 'customer', NULL, NULL, '2026-08-02 22:40:12.654702', 'anyt0557@gmail.com', '2026-08-02 22:42:54.728');
 
 
 --
