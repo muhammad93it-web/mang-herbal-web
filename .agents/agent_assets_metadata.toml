@@ -48,3 +48,17 @@ uri = "file://mang-herbal-update3.zip"
 type = "unspecified"
 title = "mang-herbal-update3.zip — دوگمەی باکئاپی داتابەیس"
 description = "دوگمەیەکی نوێ لە پانێڵی ئەدمین > ڕێکخستنەکان: داگرتنی باکئاپی هەموو داتاکان بە یەک کرتە. هەمان شێوازی جاران بار بکە."
+
+[[outputs]]
+id = "y3qqXXzVbzMbCxnHhMGyc"
+uri = "file://mang-herbal-update4.zip"
+type = "unspecified"
+title = "mang-herbal-update4.zip — نوێکردنەوەی ٤"
+description = "کاڵا ڕاستەقینەکان + وێنەکان + دوگمەی واتسئاپ + تیکتۆک لە فوتەر + پاراستنی «بەردەست نییە». هەڵیبگرە و لە cPanel بەرزی بکەرەوە."
+
+[[outputs]]
+id = "BMsaWVW2-CXSiTjKt8-7E"
+uri = "file://mang-herbal-update4.sql"
+type = "unspecified"
+title = "mang-herbal-update4.sql — زانیاری کاڵاکان بۆ Neon"
+description = "ئەم فایلە لە Neon SQL Editor پەیست بکە و Run بکە — کاڵا کۆنەکان دەسڕێتەوە و ١٢ کاڵا ڕاستەقینەکەت دادەنێت لەگەڵ لینکی سۆشیاڵەکانت."

@@ -30,6 +30,7 @@ const REQUIRED_KEYS = [
   'contact_email',
   'social_instagram',
   'social_facebook',
+  'social_tiktok',
   'social_whatsapp',
   'order_whatsapp_numbers',
   'order_whatsapp_apikeys'
@@ -451,6 +452,7 @@ export default function AdminSettings() {
               {renderSingleField('contact_email', t('ئیمەیڵ', 'البريد الإلكتروني', 'Email'))}
               {renderSingleField('social_instagram', t('ئینستاگرام', 'انستغرام', 'Instagram URL'))}
               {renderSingleField('social_facebook', t('فەیسبووک', 'فيسبوك', 'Facebook URL'))}
+              {renderSingleField('social_tiktok', t('تیکتۆک', 'تيك توك', 'TikTok URL'))}
               {renderSingleField('social_whatsapp', t('وەتسئەپ (ژمارە)', 'واتساب (رقم)', 'WhatsApp Number'))}
             </div>
           </section>

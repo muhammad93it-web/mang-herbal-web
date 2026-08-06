@@ -307,7 +307,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 INSERT INTO public.categories VALUES (1, 'face-care', 'چاودێری ڕوو', 'العناية بالوجه', 'Face Care');
 INSERT INTO public.categories VALUES (2, 'hair-care', 'چاودێری موو', 'العناية بالشعر', 'Hair Care');
-INSERT INTO public.categories VALUES (3, 'lips-body', 'لێو و جەستە', 'الشفاه والجسم', 'Lips & Body');
+INSERT INTO public.categories VALUES (3, 'tea-wellness', 'چا و بەرهەمی تەندروستی', 'الشاي والمنتجات الصحية', 'Tea & Wellness');
 
 
 --
@@ -326,44 +326,49 @@ INSERT INTO public.categories VALUES (3, 'lips-body', 'لێو و جەستە', '�
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.products VALUES (1, 'ڕۆنی ئەرگان بۆ ڕوو', 'زيت أرغان للوجه', 'Argan Face Oil', 'ڕۆنێکی سروشتی دەوڵەمەند کە پێست بە قووڵی تەڕ دەکاتەوە و گەشاوەیی پێدەبەخشێت. لە باشترین جۆری ئەرگان دروستکراوە؛ هێڵە وردەکان کەم دەکاتەوە و پێستەکەت نەرم و درەوشاوە دەکات.', 'منتج طبيعي غني يرطب البشرة ويجددها. يحتوي على أجود أنواع زيت الأرغان المغربي، يعمل ضد الشيخوخة ويمنح البشرة توهجاً مميزاً.', 'A rich natural product that deeply moisturizes and revitalizes skin. Packed with premium Moroccan argan oil, it fights aging and gives skin a radiant glow.', 12000, 15000, 'face-care', 'products/argan-face-oil.jpg', 'زۆرترین فرۆشراو', true, true, 4.8, 24, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (2, 'سیرۆمی گەشکردنەوە', 'سيروم الإشراق', 'Brightening Serum', 'سیرۆمێکی کاریگەر کە ڕەنگی پێست یەکدەخات و لەکە تاریکەکان کاڵ دەکاتەوە. بە بەکارهێنانی بەردەوام، دوای دوو هەفتە جیاوازییەکە بە ڕوونی دەبینیت.', 'سيروم فعّال يوحد لون البشرة ويزيل آثار التعب وعلامات التقدم في السن. لاحظ المستخدمون تحسناً ملحوظاً خلال أسبوعين فقط.', 'A powerful serum that evens skin tone and restores a youthful glow. Users notice visible improvement within two weeks of use.', 18000, 22000, 'face-care', 'products/brightening-serum.jpg', 'تازە', true, true, 4.7, 18, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (3, 'کرێمی ڕووی گیایی', 'كريم الوجه العشبي', 'Herbal Face Cream', 'کرێمێکی نەرم و خۆشبۆن کە لە ڕووەکی سروشتی دروستکراوە. پێست بە قووڵی تەڕ دەکاتەوە و بە درێژایی ڕۆژ دەیپارێزێت. گونجاوە بۆ هەموو جۆرە پێستێک.', 'كريم ناعم وعطري مصنوع من مستخلصات نباتية طبيعية. يوصل الترطيب والتغذية العميقة للبشرة ويحميها طوال اليوم.', 'A soft, fragrant cream based on natural botanical extracts. Delivers deep moisture and nourishment, protecting skin from morning to night.', 14000, 17000, 'face-care', 'products/herbal-face-cream.jpg', NULL, true, false, 4.6, 31, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (4, 'ماسکی ڕووی گیایی', 'قناع الوجه العشبي', 'Herbal Face Mask', 'ماسکێکی کاریگەر بۆ پاککردنەوەی قووڵ و نوێکردنەوەی پێست. تەنها ١٥ خولەک بەسە بۆ پێستێکی پاک و گەشاوە، وەک ئەوەی لە باشترین سالۆنەکان وەریدەگریت.', 'قناع فعّال ينظف البشرة بعمق ويمسد مسامها. 15 دقيقة فقط كافية للحصول على بشرة مشرقة كما بعد جلسة سبا فاخرة.', 'An effective mask that deep-cleanses and tightens pores. Just 15 minutes for skin that glows like after a luxury spa session.', 10000, 13000, 'face-care', 'products/herbal-face-mask.jpg', 'داشکاندن', true, false, 4.5, 15, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (5, 'سیرۆمی سروشتی ڕوو', 'سيروم الوجه الطبيعي', 'Natural Face Serum', 'لووتکەی چاودێری سروشتی پێست. پێکهاتەکەی تەڕی و خۆراک دەگەیەنێتە قووڵترین چینەکانی پێست. هەڵبژاردەیەکی نایابە بۆ پێستی هەستیار و ماندوو.', 'ذروة العناية الطبيعية — تقنية متقدمة تنقل الأكسجين والترطيب إلى أعمق طبقات البشرة. مثالي للبشرة الحساسة والمتعبة.', 'The pinnacle of natural skincare — advanced technology delivers oxygen and hydration to the deepest skin layers. Ideal for sensitive or stressed skin.', 20000, 25000, 'face-care', 'products/natural-face-serum.jpg', 'نایاب', true, true, 4.9, 42, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (6, 'کرێمی چاککردنەوەی شەوانە', 'كريم الإصلاح الليلي', 'Night Repair Cream', 'لە کاتی خەودا کار دەکات: پێست نوێ دەکاتەوە، نیشانەکانی پیربوون کەم دەکاتەوە و بەیانییان بە پێستێکی تازە و گەشاوە هەڵدەستیت.', 'أثناء نومك، يعمل هذا الكريم بجد: يصلح حاجز البشرة ويقلل علامات التقدم في السن لتستيقظ ببشرة منتعشة ومتجددة كل صباح.', 'While you sleep, this cream works hard: repairs the skin barrier, fades signs of aging, and you wake up to fresh, radiant skin every morning.', 16000, 20000, 'face-care', 'products/night-repair-cream.jpg', NULL, true, true, 4.7, 29, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (7, 'شامپۆی دژە هەڵوەرینی موو', 'شامبو مضاد لتساقط الشعر', 'Anti Hair-Loss Shampoo', 'شامپۆیەکی چارەسەرکەر کە موو لە ڕەگەوە بەهێز دەکات. گیا تایبەتەکانی ناوی سوڕی خوێن بۆ ڕەگی موو زیاد دەکەن و هەڵوەرین بە شێوەیەکی بەرچاو کەم دەکەنەوە.', 'شامبو علاجي يقوي الشعر من جذوره. يحتوي على أعشاب خاصة تحفز الدورة الدموية لجريبات الشعر وتقلل التساقط بشكل ملحوظ.', 'A therapeutic shampoo that strengthens hair from the roots. Special herbal blends stimulate blood flow to hair follicles and significantly reduce hair loss.', 11000, 14000, 'hair-care', 'products/anti-hair-loss-shampoo.jpg', 'زۆرترین فرۆشراو', true, true, 4.8, 37, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (8, 'ڕۆنی مووی گیایی', 'زيت الشعر العشبي', 'Herbal Hair Oil', 'تێکەڵەیەکی نایاب لە ١٢ جۆر ڕۆنی سروشتی. درەوشانەوە بە موو دەبەخشێت، شکان کەم دەکاتەوە و مووی سەرکێش هێمن دەکاتەوە.', 'تركيبة فريدة من 12 نوعاً من الزيوت النباتية الطبيعية. يمنح الشعر لمعاناً ساطعاً، يمنع التقصف ويسيطر على التجعد الصعب.', 'A unique blend of 12 natural plant oils. Gives hair brilliant shine, prevents breakage, and tames even the most stubborn frizz.', 9000, 12000, 'hair-care', 'products/herbal-hair-oil.jpg', NULL, true, false, 4.6, 22, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (9, 'شامپۆی گیایی', 'شامبو عشبي', 'Herbal Shampoo', 'پاککردنەوەیەکی نەرم بە بۆنی گیای شاخاوی. هاوسەنگی سروشتی موو دەپارێزێت و ڕۆژ لەدوای ڕۆژ مووەکەت تەندروستتر و جوانتر دەکات.', 'تنظيف لطيف برائحة الأعشاب الجبلية الطبيعية. يوازن درجة الحموضة ويقلل التراكم الكيميائي ليجعل شعرك أجمل وأصح يوماً بعد يوم.', 'Gentle cleansing with the natural scent of mountain herbs. Balances pH, reduces chemical buildup, and makes hair noticeably healthier day by day.', 8000, 10000, 'hair-care', 'products/herbal-shampoo.jpg', NULL, true, false, 4.5, 19, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (10, 'مەرهەمی لێوی گیایی', 'بلسم الشفاه العشبي', 'Herbal Lip Balm', 'چارەسەرێکی نایاب بۆ لێوی وشک و شەقاربوو. بە هەنگوینی سروشتی و ڕۆنی گوڵ، لێوەکانت نەرم دەکات و بە درێژایی ڕۆژ دەیانپارێزێت.', 'الشفاه الجافة والمتشققة مشكلة كثيرين. هذا البلسم بتركيبة العسل الطبيعي وزيت ورد الجوري يلطف شفتيك ويحميهما طوال اليوم.', 'Dry and cracked lips are a common struggle. This balm with natural honey and rose oil soothes and protects your lips throughout the day.', 5000, 7000, 'lips-body', 'products/herbal-lip-balm.jpg', 'تازە', true, false, 4.7, 11, '2026-08-02 21:35:11.502181');
-INSERT INTO public.products VALUES (11, 'پرۆتۆکۆلی لاوازبوون', 'بروتوكول التنحيف', 'Slimming Protocol', 'بەرنامەیەکی تەواو بۆ ڕێککردنی جەستە لەسەر بنەمای گیای سروشتی. بەبێ هیچ ماددەیەکی کیمیایی — تەنها بەخششە سروشتییەکانی چیاکانی کوردستان.', 'برنامج متكامل لرشاقة الجسم مبني على الأعشاب الطبيعية. بعيداً عن المواد الكيميائية — فقط ما تجود به الطبيعة الكردية الخالصة.', 'A complete body shaping program built on natural botanical herbs. No chemicals — only the pure natural gifts of the Kurdish highlands.', 35000, 45000, 'lips-body', 'products/slimming-protocol.jpg', 'نایاب', true, true, 4.9, 8, '2026-08-02 21:35:11.502181');
+INSERT INTO public.products VALUES (21, 'چای پاودەری جینسنگ', 'شاي الجينسنغ البودرة', 'Ginseng Powder Tea', 'چای پاودەری جینسنگ — یارمەتی گەشە و زیادکردنی ئارەزووی خواردن دەدات و وزە بە جەستە دەبەخشێت.', 'شاي الجينسنغ البودرة — يساعد على النمو وفتح الشهية ويمنح الجسم طاقة.', 'Ginseng powder tea — supports growth and appetite, and gives the body energy.', 27000, NULL, 'tea-wellness', 'products/ginseng-tea.jpg', NULL, true, false, 4.7, 9, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (22, 'چای گارسینیا کەمبۆژیا', 'شاي غارسينيا كامبوجيا', 'Garcinia Cambogia Tea', 'چای پاودەری گارسینیا کەمبۆژیا ١٠٠ گرام — هاوکارە لە کەمکردنەوەی کێش و کۆنترۆڵکردنی ئارەزووی خواردن.', 'شاي غارسينيا كامبوجيا بودرة ١٠٠ غرام — يساعد على إنقاص الوزن والتحكم بالشهية.', 'Garcinia Cambogia powder tea 100g — supports weight loss and appetite control.', 25000, NULL, 'tea-wellness', 'products/garcinia-tea.jpg', NULL, true, true, 4.8, 13, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (14, 'شامپۆی تار ٢٠٠ مل', 'شامبو القطران ٢٠٠ مل', 'Tar Shampoo 200ml', 'شامپۆی تار ٢٠٠ مل — بۆ چارەسەری ئێگزیما و سۆریازیس. خورشت و سووربوونەوەی پێستی سەر کەم دەکاتەوە و پێستی سەر پاک و ئارام دەکاتەوە.', 'شامبو القطران ٢٠٠ مل — لعلاج الإكزيما والصدفية. يخفف الحكة واحمرار فروة الرأس وينظفها ويهدئها.', 'Tar shampoo 200ml — for eczema and psoriasis. Soothes itching and redness, leaving the scalp clean and calm.', 8000, NULL, 'hair-care', 'products/tar-shampoo.jpg', NULL, true, true, 4.9, 21, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (15, 'شامپۆی کەرکار ٢٠٠ مل', 'شامبو كركار ٢٠٠ مل', 'Karkar Shampoo 200ml', 'شامپۆی کەرکار ٢٠٠ مل — بۆ ڕێگریکردن لە هەڵوەرینی قژ و بەهێزکردنی ڕەگی قژ. قژ چڕتر و تەندروستتر دەکات.', 'شامبو كركار ٢٠٠ مل — لمنع تساقط الشعر وتقوية جذوره. يمنح الشعر كثافة وصحة.', 'Karkar shampoo 200ml — helps prevent hair loss and strengthens roots for thicker, healthier hair.', 8000, NULL, 'hair-care', 'products/karkar-shampoo.jpg', NULL, false, false, 4.8, 14, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (16, 'ماسکی هێلکە', 'ماسك البيض', 'Egg Mask', 'ماسکی هێلکە — دەوڵەمەندە بە کۆلاجین و ڤیتامینی C و E. پێست تێر دەکات و تازەی دەکاتەوە و درەوشانەوەی سروشتی پێدەبەخشێت.', 'ماسك البيض — غني بالكولاجين وفيتامين C و E. يغذي البشرة ويجددها ويمنحها إشراقة طبيعية.', 'Egg mask — rich in collagen and vitamins C and E. Nourishes and refreshes the skin for a natural glow.', 10000, NULL, 'face-care', 'products/egg-mask.jpg', NULL, false, false, 4.9, 18, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (17, 'کرێمی هێلکە — دژە چرچولۆچی', 'كريم البيض — ضد التجاعيد', 'Egg Cream — Anti-Wrinkle', 'کرێمی هێلکە بۆ چرچولۆچی — هێڵە وردەکان و چرچولۆچی ڕوو کەم دەکاتەوە و پێست نەرمتر و گەنجتر نیشان دەدات.', 'كريم البيض للتجاعيد — يقلل الخطوط الدقيقة وتجاعيد الوجه ويجعل البشرة أنعم وأكثر شباباً.', 'Egg cream for wrinkles — reduces fine lines and facial wrinkles for smoother, younger-looking skin.', 15000, NULL, 'face-care', 'products/egg-cream-wrinkle.jpg', NULL, false, false, 4.8, 12, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (18, 'مۆلاسی هەنگوین بۆ منداڵان', 'عسل مولاس للأطفال', 'Kids Honey Molasses', 'مۆلاسی هەنگوین بۆ منداڵان — یارمەتی گەشەکردن و زیادکردنی ئارەزووی خواردن دەدات. سروشتی و خۆشە بۆ منداڵان.', 'عسل مولاس للأطفال — يساعد على النمو وفتح الشهية. طبيعي ولذيذ للأطفال.', 'Kids honey molasses — supports growth and appetite. Natural and tasty for children.', 20000, NULL, 'tea-wellness', 'products/kids-molasses.jpg', NULL, true, true, 5.0, 26, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (19, 'سێتی کرێمی سپیکەرەوە و سابوون', 'طقم كريم التفتيح مع الصابون', 'Lightening Cream + Soap Set', 'سێتی سپیکردنەوە — کرێمی سپیکەرەوە لەگەڵ سابوونی تایبەتی خۆی. پێکەوە بەکاردەهێنرێن بۆ ڕووناککردنەوەی پێست و یەکخستنی ڕەنگی پێست.', 'طقم التفتيح — كريم تفتيح مع صابونته الخاصة. يستخدمان معاً لتفتيح البشرة وتوحيد لونها.', 'Lightening set — lightening cream with its matching soap. Used together to brighten and even out skin tone.', 15000, NULL, 'face-care', 'products/lightening-set.jpg', NULL, true, true, 4.9, 23, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (20, 'کرێمی سپیایی هێلکە — دژە پەڵە', 'كريم البيض المفتح — ضد البقع', 'Egg Brightening Cream — Anti-Spot', 'کرێمی سپیایی هێلکە — بۆ پەڵەی ڕوو. پەڵە تاریکەکان کاڵ دەکاتەوە و ڕەنگی پێست یەکدەخات.', 'كريم البيض المفتح — للبقع. يخفف البقع الداكنة ويوحد لون البشرة.', 'Egg brightening cream — for dark spots. Fades spots and evens skin tone.', 15000, NULL, 'face-care', 'products/egg-cream-spots.jpg', NULL, false, false, 4.8, 11, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (23, 'سیرۆمی ڤیتامین سی', 'سيروم فيتامين سي', 'Vitamin C Serum', 'سیرۆمی ڤیتامین سی — پێست گەش دەکاتەوە، پەڵە کاڵ دەکاتەوە و درەوشانەوە بە ڕوو دەبەخشێت.', 'سيروم فيتامين سي — يفتح البشرة ويخفف البقع ويمنح الوجه إشراقة.', 'Vitamin C serum — brightens skin, fades spots and gives the face a radiant glow.', 12000, NULL, 'face-care', 'products/vitamin-c-serum.jpg', NULL, true, true, 4.9, 17, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (24, 'چای دیتۆکسی ئەنەناس — ٣٠ کیس', 'شاي ديتوكس الأناناس — ٣٠ كيس', 'Pineapple Detox Tea — 30 Sachets', 'چای دیتۆکسی ئەنەناس — ٣٠ کیس. بۆ پاککردنەوەی جەستە و هاوکاری لاوازبوون.', 'شاي ديتوكس الأناناس — ٣٠ كيساً. لتنقية الجسم والمساعدة على التنحيف.', 'Pineapple detox tea — 30 sachets. Cleanses the body and supports slimming.', 25000, NULL, 'tea-wellness', 'products/pineapple-detox.jpg', NULL, true, true, 4.9, 24, '2026-08-06 11:00:50.633173');
+INSERT INTO public.products VALUES (25, 'دژەخۆر SPF60', 'واقي الشمس SPF60', 'Sunscreen SPF60', 'دژەخۆر SPF60 — دوای وەرگرتنی هەر چارەسەرێکی پێست بە ئیجباری پێویستە. لە وەرزی هاوین بۆ هەموو پێستت پێویستە و بۆ هەموو جۆرە پێستێک گونجاوە.', 'واقي الشمس SPF60 — ضروري بعد أي علاج للبشرة. لا غنى عنه في الصيف ومناسب لجميع أنواع البشرة.', 'Sunscreen SPF60 — essential after any skin treatment. A summer must-have, suitable for all skin types.', 8000, NULL, 'face-care', 'products/sunscreen-spf60.jpg', NULL, false, false, 4.8, 10, '2026-08-06 11:00:50.633173');
 
 
 --
 -- Data for Name: site_settings; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.site_settings VALUES ('social_facebook', '', '', 'https://www.facebook.com/mangherbal');
+INSERT INTO public.site_settings VALUES ('social_instagram', '', '', 'https://www.instagram.com/mang__herbal/');
+INSERT INTO public.site_settings VALUES ('social_tiktok', '', '', 'https://www.tiktok.com/@mang_herbal');
+INSERT INTO public.site_settings VALUES ('social_whatsapp', '', '', '9647701432814');
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (1, 'Admin', '7501263713', '$2b$10$bY0w/vByypAFQWa5/11bfu/nvbRG2Zw2e3WMkaNJ2MUie0iQpyGQe', 'admin', NULL, NULL, '2026-08-02 20:59:55.185291', NULL, '2026-08-03 14:32:23.591');
+INSERT INTO public.users VALUES (1, 'Admin', '7501263713', '$2b$10$bY0w/vByypAFQWa5/11bfu/nvbRG2Zw2e3WMkaNJ2MUie0iQpyGQe', 'admin', NULL, NULL, '2026-08-02 20:59:55.185291', NULL, '2026-08-06 10:33:55.312');
 
 
 --
 -- Name: cart_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.cart_items_id_seq', 3, true);
+SELECT pg_catalog.setval('public.cart_items_id_seq', 6, true);
 
 
 --
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.categories_id_seq', 3, true);
+SELECT pg_catalog.setval('public.categories_id_seq', 4, true);
 
 
 --
@@ -377,14 +382,14 @@ SELECT pg_catalog.setval('public.favorites_id_seq', 1, false);
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 1, true);
+SELECT pg_catalog.setval('public.orders_id_seq', 2, true);
 
 
 --
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.products_id_seq', 13, true);
+SELECT pg_catalog.setval('public.products_id_seq', 25, true);
 
 
 --

@@ -1,6 +1,6 @@
 ---
 name: Mang Herbal conventions
-description: Durable lessons for Mang Herbal not covered by replit.md (auth wiring, orval quirks, watermark idempotency, WhatsApp flow, reset race)
+description: Durable lessons for Mang Herbal not covered by replit.md (auth wiring, orval quirks, watermark idempotency, WhatsApp flow, reset race, social settings, prod SQL rules)
 ---
 
 ## Auth header wiring
@@ -25,7 +25,7 @@ Server auto-sends new orders via CallMeBot (`api.callmebot.com/whatsapp.php`, fr
 **Why:** official WhatsApp Business/Twilio need Meta business accounts/payment — infeasible for this owner.
 **Gotchas:** CallMeBot returns HTTP 203 + "APIKey is invalid" for bad keys (detect failure by body text, not just status). `order_whatsapp_apikeys` is filtered out of public `GET /api/settings` (PRIVATE_SETTING_KEYS in the settings route) — never expose it; admin UI reads via the auth-gated admin settings endpoint.
 **Testing note:** wa.me redirects to `api.whatsapp.com/send/` — URL assertions must accept both prefixes. E2E tester instructions must forbid modifying existing accounts (especially the admin user) — have them create their own throwaway accounts instead.
-**Normalization rule:** all number↔key lookups (server and admin UI) must go through the same normalize step (0…→964…); raw-string lookups silently mismatch keys stored in the other format.
+**Normalization rule:** EVERY WhatsApp number input (server, admin UI, floating button, footer) must go through `normalizeWhatsAppNumber` in `mang-herbal/src/lib/order-text.ts` (handles 00964/964/+964/leading-0/bare local); ad-hoc "strip 0" logic breaks on 00964 and bare-local forms — a review caught exactly that in the floating button.
 
 ## Self-host export package (Namecheap cPanel)
 Owner self-hosts a copy on Namecheap shared hosting + Neon Postgres; the hosted copy never updates itself — after any change the owner wants live, regenerate `mang-herbal-host-package.zip` (gitignored) with `bash scripts/build-host-package.sh` (committed; templates in `scripts/host-package/`: CJS Passenger launcher, Kurdish SETUP-GUIDE, minimal package.json). Zip ships `database.sql` (fresh `pg_dump` of the live dev DB taken at build time by `build-host-package.sh` — carries ALL current products/users/orders/settings; falls back to the committed seed if pg_dump fails) + `migrate-existing-db.sql` (incremental ALTERs — email, last_login_at — for the owner's live DB; live DBs must get ALTERs, never a re-import).
@@ -57,6 +57,17 @@ api-server typecheck reads `lib/db/dist/*.d.ts` (project references, emitDeclara
 
 ## Gated DB diagnostic + redaction
 `GET /api/healthz/db` needs header `x-diag: 1` (else 404). Reports driver, host, TCP tests to DB port + 443, and a credential-redacted pg error cause chain (`api-server/src/lib/redact.ts`; final error handler also redacts). Update zips for her host can ship `dist/index.mjs` alone — the pino sibling worker files in dist/ are stable across builds.
+
+## Social settings + floating WhatsApp button
+Footer socials and the floating WhatsApp button read `site_settings` keys `social_facebook` / `social_instagram` / `social_tiktok` / `social_whatsapp` (value stored in `value_en`; whatsapp holds digits like `9647701432814`). Owner edits them in Admin → Settings. TikTok icon is an inline SVG in Footer (lucide has none). Floating button (`components/layout/WhatsAppButton.tsx`, rendered by RootLayout) hides on `/admin`, sits above the mobile tab bar, side flips with dir(rtl/ltr).
+**Why:** owner asked for one horizontal social row + always-visible WhatsApp contact; settings-driven so she can change numbers/links herself.
+
+## Prod SQL files for Neon web editor: make every statement idempotent/conflict-safe
+Data-change SQL the owner pastes into Neon must survive states where parts already ran or seed history differs: guard unique-key renames with a DO block (if target slug exists → delete old, else update, else insert), use ON CONFLICT upserts for settings, and delete FK-dependent rows (cart_items, favorites) before products. Orders are safe across catalog wipes — items live as jsonb snapshots in `orders.items` (no FK). Test each branch on dev inside BEGIN…ROLLBACK before shipping.
+**Why:** her live DB's history diverges from dev (seed ran there before renames); a unique violation aborts the whole pasted transaction and she can't debug SQL errors.
+
+## Catalog = 12 real products (2026-08-06)
+`lib/db/src/seed.ts` and the update4 SQL carry the owner's real catalog (photos in `public/products/`, full ckb/ar/en translations). Categories: face-care, hair-care, tea-wellness (renamed from lips-body). Garcinia + vitamin-C serum descriptions were written by the agent (owner never sent copy) — she may ask to reword. Ratings stay fake-social-proof style (4.7–5.0) per owner approval; no fake discounts/oldPrice.
 
 ## Admin backup button (settings page)
 `GET /api/admin/backup` (requireAdmin) streams a self-contained restore .sql (drop schema + DDL + INSERTs + setvals) built by `api-server/src/lib/backup.ts` inside one repeatable-read read-only transaction. The DDL there is HARDCODED to mirror `lib/db/src/schema` — **any schema change must update backup.ts in the same commit**. File is Neon-web-editor-safe (INSERTs only, `SET standard_conforming_strings = on` pinned). Frontend: manual fetch + blob download in AdminSettings (not orval — file download). Update zips that touch the storefront must include `public/index.html` + `public/assets/*` (new hashes), not just dist/index.mjs.

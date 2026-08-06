@@ -4,6 +4,7 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { MobileNav } from './MobileNav';
 import { CartSidebar } from '@/components/cart/CartSidebar';
+import { WhatsAppButton } from './WhatsAppButton';
 import { cn } from '@/lib/utils';
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
@@ -21,6 +22,7 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
       </main>
       <Footer />
       <CartSidebar />
+      <WhatsAppButton />
       <MobileNav />
     </div>
   );
