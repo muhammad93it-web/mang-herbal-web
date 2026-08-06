@@ -53,12 +53,12 @@ description = "دوگمەیەکی نوێ لە پانێڵی ئەدمین > ڕێک
 id = "y3qqXXzVbzMbCxnHhMGyc"
 uri = "file://mang-herbal-update4.zip"
 type = "unspecified"
-title = "mang-herbal-update4.zip — نوێکردنەوەی ٤"
-description = "کاڵا ڕاستەقینەکان + وێنەکان + دوگمەی واتسئاپ + تیکتۆک لە فوتەر + پاراستنی «بەردەست نییە». هەڵیبگرە و لە cPanel بەرزی بکەرەوە."
+title = "mang-herbal-update4.zip — نوێکردنەوەی ٤ (نوێکراوەتەوە)"
+description = "فۆنتی Noto Sans Arabic + ژمارەی نوێ + ئاڵا ڕوونەکان + کاڵا ڕاستەقینەکان + دوگمەی واتسئاپ. ئەم دانەیە دابگرە، نەک دانەی پێشوو."
 
 [[outputs]]
 id = "BMsaWVW2-CXSiTjKt8-7E"
 uri = "file://mang-herbal-update4.sql"
 type = "unspecified"
-title = "mang-herbal-update4.sql — زانیاری کاڵاکان بۆ Neon"
-description = "ئەم فایلە لە Neon SQL Editor پەیست بکە و Run بکە — کاڵا کۆنەکان دەسڕێتەوە و ١٢ کاڵا ڕاستەقینەکەت دادەنێت لەگەڵ لینکی سۆشیاڵەکانت."
+title = "mang-herbal-update4.sql — بۆ Neon SQL Editor"
+description = "کاڵاکان + لینکی سۆشیاڵ + ژمارەی پەیوەندی. لە Neon پەیستی بکە و Run بکە."

@@ -60,12 +60,12 @@ export default function Home() {
               {getSetting('hero_badge', badgeFallback)}
             </div>
             
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.15] text-foreground">
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.15] text-foreground">
               {getSetting('hero_title_1', title1Fallback)} <br />
               <span className="gold-gradient-text block mt-2">{getSetting('hero_title_2', title2Fallback)}</span>
             </h1>
             
-            <p className="text-base md:text-lg text-muted-foreground max-w-lg leading-relaxed">
+            <p className="text-base md:text-lg font-light text-muted-foreground max-w-lg leading-relaxed">
               {getSetting('hero_subtitle', subtitleFallback)}
             </p>
             
@@ -136,19 +136,19 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
             <div className="flex flex-col items-center text-center space-y-2">
-              <span className="text-3xl md:text-4xl font-serif font-bold text-primary">{stats?.totalProducts || 50}+</span>
+              <span className="text-3xl md:text-4xl font-serif font-extrabold text-primary">{stats?.totalProducts || 50}+</span>
               <span className="text-xs md:text-sm text-muted-foreground font-medium uppercase tracking-wider">{t('بەرهەمی سروشتی', 'منتج طبيعي', 'Natural Products')}</span>
             </div>
             <div className="flex flex-col items-center text-center space-y-2">
-              <span className="text-3xl md:text-4xl font-serif font-bold text-primary">{stats?.happyCustomers || 1200}+</span>
+              <span className="text-3xl md:text-4xl font-serif font-extrabold text-primary">{stats?.happyCustomers || 1200}+</span>
               <span className="text-xs md:text-sm text-muted-foreground font-medium uppercase tracking-wider">{t('کڕیاری دڵخۆش', 'عميل سعيد', 'Happy Customers')}</span>
             </div>
             <div className="flex flex-col items-center text-center space-y-2">
-              <span className="text-3xl md:text-4xl font-serif font-bold text-primary">100%</span>
+              <span className="text-3xl md:text-4xl font-serif font-extrabold text-primary">100%</span>
               <span className="text-xs md:text-sm text-muted-foreground font-medium uppercase tracking-wider">{t('بێ ماددەی کیمیایی', 'خالي من الكيماويات', 'Chemical Free')}</span>
             </div>
             <div className="flex flex-col items-center text-center space-y-2">
-              <span className="text-3xl md:text-4xl font-serif font-bold text-primary">24/7</span>
+              <span className="text-3xl md:text-4xl font-serif font-extrabold text-primary">24/7</span>
               <span className="text-xs md:text-sm text-muted-foreground font-medium uppercase tracking-wider">{t('پشتگیری کڕیاران', 'دعم العملاء', 'Customer Support')}</span>
             </div>
           </div>

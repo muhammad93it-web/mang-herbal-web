@@ -33,7 +33,7 @@ export function Footer() {
 
   const addressFallback = t('نەورۆز، هەولێر، عێراق', 'نوروز، أربيل، العراق', 'Nawroz, Erbil, Iraq');
 
-  const phone = getExactSetting('contact_phone') || '+964 750 000 0000';
+  const phone = getExactSetting('contact_phone') || '+964 770 143 2814';
   const email = getExactSetting('contact_email') || 'info@mangherbal.com';
   
   const instagram = getExactSetting('social_instagram');
@@ -56,7 +56,7 @@ export function Footer() {
                 Mang Herbal
               </span>
             </Link>
-            <p className="text-muted-foreground text-sm max-w-sm mb-8 leading-relaxed">
+            <p className="text-muted-foreground text-sm font-light max-w-sm mb-8 leading-relaxed">
               {getSetting('footer_about', aboutFallback)}
             </p>
             <div className="flex items-center gap-4">
@@ -140,7 +140,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border/50 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground gap-4">
+        <div className="border-t border-border/50 pt-8 flex flex-col md:flex-row items-center justify-between text-sm font-light text-muted-foreground gap-4">
           <p>© {new Date().getFullYear()} Mang Herbal. {t('هەموو مافەکان پارێزراوە.', 'جميع الحقوق محفوظة.', 'All rights reserved.')}</p>
           <p className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full">
             {t('دروستکراوە بە', 'صنع بـ', 'Crafted with')} <Heart className="w-4 h-4 text-destructive fill-destructive" /> {t('لە هەولێر', 'في أربيل', 'in Erbil')}

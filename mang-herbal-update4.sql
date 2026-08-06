@@ -111,7 +111,8 @@ INSERT INTO site_settings (key, value_ckb, value_ar, value_en) VALUES
   ('social_facebook',  '', '', 'https://www.facebook.com/mangherbal'),
   ('social_instagram', '', '', 'https://www.instagram.com/mang__herbal/'),
   ('social_tiktok',    '', '', 'https://www.tiktok.com/@mang_herbal'),
-  ('social_whatsapp',  '', '', '9647701432814')
+  ('social_whatsapp',  '', '', '9647701432814'),
+  ('contact_phone',    '', '', '+964 770 143 2814')
 ON CONFLICT (key) DO UPDATE SET
   value_en = EXCLUDED.value_en;
 

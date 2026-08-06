@@ -348,6 +348,7 @@ INSERT INTO public.site_settings VALUES ('social_facebook', '', '', 'https://www
 INSERT INTO public.site_settings VALUES ('social_instagram', '', '', 'https://www.instagram.com/mang__herbal/');
 INSERT INTO public.site_settings VALUES ('social_tiktok', '', '', 'https://www.tiktok.com/@mang_herbal');
 INSERT INTO public.site_settings VALUES ('social_whatsapp', '', '', '9647701432814');
+INSERT INTO public.site_settings VALUES ('contact_phone', '', '', '+964 770 143 2814');
 
 
 --

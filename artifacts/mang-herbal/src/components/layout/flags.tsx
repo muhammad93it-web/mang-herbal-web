@@ -39,7 +39,7 @@ export function IraqFlag({ className }: { className?: string }) {
         fontSize="9"
         fontWeight="bold"
         fill="#007A3D"
-        style={{ fontFamily: "'Noto Naskh Arabic', 'Amiri', 'Segoe UI', serif" }}
+        style={{ fontFamily: "'Noto Sans Arabic', 'Noto Naskh Arabic', 'Segoe UI', sans-serif" }}
       >
         الله أكبر
       </text>
