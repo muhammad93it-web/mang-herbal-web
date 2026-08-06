@@ -43,7 +43,11 @@ export function ProductCard({ product, className, style }: ProductCardProps) {
         setIsCartOpen(true);
         toast.success(t('کاڵاکە زیادکرا بۆ سەبەتە', 'تمت الإضافة إلى السلة', 'Added to cart'));
       },
-      onError: () => {
+      onError: (error) => {
+        if ((error as any)?.data?.error === 'OUT_OF_STOCK') {
+          toast.error(t('ئەم کاڵایە ئێستا بەردەست نییە', 'هذا المنتج غير متوفر حالياً', 'This product is currently out of stock'));
+          return;
+        }
         toast.error(t('هەڵەیەک ڕوویدا', 'حدث خطأ', 'An error occurred'));
       }
     });
@@ -74,6 +78,12 @@ export function ProductCard({ product, className, style }: ProductCardProps) {
         {product.badge && (
           <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground border-none font-medium px-2.5 py-0.5 text-xs shadow-lg shadow-primary/20 pointer-events-none z-10">
             {product.badge}
+          </Badge>
+        )}
+
+        {!product.inStock && (
+          <Badge className="absolute top-3 left-3 bg-foreground/85 text-background border-none font-medium px-2.5 py-0.5 text-xs pointer-events-none z-10">
+            {t('بەردەست نییە', 'غير متوفر', 'Out of stock')}
           </Badge>
         )}
         

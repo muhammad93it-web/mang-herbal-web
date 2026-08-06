@@ -61,7 +61,17 @@ export default function CartPage() {
         toast.success(t('داواکاریەکەت سەرکەوتوو بوو', 'تم تقديم الطلب بنجاح', 'Order placed successfully'));
         window.scrollTo({ top: 0 });
       },
-      onError: () => {
+      onError: (error) => {
+        if ((error as any)?.data?.error === 'OUT_OF_STOCK') {
+          // Refresh so the out-of-stock labels show up on the summary rows.
+          queryClient.invalidateQueries({ queryKey: getGetCartQueryKey() });
+          toast.error(t(
+            'هەندێک لە کاڵاکانی سەبەتەکەت ئێستا بەردەست نین — تکایە لایانبەرە و دووبارە هەوڵبدەرەوە',
+            'بعض منتجات سلتك غير متوفرة حالياً — يرجى إزالتها والمحاولة مجدداً',
+            'Some items in your cart are out of stock — please remove them and try again'
+          ));
+          return;
+        }
         toast.error(t('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە', 'حدث خطأ، حاول مرة أخرى', 'An error occurred, please try again'));
       },
     });
@@ -281,9 +291,16 @@ export default function CartPage() {
                           <ShoppingBag className="w-4 h-4 text-muted-foreground/50" />
                         </div>
                       )}
-                      <span className="text-foreground line-clamp-2">
-                        {lang === 'ckb' ? item.product.nameCkb : lang === 'ar' ? item.product.nameAr : item.product.nameEn}
-                      </span>
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-foreground line-clamp-2">
+                          {lang === 'ckb' ? item.product.nameCkb : lang === 'ar' ? item.product.nameAr : item.product.nameEn}
+                        </span>
+                        {!item.product.inStock && (
+                          <span className="text-[11px] text-destructive font-medium">
+                            {t('بەردەست نییە', 'غير متوفر', 'Out of stock')}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <span className="font-medium shrink-0">{formatPrice(item.product.price * item.quantity)}</span>
                   </div>

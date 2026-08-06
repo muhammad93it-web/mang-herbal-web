@@ -53,6 +53,16 @@ router.post("/orders", requireAuth, async (req, res) => {
   const products = await db.select().from(productsTable);
   const productMap = Object.fromEntries(products.map((p) => [p.id, p]));
 
+  // Products deleted from the catalog are silently dropped (legacy carts),
+  // but items that merely went out of stock must block checkout explicitly.
+  const outOfStock = cartItems.filter(
+    (i) => productMap[i.productId] && !productMap[i.productId].inStock,
+  );
+  if (outOfStock.length > 0) {
+    res.status(400).json({ error: "OUT_OF_STOCK" });
+    return;
+  }
+
   const orderItems = cartItems
     .filter((i) => productMap[i.productId])
     .map((i) => {

@@ -53,6 +53,14 @@ router.post("/cart/items", requireAuth, async (req, res) => {
   if (!parsed.success) { res.status(400).json({ error: "Invalid input" }); return; }
   const { productId, quantity } = parsed.data;
 
+  const [product] = await db
+    .select()
+    .from(productsTable)
+    .where(eq(productsTable.id, productId))
+    .limit(1);
+  if (!product) { res.status(404).json({ error: "Product not found" }); return; }
+  if (!product.inStock) { res.status(400).json({ error: "OUT_OF_STOCK" }); return; }
+
   const [existing] = await db
     .select()
     .from(cartItemsTable)

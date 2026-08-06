@@ -88,6 +88,11 @@ export function CartSidebar() {
                       <h4 className="font-medium text-foreground line-clamp-1">
                         {lang === 'ckb' ? item.product.nameCkb : lang === 'ar' ? item.product.nameAr : item.product.nameEn}
                       </h4>
+                      {!item.product.inStock && (
+                        <p className="text-[11px] text-destructive font-medium mt-0.5">
+                          {t('بەردەست نییە', 'غير متوفر', 'Out of stock')}
+                        </p>
+                      )}
                       <p className="text-primary font-bold mt-1 text-sm">{formatPrice(item.product.price * item.quantity)}</p>
                       {item.quantity > 1 && (
                         <p className="text-xs text-muted-foreground mt-0.5" dir="ltr">{item.quantity} × {formatPrice(item.product.price)}</p>
