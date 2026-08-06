@@ -6,9 +6,16 @@ import React from 'react';
  * Kurdish -> Kurdistan flag, Arabic -> Iraq flag, English -> UK flag.
  */
 
+/**
+ * NOTE: shadcn Button/DropdownMenuItem force descendant SVGs to 16x16 via
+ * `[&_svg]:size-4`. Inline styles below beat that rule so the flag always
+ * fills its chip container.
+ */
+const FILL: React.CSSProperties = { width: '100%', height: '100%', display: 'block' };
+
 export function KurdistanFlag({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 60 40" className={className} aria-hidden="true" preserveAspectRatio="none">
+    <svg viewBox="0 0 60 40" className={className} style={FILL} aria-hidden="true" preserveAspectRatio="none">
       <rect width="60" height="40" fill="#ffffff" />
       <rect width="60" height="13.33" fill="#ED2024" />
       <rect y="26.66" width="60" height="13.34" fill="#278E43" />
@@ -28,7 +35,7 @@ export function KurdistanFlag({ className }: { className?: string }) {
 
 export function IraqFlag({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 60 40" className={className} aria-hidden="true" preserveAspectRatio="none">
+    <svg viewBox="0 0 60 40" className={className} style={FILL} aria-hidden="true" preserveAspectRatio="none">
       <rect width="60" height="40" fill="#ffffff" />
       <rect width="60" height="13.33" fill="#CE1126" />
       <rect y="26.66" width="60" height="13.34" fill="#000000" />
@@ -49,7 +56,7 @@ export function IraqFlag({ className }: { className?: string }) {
 
 export function UKFlag({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 60 40" className={className} aria-hidden="true" preserveAspectRatio="none">
+    <svg viewBox="0 0 60 40" className={className} style={FILL} aria-hidden="true" preserveAspectRatio="none">
       <rect width="60" height="40" fill="#012169" />
       <path d="M0,0 L60,40 M60,0 L0,40" stroke="#ffffff" strokeWidth="8" />
       <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" strokeWidth="3.4" />

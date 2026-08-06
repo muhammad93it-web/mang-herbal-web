@@ -43,6 +43,7 @@ Code redemption must remain a single atomic conditional UPDATE (code + expiry in
 
 ## Language switcher flags are inline SVGs
 Owner law bans emoji everywhere, including flags: the switcher uses hand-drawn SVG components in `components/layout/flags.tsx` (Kurdistan sun / Iraq / UK). Reuse those for any locale UI; never substitute emoji flags or an icon-font.
+**shadcn gotcha:** Button and DropdownMenuItem force EVERY descendant svg to 16px via `[&_svg]:size-4` (higher specificity than `w-full`). The flag SVGs carry inline `style={{width:'100%',height:'100%',display:'block'}}` to defeat it — classes alone lose; keep the inline style or flags shrink to a tiny square inside their chip (owner reported exactly this twice).
 
 ## Namecheap blocks outbound 5432 → Neon over WebSocket 443
 Her cPanel host refuses outbound TCP to 5432 (ECONNREFUSED in ~1s — firewall, not Neon). Fix: `lib/db/src/index.ts` auto-selects a driver — `*.neon.tech` host ⇒ `@neondatabase/serverless` Pool over WSS 443 + `drizzle-orm/neon-serverless` (with `ws` pkg as webSocketConstructor, pool max 2, idle 30s for Passenger); anything else ⇒ pg.Pool + node-postgres (dev). `DB_DRIVER=pg|neon-ws` overrides.
@@ -64,8 +65,11 @@ Footer socials and the floating WhatsApp button read `site_settings` keys `socia
 
 ## Typography: Noto Sans Arabic only (2026-08-06)
 Owner's law: the whole UI uses Noto Sans Arabic — BOTH `--app-font-sans` and `--app-font-serif` in index.css point to `'Noto Sans Arabic', 'Noto Sans', system-ui` (variable wght 300..800 loaded via one Google Fonts link in index.html; the old css @import of Playfair/Amiri/Jakarta/Tajawal was removed). Weight hierarchy she approved: hero title 800 (تۆخ), section headings 700, product names/buttons 500–600, body 400, large subtitles/footer fine print 300 (ناسک) — don't use 300 below ~14px.
-**RTL tracking rule:** index.css ends with `html[dir='rtl'] [class*='tracking-']:not([dir='ltr']) { letter-spacing: 0 }` because letter-spacing visually breaks joined Kurdish/Arabic script — never re-add tracking to ckb/ar text; English keeps its tracking. Language-switcher flag chips in Navbar are `w-7 h-5 rounded-[4px]` (3:2 like the SVG viewBox) — keep chip and viewBox ratios matched or flags look cropped.
+**RTL tracking rule:** index.css ends with `html[dir='rtl'] [class*='tracking-']:not([dir='ltr']) { letter-spacing: 0 }` because letter-spacing visually breaks joined Kurdish/Arabic script — never re-add tracking to ckb/ar text; English keeps its tracking. Language-switcher flag chips in Navbar are `w-9 h-6 rounded-[4px]` (3:2 like the SVG viewBox) — keep chip and viewBox ratios matched or flags look cropped.
 Site contact phone = `contact_phone` setting (display format `+964 770 143 2814`, value_en) with the same string hardcoded as Footer fallback.
+
+## SPA scroll reset on navigation (2026-08-06)
+RootLayout scrolls to top on wouter location change, but skips browser back/forward (popstate ref flag) and the initial mount so browser scroll restoration keeps working. Without it, tapping the mobile bottom tabs while scrolled down showed the same footer region on every page and the owner reported the tabs as "broken" — every long page ends with an identical footer+tab bar. Also: the footer bottom line keeps side padding (`px-16` on mobile) so the floating WhatsApp button never covers it; the "دروستکراوە بە ♥" badge was removed at owner request.
 
 ## Prod SQL files for Neon web editor: make every statement idempotent/conflict-safe
 Data-change SQL the owner pastes into Neon must survive states where parts already ran or seed history differs: guard unique-key renames with a DO block (if target slug exists → delete old, else update, else insert), use ON CONFLICT upserts for settings, and delete FK-dependent rows (cart_items, favorites) before products. Orders are safe across catalog wipes — items live as jsonb snapshots in `orders.items` (no FK). Test each branch on dev inside BEGIN…ROLLBACK before shipping.

@@ -62,3 +62,10 @@ uri = "file://mang-herbal-update4.sql"
 type = "unspecified"
 title = "mang-herbal-update4.sql — بۆ Neon SQL Editor"
 description = "کاڵاکان + لینکی سۆشیاڵ + ژمارەی پەیوەندی. لە Neon پەیستی بکە و Run بکە."
+
+[[outputs]]
+id = "IsOkupbsxI8i8f1UNt28v"
+uri = "file://mang-herbal-update5.zip"
+type = "unspecified"
+title = "mang-herbal-update5.zip — نوێکردنەوەی ٥"
+description = "چاککردنی ئاڵاکان (ئێستا گەورە و بە تەواوی دیارن)، چاککردنی دوگمەکانی خوارەوەی مۆبایل (هەر پەڕەیەک لە سەرەوە دەکرێتەوە)، و لابردنی نووسینەکەی ژێر سایت. تەنها ئەم زیپە پێویستە — ئەم جارە فایلی SQL نییە."

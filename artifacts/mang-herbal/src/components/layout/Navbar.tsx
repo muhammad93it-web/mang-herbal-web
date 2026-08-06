@@ -84,7 +84,7 @@ export function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-2 px-2 sm:px-3">
-                <span className="inline-block w-7 h-5 rounded-[4px] overflow-hidden ring-1 ring-border/60 shadow-sm shrink-0">
+                <span className="inline-block w-9 h-6 rounded-[4px] overflow-hidden ring-1 ring-border/60 shadow-sm shrink-0">
                   <currentLang.Flag className="w-full h-full" />
                 </span>
                 <span className="text-sm font-medium">{currentLang.name}</span>
@@ -94,7 +94,7 @@ export function Navbar() {
             <DropdownMenuContent align="end" className="w-44 bg-card border-border">
               {LANGS.map(({ code, name, Flag }) => (
                 <DropdownMenuItem key={code} onClick={() => setLang(code)} className="gap-3 cursor-pointer">
-                  <span className="inline-block w-7 h-5 rounded-[4px] overflow-hidden ring-1 ring-border/60 shadow-sm shrink-0">
+                  <span className="inline-block w-9 h-6 rounded-[4px] overflow-hidden ring-1 ring-border/60 shadow-sm shrink-0">
                     <Flag className="w-full h-full" />
                   </span>
                   <span className="flex-1">{name}</span>

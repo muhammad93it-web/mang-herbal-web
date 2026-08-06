@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'wouter';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Instagram, Facebook, Phone, Mail, MapPin, Heart, MessageCircle } from 'lucide-react';
+import { Instagram, Facebook, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 import logoPath from '@assets/logo_png_be_back_1784753437461.png';
 import { formatPhone } from '@/lib/utils';
 import { useGetSettings } from '@workspace/api-client-react';
@@ -140,11 +140,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border/50 pt-8 flex flex-col md:flex-row items-center justify-between text-sm font-light text-muted-foreground gap-4">
+        {/* px keeps the centered line clear of the floating WhatsApp button on phones */}
+        <div className="border-t border-border/50 pt-8 flex justify-center text-center text-sm font-light text-muted-foreground px-16 md:px-0">
           <p>© {new Date().getFullYear()} Mang Herbal. {t('هەموو مافەکان پارێزراوە.', 'جميع الحقوق محفوظة.', 'All rights reserved.')}</p>
-          <p className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full">
-            {t('دروستکراوە بە', 'صنع بـ', 'Crafted with')} <Heart className="w-4 h-4 text-destructive fill-destructive" /> {t('لە هەولێر', 'في أربيل', 'in Erbil')}
-          </p>
         </div>
       </div>
     </footer>
