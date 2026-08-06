@@ -40,12 +40,12 @@ export function MobileNav() {
               key={tab.href}
               href={tab.href}
               className={cn(
-                'relative flex flex-col items-center gap-1 py-2.5 text-[10px] font-medium transition-colors',
+                'relative flex flex-col items-center gap-1 py-2.5 text-[10px] font-medium transition-all duration-200 active:scale-95',
                 tab.active ? 'text-primary' : 'text-muted-foreground'
               )}
             >
               <span className="relative">
-                <Icon className={cn('w-5 h-5', tab.active && 'drop-shadow-[0_0_6px_rgba(201,168,76,0.5)]')} />
+                <Icon className={cn('w-5 h-5 transition-transform duration-300', tab.active ? 'scale-110 drop-shadow-[0_0_6px_rgba(201,168,76,0.5)]' : 'scale-100')} />
                 {!!tab.badge && (
                   <span className="absolute -top-1.5 -end-2.5 min-w-4 h-4 px-1 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center">
                     {tab.badge}

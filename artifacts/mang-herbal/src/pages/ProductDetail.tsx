@@ -10,6 +10,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useCartUI } from '@/store/ui-store';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import { FadeImg } from '@/components/ui/fade-img';
 import { cn } from '@/lib/utils';
 
 export default function ProductDetail() {
@@ -116,9 +117,9 @@ export default function ProductDetail() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
           
           {/* Image */}
-          <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-secondary/20 border border-border/50 p-2 shadow-2xl shadow-primary/5">
+          <div className="relative aspect-square rounded-[2rem] overflow-hidden bg-secondary/20 border border-border/50 p-2 shadow-2xl shadow-primary/5 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {resolvedImage ? (
-              <img src={resolvedImage} alt={name} className="w-full h-full object-cover rounded-[1.5rem]" />
+              <FadeImg src={resolvedImage} alt={name} className="w-full h-full object-cover rounded-[1.5rem]" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground/30">
                 <ShoppingBag className="w-32 h-32" />
@@ -131,14 +132,17 @@ export default function ProductDetail() {
             )}
             <button 
               onClick={toggleFavorite}
-              className="absolute top-8 left-8 w-14 h-14 rounded-full bg-background/80 backdrop-blur border border-border flex items-center justify-center hover:bg-background hover:scale-105 transition-all text-muted-foreground hover:text-destructive shadow-lg"
+              className="absolute top-8 left-8 w-14 h-14 rounded-full bg-background/80 backdrop-blur border border-border flex items-center justify-center hover:bg-background hover:scale-105 active:scale-90 transition-all text-muted-foreground hover:text-destructive shadow-lg"
             >
               <Heart className={cn("w-7 h-7 transition-colors", isFavorite && "fill-destructive text-destructive")} />
             </button>
           </div>
 
           {/* Details */}
-          <div className="flex flex-col">
+          <div
+            className="flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-700"
+            style={{ animationDelay: '150ms', animationFillMode: 'both' }}
+          >
             <div className="mb-6">
               <span className="text-primary font-medium tracking-widest text-sm mb-3 block">{categoryName}</span>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-6">{name}</h1>
@@ -177,12 +181,12 @@ export default function ProductDetail() {
               <div className="flex items-center border border-border bg-background rounded-full p-1 w-full sm:w-40 h-16 shadow-inner">
                 <button 
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-12 h-full flex items-center justify-center text-foreground hover:bg-secondary rounded-full transition-colors text-xl"
+                  className="w-12 h-full flex items-center justify-center text-foreground hover:bg-secondary rounded-full transition-all duration-200 active:scale-90 text-xl"
                 >-</button>
                 <span className="flex-1 text-center font-bold text-xl">{quantity}</span>
                 <button 
                   onClick={() => setQuantity(quantity + 1)}
-                  className="w-12 h-full flex items-center justify-center text-foreground hover:bg-secondary rounded-full transition-colors text-xl"
+                  className="w-12 h-full flex items-center justify-center text-foreground hover:bg-secondary rounded-full transition-all duration-200 active:scale-90 text-xl"
                 >+</button>
               </div>
               

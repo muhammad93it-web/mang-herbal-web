@@ -25,6 +25,14 @@ export function Navbar() {
   const { data: cart } = useGetCart();
   const { setIsOpen: setIsCartOpen } = useCartUI();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const cartItemsCount = cart?.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
@@ -45,7 +53,14 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
+    <header
+      className={cn(
+        'sticky top-0 z-50 w-full border-b backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-300',
+        scrolled
+          ? 'border-border/60 bg-background/95 shadow-lg shadow-black/30'
+          : 'border-border/40 bg-background/80'
+      )}
+    >
       <div className="container mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
         
         {/* Logo */}

@@ -6,6 +6,7 @@ import { ProductCard } from '@/components/products/ProductCard';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Leaf, Sparkles, Droplets, ArrowLeft } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Reveal } from '@/components/ui/reveal';
 import { cn, getImageUrl } from '@/lib/utils';
 
 export default function Home() {
@@ -135,22 +136,22 @@ export default function Home() {
       <section className="py-10 border-y border-border/40 bg-secondary/10 relative z-10">
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
-            <div className="flex flex-col items-center text-center space-y-2">
+            <Reveal className="flex flex-col items-center text-center space-y-2">
               <span className="text-3xl md:text-4xl font-serif font-extrabold text-primary">{stats?.totalProducts || 50}+</span>
               <span className="text-xs md:text-sm text-muted-foreground font-medium uppercase tracking-wider">{t('بەرهەمی سروشتی', 'منتج طبيعي', 'Natural Products')}</span>
-            </div>
-            <div className="flex flex-col items-center text-center space-y-2">
+            </Reveal>
+            <Reveal delay={100} className="flex flex-col items-center text-center space-y-2">
               <span className="text-3xl md:text-4xl font-serif font-extrabold text-primary">{stats?.happyCustomers || 1200}+</span>
               <span className="text-xs md:text-sm text-muted-foreground font-medium uppercase tracking-wider">{t('کڕیاری دڵخۆش', 'عميل سعيد', 'Happy Customers')}</span>
-            </div>
-            <div className="flex flex-col items-center text-center space-y-2">
+            </Reveal>
+            <Reveal delay={200} className="flex flex-col items-center text-center space-y-2">
               <span className="text-3xl md:text-4xl font-serif font-extrabold text-primary">100%</span>
               <span className="text-xs md:text-sm text-muted-foreground font-medium uppercase tracking-wider">{t('بێ ماددەی کیمیایی', 'خالي من الكيماويات', 'Chemical Free')}</span>
-            </div>
-            <div className="flex flex-col items-center text-center space-y-2">
+            </Reveal>
+            <Reveal delay={300} className="flex flex-col items-center text-center space-y-2">
               <span className="text-3xl md:text-4xl font-serif font-extrabold text-primary">24/7</span>
               <span className="text-xs md:text-sm text-muted-foreground font-medium uppercase tracking-wider">{t('پشتگیری کڕیاران', 'دعم العملاء', 'Customer Support')}</span>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -158,7 +159,7 @@ export default function Home() {
       {/* Featured Products */}
       <section className="py-16 md:py-20 relative">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div className="space-y-4 max-w-2xl">
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
                 {t('بەرهەمە تایبەتەکان', 'منتجاتنا المميزة', 'Featured Products')}
@@ -173,7 +174,7 @@ export default function Home() {
                 <ArrowIcon className={cn("w-4 h-4 transition-transform group-hover:translate-x-1", isRtl && "group-hover:-translate-x-1")} />
               </Button>
             </Link>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {isLoading ? (
@@ -187,12 +188,9 @@ export default function Home() {
               ))
             ) : products && products.length > 0 ? (
               products.slice(0, 4).map((product, i) => (
-                <ProductCard 
-                  key={product.id} 
-                  product={product} 
-                  className={`animate-in slide-in-from-bottom-8 fade-in duration-1000`}
-                  style={{ animationDelay: `${i * 150}ms`, animationFillMode: 'both' }}
-                />
+                <Reveal key={product.id} delay={i * 120} className="h-full">
+                  <ProductCard product={product} className="h-full" />
+                </Reveal>
               ))
             ) : (
               <div className="col-span-full py-12 text-center text-muted-foreground">
@@ -208,17 +206,17 @@ export default function Home() {
         <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
         
         <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
+          <Reveal className="text-center max-w-3xl mx-auto mb-12 space-y-4">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
               {t('بۆچی Mang Herbal؟', 'لماذا Mang Herbal؟', 'Why Mang Herbal?')}
             </h2>
             <p className="text-muted-foreground text-lg">
               {t('ئێمە بڕوامان بە هێزی سروشت هەیە بۆ چارەسەر و جوانی.', 'نحن نؤمن بقوة الطبيعة في العلاج والجمال.', 'We believe in the power of nature for healing and beauty.')}
             </p>
-          </div>
+          </Reveal>
 
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-            <div className="bg-background border border-border/50 p-8 rounded-[2rem] flex flex-col items-center text-center space-y-4 hover-elevate transition-all duration-500 hover:border-primary/30">
+            <Reveal className="bg-background border border-border/50 p-8 rounded-[2rem] flex flex-col items-center text-center space-y-4 hover-elevate transition-all duration-500 hover:border-primary/30">
               <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2 shadow-inner">
                 <Leaf className="w-8 h-8" />
               </div>
@@ -228,9 +226,9 @@ export default function Home() {
               <p className="text-muted-foreground leading-relaxed">
                 {t('هەموو پێکهاتەکانمان لە سروشتەوە سەرچاوەیان گرتووە بەبێ هیچ ماددەیەکی کیمیایی زیانبەخش.', 'جميع مكوناتنا مستمدة من الطبيعة بدون أي مواد كيميائية ضارة.', 'All our ingredients are sourced from nature without any harmful chemicals.')}
               </p>
-            </div>
+            </Reveal>
 
-            <div className="bg-background border border-border/50 p-8 rounded-[2rem] flex flex-col items-center text-center space-y-4 hover-elevate transition-all duration-500 translate-y-0 md:translate-y-8 hover:border-primary/30">
+            <Reveal delay={150} className="bg-background border border-border/50 p-8 rounded-[2rem] flex flex-col items-center text-center space-y-4 hover-elevate transition-all duration-500 translate-y-0 md:translate-y-8 hover:border-primary/30">
               <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2 shadow-inner">
                 <Droplets className="w-8 h-8" />
               </div>
@@ -240,9 +238,9 @@ export default function Home() {
               <p className="text-muted-foreground leading-relaxed">
                 {t('بەرهەمەکانمان بە خۆشەویستی و ئاگادارییەکی زۆرەوە بە دەست دروست دەکرێن.', 'منتجاتنا تصنع يدوياً بحب وعناية فائقة للحفاظ على جودتها.', 'Our products are handcrafted with love and utmost care to maintain quality.')}
               </p>
-            </div>
+            </Reveal>
 
-            <div className="bg-background border border-border/50 p-8 rounded-[2rem] flex flex-col items-center text-center space-y-4 hover-elevate transition-all duration-500 hover:border-primary/30">
+            <Reveal delay={300} className="bg-background border border-border/50 p-8 rounded-[2rem] flex flex-col items-center text-center space-y-4 hover-elevate transition-all duration-500 hover:border-primary/30">
               <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2 shadow-inner">
                 <Sparkles className="w-8 h-8" />
               </div>
@@ -252,7 +250,7 @@ export default function Home() {
               <p className="text-muted-foreground leading-relaxed">
                 {t('باشترین جۆری ڕووەک و زەیتەکان بەکاردەهێنین بۆ دڵنیابوون لە باشترین ئەنجام.', 'نستخدم أفضل أنواع الأعشاب والزيوت لضمان أفضل النتائج.', 'We use the finest herbs and oils to ensure the best results.')}
               </p>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

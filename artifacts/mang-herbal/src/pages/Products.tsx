@@ -4,6 +4,7 @@ import { useGetProducts } from '@workspace/api-client-react';
 import { ProductCard } from '@/components/products/ProductCard';
 import { ProductFilters } from '@/components/products/ProductFilters';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Reveal } from '@/components/ui/reveal';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useDebounce } from '@/hooks/use-debounce';
@@ -81,8 +82,10 @@ export default function Products() {
                   </div>
                 ))
               ) : products && products.length > 0 ? (
-                products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                products.map((product, i) => (
+                  <Reveal key={product.id} delay={(i % 4) * 90} className="h-full">
+                    <ProductCard product={product} className="h-full" />
+                  </Reveal>
                 ))
               ) : (
                 <div className="col-span-full py-24 flex flex-col items-center justify-center text-center border border-dashed border-border/50 rounded-2xl bg-secondary/10">

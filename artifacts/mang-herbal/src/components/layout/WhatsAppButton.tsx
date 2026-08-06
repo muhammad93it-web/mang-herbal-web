@@ -35,6 +35,7 @@ export function WhatsAppButton() {
       className={cn(
         'fixed z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center',
         'shadow-lg shadow-black/40 border border-white/20',
+        'animate-in zoom-in-50 fade-in duration-500',
         'hover:scale-110 active:scale-95 transition-transform',
         // Sit above the mobile bottom tab bar; lower on desktop
         'bottom-24 md:bottom-6',

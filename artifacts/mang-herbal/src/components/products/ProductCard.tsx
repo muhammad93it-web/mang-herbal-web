@@ -6,6 +6,7 @@ import { formatPrice, getImageUrl } from '@/lib/utils';
 import { ShoppingBag, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { FadeImg } from '@/components/ui/fade-img';
 import { cn } from '@/lib/utils';
 import { useAddToCart, getGetCartQueryKey, useGetCategories } from '@workspace/api-client-react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -56,14 +57,14 @@ export function ProductCard({ product, className, style }: ProductCardProps) {
   const resolvedImage = getImageUrl(product.imageUrl);
 
   return (
-    <Link href={`/products/${product.id}`} className={cn("group flex flex-col rounded-3xl overflow-hidden bg-card border border-border/40 hover:border-primary/40 transition-all duration-500 hover-elevate shadow-lg hover:shadow-primary/5", className)} style={style}>
+    <Link href={`/products/${product.id}`} className={cn("group flex flex-col rounded-3xl overflow-hidden bg-card border border-border/40 hover:border-primary/40 transition-all duration-500 hover-elevate shadow-lg hover:shadow-primary/5 active:scale-[0.98]", className)} style={style}>
       {/* Image Container */}
       <div className="relative aspect-square bg-secondary/30 overflow-hidden flex items-center justify-center p-2">
         {resolvedImage ? (
-          <img 
-            src={resolvedImage} 
-            alt={name} 
-            className="w-full h-full object-cover rounded-2xl transition-transform duration-1000 group-hover:scale-105"
+          <FadeImg
+            src={resolvedImage}
+            alt={name}
+            className="w-full h-full object-cover rounded-2xl transition-all duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="w-20 h-20 rounded-full bg-secondary-foreground/5 flex items-center justify-center text-muted-foreground/20">
